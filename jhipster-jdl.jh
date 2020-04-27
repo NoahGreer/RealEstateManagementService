@@ -1,0 +1,176 @@
+application {
+  config {
+    applicationType monolith
+    authenticationType jwt
+    baseName RealEstateManagementService
+    buildTool maven
+    cacheProvider no
+    clientFramework angularX
+    clientPackageManager npm
+    databaseType sql
+    devDatabaseType mssql
+    dtoSuffix DTO
+    languages [en, es]
+    nativeLanguage en
+    packageName realestatemanagementservice
+    prodDatabaseType mssql
+    testFrameworks [protractor]
+  }
+  entities *
+}
+
+DEFAULT_MIN = 0
+
+// State codes should always consist of two letters
+STATE_CODE_MIN_LENGTH = 2
+STATE_CODE_MAX_LENGTH = 2
+
+ZIP_CODE_MAX = 10
+
+RATING_MIN = 0
+RATING_MAX = 5
+
+entity Building {
+  id Long
+  name String
+  purchaseDate LocalDate
+  propertyNumber String
+  streetAddress String
+  city String
+  stateCode String minlength(STATE_CODE_MIN_LENGTH) maxlength(STATE_CODE_MAX_LENGTH)
+  zipCode String maxlength(ZIP_CODE_MAX)
+}
+
+entity PropertyTax {
+  id Long
+  taxYear Integer min(DEFAULT_MIN)
+  amount BigDecimal
+  datePaid LocalDate
+  confirmationNumber String
+}
+
+entity Apartment {
+  id Long
+  unitNumber String
+  moveInReady Boolean
+}
+
+entity Maintenance {
+  id Long
+  description String
+  notificationDate LocalDate
+  dateComplete LocalDate
+  contractorJobNumber String
+  repairCost BigDecimal
+  repairPaidOn LocalDate
+  receiptOfPayment String
+}
+
+entity Contractor {
+  id Long
+  companyName String
+  streetAddress String
+  city String
+  stateCode String minlength(STATE_CODE_MIN_LENGTH) maxlength(STATE_CODE_MAX_LENGTH)
+  zipCode String maxlength(ZIP_CODE_MAX)
+  phoneNumber String
+  contactPerson String
+  ratingOfWork Integer min(RATING_MIN) max(RATING_MAX)
+  ratingOfResponsiveness Integer min(RATING_MIN) max(RATING_MAX)
+}
+
+entity JobType {
+  id Long
+  name String
+}
+
+entity Lease {
+  id Long
+  dateSigned LocalDate
+  moveInDate LocalDate
+  noticeOfRemovalOrMoveoutDate LocalDate
+  endDate LocalDate
+  amount BigDecimal
+  leaseType String
+  notes String
+}
+
+entity Person {
+  id Long
+  firstName String
+  lastName String
+  phoneNumber String
+  emailAddress String
+  primaryContact Boolean
+  isMinor Boolean
+  ssn String
+  backgroundCheckDate LocalDate
+  backgroundCheckConfirmationNumber String
+  employmentVerificationDate LocalDate
+  employmentVerificationConfirmationNumber String
+}
+
+entity Vehicle {
+  id Long
+  make String
+  model String
+  modelYear Integer min(DEFAULT_MIN)
+  licensePlateNumber String
+  licensePlateState String
+  reservedParkingStallNumber String
+}
+
+entity Rent {
+  id Long
+  dueDate LocalDate
+  recievedDate LocalDate
+  amount BigDecimal
+}
+
+entity Pet {
+  id Long
+  name String
+  type String
+  color String
+  certifiedAssistanceAnimal Boolean
+}
+
+entity Infraction {
+  id Long
+  dateOccurred LocalDate
+  cause String
+  resolution String
+}
+
+relationship OneToMany {
+  Building to PropertyTax{building(id)}
+  Building to Apartment{building(id)}
+  Apartment to Maintenance{Apartment(id)}
+  Apartment to Lease{Apartment(id)}
+  Contractor to Maintenance{contractor(id)}
+  Lease to Rent{lease(id)}
+  Lease to Infraction{lease(id)}
+}
+
+relationship ManyToOne {
+  Lease{newLease(id)} to Lease
+}
+
+relationship ManyToMany {
+  Contractor{jobType(id)} to JobType{contractor(id)}
+  Lease{person(id)} to Person{lease(id)}
+  Lease{vehicle(id)} to Vehicle{lease(id)}
+  Lease{pet(id)} to Pet{lease(id)}
+}
+
+// Set filtering options
+filter * except JobType
+
+// Set pagination options
+paginate * with pagination except JobType
+
+// Set service options to all except JobType
+service * with serviceImpl except JobType
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct
