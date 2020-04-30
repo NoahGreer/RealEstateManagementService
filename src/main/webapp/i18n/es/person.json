@@ -1,0 +1,33 @@
+{
+  "realEstateManagementServiceApp": {
+    "person": {
+      "home": {
+        "title": "People",
+        "createLabel": "Crear nuevo Person",
+        "createOrEditLabel": "Crear o editar Person",
+        "notFound": "Ningún People encontrado"
+      },
+      "created": "Un nuevo Person ha sido creado con el identificador {{ param }}",
+      "updated": "Un Person ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Person ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Person {{ id }}?"
+      },
+      "detail": {
+        "title": "Person"
+      },
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phoneNumber": "Phone Number",
+      "emailAddress": "Email Address",
+      "primaryContact": "Primary Contact",
+      "isMinor": "Is Minor",
+      "ssn": "Ssn",
+      "backgroundCheckDate": "Background Check Date",
+      "backgroundCheckConfirmationNumber": "Background Check Confirmation Number",
+      "employmentVerificationDate": "Employment Verification Date",
+      "employmentVerificationConfirmationNumber": "Employment Verification Confirmation Number",
+      "lease": "Lease"
+    }
+  }
+}

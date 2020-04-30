@@ -1,0 +1,83 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="realEstateManagementServiceApp.propertyTax.home.title">Property Taxes</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-property-tax" [routerLink]="['/property-tax/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="realEstateManagementServiceApp.propertyTax.home.createLabel">
+            Create a new Property Tax
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="propertyTaxes?.length === 0">
+        <span jhiTranslate="realEstateManagementServiceApp.propertyTax.home.notFound">No propertyTaxes found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="propertyTaxes?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="taxYear"><span jhiTranslate="realEstateManagementServiceApp.propertyTax.taxYear">Tax Year</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="amount"><span jhiTranslate="realEstateManagementServiceApp.propertyTax.amount">Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="datePaid"><span jhiTranslate="realEstateManagementServiceApp.propertyTax.datePaid">Date Paid</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="confirmationNumber"><span jhiTranslate="realEstateManagementServiceApp.propertyTax.confirmationNumber">Confirmation Number</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="buildingId"><span jhiTranslate="realEstateManagementServiceApp.propertyTax.building">Building</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let propertyTax of propertyTaxes ;trackBy: trackId">
+                    <td><a [routerLink]="['/property-tax', propertyTax.id, 'view']">{{ propertyTax.id }}</a></td>
+                    <td>{{ propertyTax.taxYear }}</td>
+                    <td>{{ propertyTax.amount }}</td>
+                    <td>{{ propertyTax.datePaid | date:'mediumDate' }}</td>
+                    <td>{{ propertyTax.confirmationNumber }}</td>
+                    <td>
+                        <div *ngIf="propertyTax.buildingId">
+                            <a [routerLink]="['/building', propertyTax.buildingId , 'view']" >{{ propertyTax.buildingId }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/property-tax', propertyTax.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/property-tax', propertyTax.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(propertyTax)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="propertyTaxes?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

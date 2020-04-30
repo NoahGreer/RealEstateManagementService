@@ -1,0 +1,26 @@
+{
+  "realEstateManagementServiceApp": {
+    "propertyTax": {
+      "home": {
+        "title": "Property Taxes",
+        "createLabel": "Create a new Property Tax",
+        "createOrEditLabel": "Create or edit a Property Tax",
+        "notFound": "No Property Taxes found"
+      },
+      "created": "A new Property Tax is created with identifier {{ param }}",
+      "updated": "A Property Tax is updated with identifier {{ param }}",
+      "deleted": "A Property Tax is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Property Tax {{ id }}?"
+      },
+      "detail": {
+        "title": "Property Tax"
+      },
+      "taxYear": "Tax Year",
+      "amount": "Amount",
+      "datePaid": "Date Paid",
+      "confirmationNumber": "Confirmation Number",
+      "building": "Building"
+    }
+  }
+}

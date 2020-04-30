@@ -1,0 +1,25 @@
+{
+  "realEstateManagementServiceApp": {
+    "rent": {
+      "home": {
+        "title": "Rents",
+        "createLabel": "Crear nuevo Rent",
+        "createOrEditLabel": "Crear o editar Rent",
+        "notFound": "Ningún Rents encontrado"
+      },
+      "created": "Un nuevo Rent ha sido creado con el identificador {{ param }}",
+      "updated": "Un Rent ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Rent ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Rent {{ id }}?"
+      },
+      "detail": {
+        "title": "Rent"
+      },
+      "dueDate": "Due Date",
+      "recievedDate": "Recieved Date",
+      "amount": "Amount",
+      "lease": "Lease"
+    }
+  }
+}

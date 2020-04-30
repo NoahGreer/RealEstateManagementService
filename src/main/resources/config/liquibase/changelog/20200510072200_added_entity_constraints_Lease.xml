@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <!--
+        Added the constraints for entity Lease.
+    -->
+    <changeSet id="20200510072200-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="new_lease_id"
+                                 baseTableName="lease"
+                                 constraintName="fk_lease_new_lease_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="lease"/>
+
+        <addForeignKeyConstraint baseColumnNames="lease_id"
+                                 baseTableName="lease_person"
+                                 constraintName="fk_lease_person_lease_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="lease"/>
+
+        <addForeignKeyConstraint baseColumnNames="person_id"
+                                 baseTableName="lease_person"
+                                 constraintName="fk_lease_person_person_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"/>
+        
+        <addForeignKeyConstraint baseColumnNames="lease_id"
+                                 baseTableName="lease_vehicle"
+                                 constraintName="fk_lease_vehicle_lease_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="lease"/>
+
+        <addForeignKeyConstraint baseColumnNames="vehicle_id"
+                                 baseTableName="lease_vehicle"
+                                 constraintName="fk_lease_vehicle_vehicle_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vehicle"/>
+        
+        <addForeignKeyConstraint baseColumnNames="lease_id"
+                                 baseTableName="lease_pet"
+                                 constraintName="fk_lease_pet_lease_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="lease"/>
+
+        <addForeignKeyConstraint baseColumnNames="pet_id"
+                                 baseTableName="lease_pet"
+                                 constraintName="fk_lease_pet_pet_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="pet"/>
+        
+        <addForeignKeyConstraint baseColumnNames="apartment_id"
+                                 baseTableName="lease"
+                                 constraintName="fk_lease_apartment_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="apartment"/>
+
+    </changeSet>
+</databaseChangeLog>

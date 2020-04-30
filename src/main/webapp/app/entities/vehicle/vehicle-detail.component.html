@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="vehicle">
+            <h2><span jhiTranslate="realEstateManagementServiceApp.vehicle.detail.title">Vehicle</span> {{ vehicle.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="realEstateManagementServiceApp.vehicle.make">Make</span></dt>
+                <dd>
+                    <span>{{ vehicle.make }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.vehicle.model">Model</span></dt>
+                <dd>
+                    <span>{{ vehicle.model }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.vehicle.modelYear">Model Year</span></dt>
+                <dd>
+                    <span>{{ vehicle.modelYear }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.vehicle.licensePlateNumber">License Plate Number</span></dt>
+                <dd>
+                    <span>{{ vehicle.licensePlateNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.vehicle.licensePlateState">License Plate State</span></dt>
+                <dd>
+                    <span>{{ vehicle.licensePlateState }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.vehicle.reservedParkingStallNumber">Reserved Parking Stall Number</span></dt>
+                <dd>
+                    <span>{{ vehicle.reservedParkingStallNumber }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/vehicle', vehicle.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

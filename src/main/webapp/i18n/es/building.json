@@ -1,0 +1,30 @@
+{
+  "realEstateManagementServiceApp": {
+    "building": {
+      "home": {
+        "title": "Buildings",
+        "createLabel": "Crear nuevo Building",
+        "createOrEditLabel": "Crear o editar Building",
+        "notFound": "Ningún Buildings encontrado"
+      },
+      "created": "Un nuevo Building ha sido creado con el identificador {{ param }}",
+      "updated": "Un Building ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Building ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Building {{ id }}?"
+      },
+      "detail": {
+        "title": "Building"
+      },
+      "name": "Name",
+      "purchaseDate": "Purchase Date",
+      "propertyNumber": "Property Number",
+      "streetAddress": "Street Address",
+      "city": "City",
+      "stateCode": "State Code",
+      "zipCode": "Zip Code",
+      "propertyTax": "Property Tax",
+      "apartment": "Apartment"
+    }
+  }
+}

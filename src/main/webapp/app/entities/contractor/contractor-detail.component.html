@@ -1,0 +1,68 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="contractor">
+            <h2><span jhiTranslate="realEstateManagementServiceApp.contractor.detail.title">Contractor</span> {{ contractor.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.companyName">Company Name</span></dt>
+                <dd>
+                    <span>{{ contractor.companyName }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.streetAddress">Street Address</span></dt>
+                <dd>
+                    <span>{{ contractor.streetAddress }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.city">City</span></dt>
+                <dd>
+                    <span>{{ contractor.city }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.stateCode">State Code</span></dt>
+                <dd>
+                    <span>{{ contractor.stateCode }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.zipCode">Zip Code</span></dt>
+                <dd>
+                    <span>{{ contractor.zipCode }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.phoneNumber">Phone Number</span></dt>
+                <dd>
+                    <span>{{ contractor.phoneNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.contactPerson">Contact Person</span></dt>
+                <dd>
+                    <span>{{ contractor.contactPerson }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.ratingOfWork">Rating Of Work</span></dt>
+                <dd>
+                    <span>{{ contractor.ratingOfWork }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.ratingOfResponsiveness">Rating Of Responsiveness</span></dt>
+                <dd>
+                    <span>{{ contractor.ratingOfResponsiveness }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.contractor.jobType">Job Type</span></dt>
+                <dd>
+                    <span *ngFor="let jobType of contractor.jobTypes; let last = last">
+                        <a [routerLink]="['/job-type', jobType?.id, 'view']">{{ jobType.id }}</a>{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/contractor', contractor.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

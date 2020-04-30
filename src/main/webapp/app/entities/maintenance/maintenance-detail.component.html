@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="maintenance">
+            <h2><span jhiTranslate="realEstateManagementServiceApp.maintenance.detail.title">Maintenance</span> {{ maintenance.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.description">Description</span></dt>
+                <dd>
+                    <span>{{ maintenance.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.notificationDate">Notification Date</span></dt>
+                <dd>
+                    <span>{{ maintenance.notificationDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.dateComplete">Date Complete</span></dt>
+                <dd>
+                    <span>{{ maintenance.dateComplete }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.contractorJobNumber">Contractor Job Number</span></dt>
+                <dd>
+                    <span>{{ maintenance.contractorJobNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.repairCost">Repair Cost</span></dt>
+                <dd>
+                    <span>{{ maintenance.repairCost }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.repairPaidOn">Repair Paid On</span></dt>
+                <dd>
+                    <span>{{ maintenance.repairPaidOn }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.receiptOfPayment">Receipt Of Payment</span></dt>
+                <dd>
+                    <span>{{ maintenance.receiptOfPayment }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.apartment">Apartment</span></dt>
+                <dd>
+                    <div *ngIf="maintenance.apartmentId">
+                        <a [routerLink]="['/apartment', maintenance.apartmentId, 'view']">{{ maintenance.apartmentId }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.maintenance.contractor">Contractor</span></dt>
+                <dd>
+                    <div *ngIf="maintenance.contractorId">
+                        <a [routerLink]="['/contractor', maintenance.contractorId, 'view']">{{ maintenance.contractorId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/maintenance', maintenance.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

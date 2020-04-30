@@ -1,0 +1,25 @@
+{
+  "realEstateManagementServiceApp": {
+    "infraction": {
+      "home": {
+        "title": "Infractions",
+        "createLabel": "Crear nuevo Infraction",
+        "createOrEditLabel": "Crear o editar Infraction",
+        "notFound": "Ningún Infractions encontrado"
+      },
+      "created": "Un nuevo Infraction ha sido creado con el identificador {{ param }}",
+      "updated": "Un Infraction ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Infraction ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Infraction {{ id }}?"
+      },
+      "detail": {
+        "title": "Infraction"
+      },
+      "dateOccurred": "Date Occurred",
+      "cause": "Cause",
+      "resolution": "Resolution",
+      "lease": "Lease"
+    }
+  }
+}

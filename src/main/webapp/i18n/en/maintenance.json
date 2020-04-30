@@ -1,0 +1,30 @@
+{
+  "realEstateManagementServiceApp": {
+    "maintenance": {
+      "home": {
+        "title": "Maintenances",
+        "createLabel": "Create a new Maintenance",
+        "createOrEditLabel": "Create or edit a Maintenance",
+        "notFound": "No Maintenances found"
+      },
+      "created": "A new Maintenance is created with identifier {{ param }}",
+      "updated": "A Maintenance is updated with identifier {{ param }}",
+      "deleted": "A Maintenance is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Maintenance {{ id }}?"
+      },
+      "detail": {
+        "title": "Maintenance"
+      },
+      "description": "Description",
+      "notificationDate": "Notification Date",
+      "dateComplete": "Date Complete",
+      "contractorJobNumber": "Contractor Job Number",
+      "repairCost": "Repair Cost",
+      "repairPaidOn": "Repair Paid On",
+      "receiptOfPayment": "Receipt Of Payment",
+      "apartment": "Apartment",
+      "contractor": "Contractor"
+    }
+  }
+}

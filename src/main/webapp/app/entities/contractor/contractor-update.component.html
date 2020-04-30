@@ -1,0 +1,131 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-contractor-heading" jhiTranslate="realEstateManagementServiceApp.contractor.home.createOrEditLabel">Create or edit a Contractor</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.companyName" for="field_companyName">Company Name</label>
+                    <input type="text" class="form-control" name="companyName" id="field_companyName"
+                           formControlName="companyName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.streetAddress" for="field_streetAddress">Street Address</label>
+                    <input type="text" class="form-control" name="streetAddress" id="field_streetAddress"
+                           formControlName="streetAddress"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.city" for="field_city">City</label>
+                    <input type="text" class="form-control" name="city" id="field_city"
+                           formControlName="city"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.stateCode" for="field_stateCode">State Code</label>
+                    <input type="text" class="form-control" name="stateCode" id="field_stateCode"
+                           formControlName="stateCode"/>
+                    <div *ngIf="editForm.get('stateCode')!.invalid && (editForm.get('stateCode')!.dirty || editForm.get('stateCode')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('stateCode')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 2 }">
+                        This field is required to be at least 2 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('stateCode')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 2 }">
+                        This field cannot be longer than 2 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.zipCode" for="field_zipCode">Zip Code</label>
+                    <input type="text" class="form-control" name="zipCode" id="field_zipCode"
+                           formControlName="zipCode"/>
+                    <div *ngIf="editForm.get('zipCode')!.invalid && (editForm.get('zipCode')!.dirty || editForm.get('zipCode')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('zipCode')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 10 }">
+                        This field cannot be longer than 10 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.phoneNumber" for="field_phoneNumber">Phone Number</label>
+                    <input type="text" class="form-control" name="phoneNumber" id="field_phoneNumber"
+                           formControlName="phoneNumber"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.contactPerson" for="field_contactPerson">Contact Person</label>
+                    <input type="text" class="form-control" name="contactPerson" id="field_contactPerson"
+                           formControlName="contactPerson"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.ratingOfWork" for="field_ratingOfWork">Rating Of Work</label>
+                    <input type="number" class="form-control" name="ratingOfWork" id="field_ratingOfWork"
+                           formControlName="ratingOfWork"/>
+                    <div *ngIf="editForm.get('ratingOfWork')!.invalid && (editForm.get('ratingOfWork')!.dirty || editForm.get('ratingOfWork')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('ratingOfWork')?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">
+                            This field should be at least 0.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('ratingOfWork')?.errors?.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 5 }">
+                            This field cannot be more than 5.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('ratingOfWork')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.contractor.ratingOfResponsiveness" for="field_ratingOfResponsiveness">Rating Of Responsiveness</label>
+                    <input type="number" class="form-control" name="ratingOfResponsiveness" id="field_ratingOfResponsiveness"
+                           formControlName="ratingOfResponsiveness"/>
+                    <div *ngIf="editForm.get('ratingOfResponsiveness')!.invalid && (editForm.get('ratingOfResponsiveness')!.dirty || editForm.get('ratingOfResponsiveness')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('ratingOfResponsiveness')?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">
+                            This field should be at least 0.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('ratingOfResponsiveness')?.errors?.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 5 }">
+                            This field cannot be more than 5.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('ratingOfResponsiveness')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label jhiTranslate="realEstateManagementServiceApp.contractor.jobType" for="field_jobTypes">Job Type</label>
+                    <select class="form-control" id="field_jobTypes" multiple name="jobTypes" formControlName="jobTypes">
+                        <option [ngValue]="getSelected(editForm.get('jobTypes')!.value, jobTypeOption)" *ngFor="let jobTypeOption of jobtypes; trackBy: trackById">{{ jobTypeOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

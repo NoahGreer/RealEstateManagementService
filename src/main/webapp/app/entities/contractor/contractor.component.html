@@ -1,0 +1,87 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="realEstateManagementServiceApp.contractor.home.title">Contractors</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-contractor" [routerLink]="['/contractor/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="realEstateManagementServiceApp.contractor.home.createLabel">
+            Create a new Contractor
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="contractors?.length === 0">
+        <span jhiTranslate="realEstateManagementServiceApp.contractor.home.notFound">No contractors found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="contractors?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="companyName"><span jhiTranslate="realEstateManagementServiceApp.contractor.companyName">Company Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="streetAddress"><span jhiTranslate="realEstateManagementServiceApp.contractor.streetAddress">Street Address</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="city"><span jhiTranslate="realEstateManagementServiceApp.contractor.city">City</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="stateCode"><span jhiTranslate="realEstateManagementServiceApp.contractor.stateCode">State Code</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="zipCode"><span jhiTranslate="realEstateManagementServiceApp.contractor.zipCode">Zip Code</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="phoneNumber"><span jhiTranslate="realEstateManagementServiceApp.contractor.phoneNumber">Phone Number</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="contactPerson"><span jhiTranslate="realEstateManagementServiceApp.contractor.contactPerson">Contact Person</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="ratingOfWork"><span jhiTranslate="realEstateManagementServiceApp.contractor.ratingOfWork">Rating Of Work</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="ratingOfResponsiveness"><span jhiTranslate="realEstateManagementServiceApp.contractor.ratingOfResponsiveness">Rating Of Responsiveness</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let contractor of contractors ;trackBy: trackId">
+                    <td><a [routerLink]="['/contractor', contractor.id, 'view']">{{ contractor.id }}</a></td>
+                    <td>{{ contractor.companyName }}</td>
+                    <td>{{ contractor.streetAddress }}</td>
+                    <td>{{ contractor.city }}</td>
+                    <td>{{ contractor.stateCode }}</td>
+                    <td>{{ contractor.zipCode }}</td>
+                    <td>{{ contractor.phoneNumber }}</td>
+                    <td>{{ contractor.contactPerson }}</td>
+                    <td>{{ contractor.ratingOfWork }}</td>
+                    <td>{{ contractor.ratingOfResponsiveness }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/contractor', contractor.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/contractor', contractor.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(contractor)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="contractors?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

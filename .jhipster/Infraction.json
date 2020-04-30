@@ -1,0 +1,39 @@
+{
+    "name": "Infraction",
+    "fields": [
+        {
+            "fieldName": "dateOccurred",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "cause",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "resolution",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "lease",
+            "otherEntityRelationshipName": "infraction",
+            "relationshipName": "lease",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200510072700",
+    "entityTableName": "infraction",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": [
+        "RealEstateManagementService"
+    ]
+}

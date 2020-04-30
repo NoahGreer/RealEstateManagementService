@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="apartment">
+            <h2><span jhiTranslate="realEstateManagementServiceApp.apartment.detail.title">Apartment</span> {{ apartment.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="realEstateManagementServiceApp.apartment.unitNumber">Unit Number</span></dt>
+                <dd>
+                    <span>{{ apartment.unitNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.apartment.moveInReady">Move In Ready</span></dt>
+                <dd>
+                    <span>{{ apartment.moveInReady }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.apartment.building">Building</span></dt>
+                <dd>
+                    <div *ngIf="apartment.buildingId">
+                        <a [routerLink]="['/building', apartment.buildingId, 'view']">{{ apartment.buildingId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/apartment', apartment.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

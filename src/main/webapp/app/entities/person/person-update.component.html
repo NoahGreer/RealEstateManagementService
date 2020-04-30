@@ -1,0 +1,100 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-person-heading" jhiTranslate="realEstateManagementServiceApp.person.home.createOrEditLabel">Create or edit a Person</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.firstName" for="field_firstName">First Name</label>
+                    <input type="text" class="form-control" name="firstName" id="field_firstName"
+                           formControlName="firstName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.lastName" for="field_lastName">Last Name</label>
+                    <input type="text" class="form-control" name="lastName" id="field_lastName"
+                           formControlName="lastName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.phoneNumber" for="field_phoneNumber">Phone Number</label>
+                    <input type="text" class="form-control" name="phoneNumber" id="field_phoneNumber"
+                           formControlName="phoneNumber"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.emailAddress" for="field_emailAddress">Email Address</label>
+                    <input type="text" class="form-control" name="emailAddress" id="field_emailAddress"
+                           formControlName="emailAddress"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.primaryContact" for="field_primaryContact">Primary Contact</label>
+                    <input type="checkbox" class="form-control" name="primaryContact" id="field_primaryContact"
+                           formControlName="primaryContact"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.isMinor" for="field_isMinor">Is Minor</label>
+                    <input type="checkbox" class="form-control" name="isMinor" id="field_isMinor"
+                           formControlName="isMinor"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.ssn" for="field_ssn">Ssn</label>
+                    <input type="text" class="form-control" name="ssn" id="field_ssn"
+                           formControlName="ssn"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.backgroundCheckDate" for="field_backgroundCheckDate">Background Check Date</label>
+                    <div class="input-group">
+                        <input id="field_backgroundCheckDate" type="text" class="form-control" name="backgroundCheckDate" ngbDatepicker #backgroundCheckDateDp="ngbDatepicker" formControlName="backgroundCheckDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="backgroundCheckDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.backgroundCheckConfirmationNumber" for="field_backgroundCheckConfirmationNumber">Background Check Confirmation Number</label>
+                    <input type="text" class="form-control" name="backgroundCheckConfirmationNumber" id="field_backgroundCheckConfirmationNumber"
+                           formControlName="backgroundCheckConfirmationNumber"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.employmentVerificationDate" for="field_employmentVerificationDate">Employment Verification Date</label>
+                    <div class="input-group">
+                        <input id="field_employmentVerificationDate" type="text" class="form-control" name="employmentVerificationDate" ngbDatepicker #employmentVerificationDateDp="ngbDatepicker" formControlName="employmentVerificationDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="employmentVerificationDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.person.employmentVerificationConfirmationNumber" for="field_employmentVerificationConfirmationNumber">Employment Verification Confirmation Number</label>
+                    <input type="text" class="form-control" name="employmentVerificationConfirmationNumber" id="field_employmentVerificationConfirmationNumber"
+                           formControlName="employmentVerificationConfirmationNumber"/>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

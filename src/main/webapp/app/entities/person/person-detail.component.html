@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="person">
+            <h2><span jhiTranslate="realEstateManagementServiceApp.person.detail.title">Person</span> {{ person.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.firstName">First Name</span></dt>
+                <dd>
+                    <span>{{ person.firstName }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.lastName">Last Name</span></dt>
+                <dd>
+                    <span>{{ person.lastName }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.phoneNumber">Phone Number</span></dt>
+                <dd>
+                    <span>{{ person.phoneNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.emailAddress">Email Address</span></dt>
+                <dd>
+                    <span>{{ person.emailAddress }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.primaryContact">Primary Contact</span></dt>
+                <dd>
+                    <span>{{ person.primaryContact }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.isMinor">Is Minor</span></dt>
+                <dd>
+                    <span>{{ person.isMinor }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.ssn">Ssn</span></dt>
+                <dd>
+                    <span>{{ person.ssn }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.backgroundCheckDate">Background Check Date</span></dt>
+                <dd>
+                    <span>{{ person.backgroundCheckDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.backgroundCheckConfirmationNumber">Background Check Confirmation Number</span></dt>
+                <dd>
+                    <span>{{ person.backgroundCheckConfirmationNumber }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.employmentVerificationDate">Employment Verification Date</span></dt>
+                <dd>
+                    <span>{{ person.employmentVerificationDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.person.employmentVerificationConfirmationNumber">Employment Verification Confirmation Number</span></dt>
+                <dd>
+                    <span>{{ person.employmentVerificationConfirmationNumber }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/person', person.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
