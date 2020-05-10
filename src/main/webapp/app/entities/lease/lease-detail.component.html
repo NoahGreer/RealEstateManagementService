@@ -1,0 +1,84 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="lease">
+            <h2><span jhiTranslate="realEstateManagementServiceApp.lease.detail.title">Lease</span> {{ lease.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.dateSigned">Date Signed</span></dt>
+                <dd>
+                    <span>{{ lease.dateSigned }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.moveInDate">Move In Date</span></dt>
+                <dd>
+                    <span>{{ lease.moveInDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.noticeOfRemovalOrMoveoutDate">Notice Of Removal Or Moveout Date</span></dt>
+                <dd>
+                    <span>{{ lease.noticeOfRemovalOrMoveoutDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{ lease.endDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.amount">Amount</span></dt>
+                <dd>
+                    <span>{{ lease.amount }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.leaseType">Lease Type</span></dt>
+                <dd>
+                    <span>{{ lease.leaseType }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.notes">Notes</span></dt>
+                <dd>
+                    <span>{{ lease.notes }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.newLease">New Lease</span></dt>
+                <dd>
+                    <div *ngIf="lease.newLeaseId">
+                        <a [routerLink]="['/lease', lease.newLeaseId, 'view']">{{ lease.newLeaseId }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.person">Person</span></dt>
+                <dd>
+                    <span *ngFor="let person of lease.people; let last = last">
+                        <a [routerLink]="['/person', person?.id, 'view']">{{ person.id }}</a>{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.vehicle">Vehicle</span></dt>
+                <dd>
+                    <span *ngFor="let vehicle of lease.vehicles; let last = last">
+                        <a [routerLink]="['/vehicle', vehicle?.id, 'view']">{{ vehicle.id }}</a>{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.pet">Pet</span></dt>
+                <dd>
+                    <span *ngFor="let pet of lease.pets; let last = last">
+                        <a [routerLink]="['/pet', pet?.id, 'view']">{{ pet.id }}</a>{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.lease.apartment">Apartment</span></dt>
+                <dd>
+                    <div *ngIf="lease.apartmentId">
+                        <a [routerLink]="['/apartment', lease.apartmentId, 'view']">{{ lease.apartmentId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/lease', lease.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

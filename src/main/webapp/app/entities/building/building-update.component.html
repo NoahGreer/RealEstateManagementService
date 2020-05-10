@@ -1,0 +1,88 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-building-heading" jhiTranslate="realEstateManagementServiceApp.building.home.createOrEditLabel">Create or edit a Building</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.building.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.building.purchaseDate" for="field_purchaseDate">Purchase Date</label>
+                    <div class="input-group">
+                        <input id="field_purchaseDate" type="text" class="form-control" name="purchaseDate" ngbDatepicker #purchaseDateDp="ngbDatepicker" formControlName="purchaseDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="purchaseDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.building.propertyNumber" for="field_propertyNumber">Property Number</label>
+                    <input type="text" class="form-control" name="propertyNumber" id="field_propertyNumber"
+                           formControlName="propertyNumber"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.building.streetAddress" for="field_streetAddress">Street Address</label>
+                    <input type="text" class="form-control" name="streetAddress" id="field_streetAddress"
+                           formControlName="streetAddress"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.building.city" for="field_city">City</label>
+                    <input type="text" class="form-control" name="city" id="field_city"
+                           formControlName="city"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.building.stateCode" for="field_stateCode">State Code</label>
+                    <input type="text" class="form-control" name="stateCode" id="field_stateCode"
+                           formControlName="stateCode"/>
+                    <div *ngIf="editForm.get('stateCode')!.invalid && (editForm.get('stateCode')!.dirty || editForm.get('stateCode')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('stateCode')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 2 }">
+                        This field is required to be at least 2 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('stateCode')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 2 }">
+                        This field cannot be longer than 2 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.building.zipCode" for="field_zipCode">Zip Code</label>
+                    <input type="text" class="form-control" name="zipCode" id="field_zipCode"
+                           formControlName="zipCode"/>
+                    <div *ngIf="editForm.get('zipCode')!.invalid && (editForm.get('zipCode')!.dirty || editForm.get('zipCode')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('zipCode')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 10 }">
+                        This field cannot be longer than 10 characters.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

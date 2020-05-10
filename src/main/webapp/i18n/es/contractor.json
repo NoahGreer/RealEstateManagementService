@@ -1,0 +1,32 @@
+{
+  "realEstateManagementServiceApp": {
+    "contractor": {
+      "home": {
+        "title": "Contractors",
+        "createLabel": "Crear nuevo Contractor",
+        "createOrEditLabel": "Crear o editar Contractor",
+        "notFound": "Ningún Contractors encontrado"
+      },
+      "created": "Un nuevo Contractor ha sido creado con el identificador {{ param }}",
+      "updated": "Un Contractor ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Contractor ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Contractor {{ id }}?"
+      },
+      "detail": {
+        "title": "Contractor"
+      },
+      "companyName": "Company Name",
+      "streetAddress": "Street Address",
+      "city": "City",
+      "stateCode": "State Code",
+      "zipCode": "Zip Code",
+      "phoneNumber": "Phone Number",
+      "contactPerson": "Contact Person",
+      "ratingOfWork": "Rating Of Work",
+      "ratingOfResponsiveness": "Rating Of Responsiveness",
+      "maintenance": "Maintenance",
+      "jobType": "Job Type"
+    }
+  }
+}

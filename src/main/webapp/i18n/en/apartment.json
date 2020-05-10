@@ -1,0 +1,26 @@
+{
+  "realEstateManagementServiceApp": {
+    "apartment": {
+      "home": {
+        "title": "Apartments",
+        "createLabel": "Create a new Apartment",
+        "createOrEditLabel": "Create or edit a Apartment",
+        "notFound": "No Apartments found"
+      },
+      "created": "A new Apartment is created with identifier {{ param }}",
+      "updated": "A Apartment is updated with identifier {{ param }}",
+      "deleted": "A Apartment is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Apartment {{ id }}?"
+      },
+      "detail": {
+        "title": "Apartment"
+      },
+      "unitNumber": "Unit Number",
+      "moveInReady": "Move In Ready",
+      "maintenance": "Maintenance",
+      "lease": "Lease",
+      "building": "Building"
+    }
+  }
+}

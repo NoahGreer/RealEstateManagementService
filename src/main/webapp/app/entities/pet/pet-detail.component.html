@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="pet">
+            <h2><span jhiTranslate="realEstateManagementServiceApp.pet.detail.title">Pet</span> {{ pet.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="realEstateManagementServiceApp.pet.name">Name</span></dt>
+                <dd>
+                    <span>{{ pet.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.pet.type">Type</span></dt>
+                <dd>
+                    <span>{{ pet.type }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.pet.color">Color</span></dt>
+                <dd>
+                    <span>{{ pet.color }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.pet.certifiedAssistanceAnimal">Certified Assistance Animal</span></dt>
+                <dd>
+                    <span>{{ pet.certifiedAssistanceAnimal }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/pet', pet.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+{
+    "name": "Lease",
+    "fields": [
+        {
+            "fieldName": "dateSigned",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "moveInDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "noticeOfRemovalOrMoveoutDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "endDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "leaseType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "notes",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "rent",
+            "otherEntityRelationshipName": "lease",
+            "relationshipName": "rent"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "infraction",
+            "otherEntityRelationshipName": "lease",
+            "relationshipName": "infraction"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "lease",
+            "otherEntityRelationshipName": "lease",
+            "relationshipName": "newLease",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "person",
+            "otherEntityRelationshipName": "lease",
+            "relationshipName": "person",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "vehicle",
+            "otherEntityRelationshipName": "lease",
+            "relationshipName": "vehicle",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "pet",
+            "otherEntityRelationshipName": "lease",
+            "relationshipName": "pet",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "apartment",
+            "otherEntityRelationshipName": "lease",
+            "relationshipName": "apartment",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200510072200",
+    "entityTableName": "lease",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": [
+        "RealEstateManagementService"
+    ]
+}

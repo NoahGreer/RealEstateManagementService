@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="rent">
+            <h2><span jhiTranslate="realEstateManagementServiceApp.rent.detail.title">Rent</span> {{ rent.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="realEstateManagementServiceApp.rent.dueDate">Due Date</span></dt>
+                <dd>
+                    <span>{{ rent.dueDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.rent.recievedDate">Recieved Date</span></dt>
+                <dd>
+                    <span>{{ rent.recievedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.rent.amount">Amount</span></dt>
+                <dd>
+                    <span>{{ rent.amount }}</span>
+                </dd>
+                <dt><span jhiTranslate="realEstateManagementServiceApp.rent.lease">Lease</span></dt>
+                <dd>
+                    <div *ngIf="rent.leaseId">
+                        <a [routerLink]="['/lease', rent.leaseId, 'view']">{{ rent.leaseId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/rent', rent.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

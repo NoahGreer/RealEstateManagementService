@@ -1,0 +1,39 @@
+{
+    "name": "Rent",
+    "fields": [
+        {
+            "fieldName": "dueDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "recievedDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "lease",
+            "otherEntityRelationshipName": "rent",
+            "relationshipName": "lease",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200510072500",
+    "entityTableName": "rent",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": [
+        "RealEstateManagementService"
+    ]
+}

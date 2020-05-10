@@ -1,0 +1,35 @@
+{
+  "realEstateManagementServiceApp": {
+    "lease": {
+      "home": {
+        "title": "Leases",
+        "createLabel": "Create a new Lease",
+        "createOrEditLabel": "Create or edit a Lease",
+        "notFound": "No Leases found"
+      },
+      "created": "A new Lease is created with identifier {{ param }}",
+      "updated": "A Lease is updated with identifier {{ param }}",
+      "deleted": "A Lease is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Lease {{ id }}?"
+      },
+      "detail": {
+        "title": "Lease"
+      },
+      "dateSigned": "Date Signed",
+      "moveInDate": "Move In Date",
+      "noticeOfRemovalOrMoveoutDate": "Notice Of Removal Or Moveout Date",
+      "endDate": "End Date",
+      "amount": "Amount",
+      "leaseType": "Lease Type",
+      "notes": "Notes",
+      "rent": "Rent",
+      "infraction": "Infraction",
+      "newLease": "New Lease",
+      "person": "Person",
+      "vehicle": "Vehicle",
+      "pet": "Pet",
+      "apartment": "Apartment"
+    }
+  }
+}

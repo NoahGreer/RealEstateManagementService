@@ -1,0 +1,96 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-maintenance-heading" jhiTranslate="realEstateManagementServiceApp.maintenance.home.createOrEditLabel">Create or edit a Maintenance</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.description" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                           formControlName="description"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.notificationDate" for="field_notificationDate">Notification Date</label>
+                    <div class="input-group">
+                        <input id="field_notificationDate" type="text" class="form-control" name="notificationDate" ngbDatepicker #notificationDateDp="ngbDatepicker" formControlName="notificationDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="notificationDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.dateComplete" for="field_dateComplete">Date Complete</label>
+                    <div class="input-group">
+                        <input id="field_dateComplete" type="text" class="form-control" name="dateComplete" ngbDatepicker #dateCompleteDp="ngbDatepicker" formControlName="dateComplete"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateCompleteDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.contractorJobNumber" for="field_contractorJobNumber">Contractor Job Number</label>
+                    <input type="text" class="form-control" name="contractorJobNumber" id="field_contractorJobNumber"
+                           formControlName="contractorJobNumber"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.repairCost" for="field_repairCost">Repair Cost</label>
+                    <input type="number" class="form-control" name="repairCost" id="field_repairCost"
+                           formControlName="repairCost"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.repairPaidOn" for="field_repairPaidOn">Repair Paid On</label>
+                    <div class="input-group">
+                        <input id="field_repairPaidOn" type="text" class="form-control" name="repairPaidOn" ngbDatepicker #repairPaidOnDp="ngbDatepicker" formControlName="repairPaidOn"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="repairPaidOnDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.receiptOfPayment" for="field_receiptOfPayment">Receipt Of Payment</label>
+                    <input type="text" class="form-control" name="receiptOfPayment" id="field_receiptOfPayment"
+                           formControlName="receiptOfPayment"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.apartment" for="field_apartment">Apartment</label>
+                    <select class="form-control" id="field_apartment" name="apartment" formControlName="apartmentId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="apartmentOption.id" *ngFor="let apartmentOption of apartments; trackBy: trackById">{{ apartmentOption.id }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.contractor" for="field_contractor">Contractor</label>
+                    <select class="form-control" id="field_contractor" name="contractor" formControlName="contractorId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="contractorOption.id" *ngFor="let contractorOption of contractors; trackBy: trackById">{{ contractorOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

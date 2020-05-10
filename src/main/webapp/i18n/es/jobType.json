@@ -1,0 +1,23 @@
+{
+  "realEstateManagementServiceApp": {
+    "jobType": {
+      "home": {
+        "title": "Job Types",
+        "createLabel": "Crear nuevo Job Type",
+        "createOrEditLabel": "Crear o editar Job Type",
+        "notFound": "Ningún Job Types encontrado"
+      },
+      "created": "Un nuevo Job Type ha sido creado con el identificador {{ param }}",
+      "updated": "Un Job Type ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Job Type ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Job Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Job Type"
+      },
+      "name": "Name",
+      "contractor": "Contractor"
+    }
+  }
+}

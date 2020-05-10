@@ -1,0 +1,26 @@
+{
+  "realEstateManagementServiceApp": {
+    "pet": {
+      "home": {
+        "title": "Pets",
+        "createLabel": "Crear nuevo Pet",
+        "createOrEditLabel": "Crear o editar Pet",
+        "notFound": "Ningún Pets encontrado"
+      },
+      "created": "Un nuevo Pet ha sido creado con el identificador {{ param }}",
+      "updated": "Un Pet ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Pet ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Pet {{ id }}?"
+      },
+      "detail": {
+        "title": "Pet"
+      },
+      "name": "Name",
+      "type": "Type",
+      "color": "Color",
+      "certifiedAssistanceAnimal": "Certified Assistance Animal",
+      "lease": "Lease"
+    }
+  }
+}

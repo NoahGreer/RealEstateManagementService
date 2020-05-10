@@ -1,0 +1,95 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="realEstateManagementServiceApp.lease.home.title">Leases</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-lease" [routerLink]="['/lease/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="realEstateManagementServiceApp.lease.home.createLabel">
+            Create a new Lease
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="leases?.length === 0">
+        <span jhiTranslate="realEstateManagementServiceApp.lease.home.notFound">No leases found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="leases?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateSigned"><span jhiTranslate="realEstateManagementServiceApp.lease.dateSigned">Date Signed</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="moveInDate"><span jhiTranslate="realEstateManagementServiceApp.lease.moveInDate">Move In Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="noticeOfRemovalOrMoveoutDate"><span jhiTranslate="realEstateManagementServiceApp.lease.noticeOfRemovalOrMoveoutDate">Notice Of Removal Or Moveout Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="endDate"><span jhiTranslate="realEstateManagementServiceApp.lease.endDate">End Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="amount"><span jhiTranslate="realEstateManagementServiceApp.lease.amount">Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="leaseType"><span jhiTranslate="realEstateManagementServiceApp.lease.leaseType">Lease Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="notes"><span jhiTranslate="realEstateManagementServiceApp.lease.notes">Notes</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="newLeaseId"><span jhiTranslate="realEstateManagementServiceApp.lease.newLease">New Lease</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="apartmentId"><span jhiTranslate="realEstateManagementServiceApp.lease.apartment">Apartment</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let lease of leases ;trackBy: trackId">
+                    <td><a [routerLink]="['/lease', lease.id, 'view']">{{ lease.id }}</a></td>
+                    <td>{{ lease.dateSigned | date:'mediumDate' }}</td>
+                    <td>{{ lease.moveInDate | date:'mediumDate' }}</td>
+                    <td>{{ lease.noticeOfRemovalOrMoveoutDate | date:'mediumDate' }}</td>
+                    <td>{{ lease.endDate | date:'mediumDate' }}</td>
+                    <td>{{ lease.amount }}</td>
+                    <td>{{ lease.leaseType }}</td>
+                    <td>{{ lease.notes }}</td>
+                    <td>
+                        <div *ngIf="lease.newLeaseId">
+                            <a [routerLink]="['/lease', lease.newLeaseId , 'view']" >{{ lease.newLeaseId }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="lease.apartmentId">
+                            <a [routerLink]="['/apartment', lease.apartmentId , 'view']" >{{ lease.apartmentId }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/lease', lease.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/lease', lease.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(lease)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="leases?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>
