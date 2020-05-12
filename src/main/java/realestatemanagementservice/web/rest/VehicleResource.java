@@ -103,6 +103,21 @@ public class VehicleResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+    
+    /**
+     * {@code GET  /vehicles/registered} : get all the vehicles.
+     *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of vehicles in body.
+     */
+    @GetMapping("/vehicles/registered")
+    public ResponseEntity<List<VehicleDTO>> getAllRegisteredVehicles(VehicleCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Vehicles by criteria: {}", criteria);
+        Page<VehicleDTO> page = vehicleQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 
     /**
      * {@code GET  /vehicles/count} : count all the vehicles.
