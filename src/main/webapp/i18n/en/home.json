@@ -1,19 +1,20 @@
 {
   "home": {
-    "title": "Welcome, Java Hipster!",
-    "subtitle": "This is your homepage",
+    "title": "Welcome!",
+    "subtitle": "RealEstateManagementService Home",
     "logged": {
-      "message": "You are logged in as user \"{{username}}\"."
+      "message": "You are logged in as user {{username}}."
     },
-    "question": "If you have any question on JHipster:",
+    "question": "Please let us know if there are any features we can add to make RealEstateManagementService more useful or intuitive!",
     "link": {
-      "homepage": "JHipster homepage",
-      "stackoverflow": "JHipster on Stack Overflow",
-      "bugtracker": "JHipster bug tracker",
-      "chat": "JHipster public chat room",
-      "follow": "follow @jhipster on Twitter"
+      "homepage": "",
+      "stackoverflow": "",
+      "bugtracker": "",
+      "chat": "",
+      "follow": ""
     },
-    "like": "If you like JHipster, don't forget to give us a star on",
-    "github": "GitHub"
+    "jhipster": "",
+    "like": "",
+    "github": "This app built using the JHipster platform as a base.  Check them out!"
   }
 }

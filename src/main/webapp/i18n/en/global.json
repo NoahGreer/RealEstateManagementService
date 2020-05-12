@@ -5,6 +5,11 @@
     "menu": {
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+      "reports": {
+        "main": "Reports",
+        "vehicle": "Current Registered Vehicles",
+        "rentsPaid": "Current Paid Rents"
+      },
       "entities": {
         "main": "Entities",
         "building": "Building",
@@ -148,5 +153,5 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "This is your footer"
+  "footer": "RealEstateManagementService developed by Andrew Franko, Noah Greer, Michael Langley and Thomas Parcher"
 }

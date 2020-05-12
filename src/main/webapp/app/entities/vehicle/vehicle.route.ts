@@ -44,8 +44,21 @@ export const vehicleRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      defaultSort: 'id,asc',
+      defaultSort: 'id,desc',
       pageTitle: 'realEstateManagementServiceApp.vehicle.home.title'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'report',
+    component: VehicleComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
+    data: {
+      authorities: [Authority.USER],
+      defaultSort: 'id,asc',
+      pageTitle: 'realEstateManagementServiceApp.vehicle.home.report'
     },
     canActivate: [UserRouteAccessService]
   },
