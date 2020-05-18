@@ -1,6 +1,7 @@
 package realestatemanagementservice.web.rest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.github.jhipster.service.filter.LocalDateFilter;
+import io.github.jhipster.service.filter.LongFilter;
 import realestatemanagementservice.service.*;
 import realestatemanagementservice.service.dto.*;
 
@@ -19,10 +21,19 @@ public class ReportResource {
 	
 	private final Logger log = LoggerFactory.getLogger(ReportResource.class);
 	
+	private final ApartmentQueryService apartmentQueryService;
+	private final LeaseQueryService leaseQueryService;
 	private final RentQueryService rentQueryService;
+	private final VehicleQueryService vehicleQueryService;
 	
-	public ReportResource(RentQueryService rentQueryService) {
+	public ReportResource(ApartmentQueryService apartmentQueryService, 
+			RentQueryService rentQueryService, 
+			LeaseQueryService leaseQueryService, 
+			VehicleQueryService vehicleQueryService) {
+		this.apartmentQueryService = apartmentQueryService;
+		this.leaseQueryService = leaseQueryService;
 		this.rentQueryService = rentQueryService;
+		this.vehicleQueryService = vehicleQueryService;
 	}
 	
 	/**
@@ -48,5 +59,41 @@ public class ReportResource {
         
         List<RentDTO> rents = rentQueryService.findByCriteria(criteria);
         return ResponseEntity.ok().body(rents);
+    }
+    
+    @GetMapping("/reports/vehicles")
+    public ResponseEntity<List<VehicleDTO>> getAuthorizedVehicles(@RequestParam("buildingId") Long buildingId){
+    	log.debug("REST request to get authorized Vehicles for a given buildingID: {}", buildingId);
+    	
+    	LongFilter lf = new LongFilter();
+    	lf.setEquals(buildingId);
+    	
+    	ApartmentCriteria apartmentCriteria = new ApartmentCriteria();
+    	apartmentCriteria.setBuildingId(lf);
+    	List<ApartmentDTO> apartments = apartmentQueryService.findByCriteria(apartmentCriteria);
+    	
+    	List<Long> longs = new ArrayList<Long>();
+    	for(ApartmentDTO apartment : apartments) {
+    		longs.add(apartment.getId());
+    	}
+    	
+    	lf.setIn(longs);
+    	longs.clear();
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setApartmentId(lf);
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+    	for(LeaseDTO lease : leases) {
+    		longs.add(lease.getId());
+    	}
+    	
+    	lf.setIn(longs);
+    	
+    	VehicleCriteria vehicleCriteria = new VehicleCriteria();
+    	vehicleCriteria.setLeaseId(lf);
+    	List<VehicleDTO> vehicles = vehicleQueryService.findByCriteria(vehicleCriteria);
+    	
+    	return ResponseEntity.ok().body(vehicles);
     }
 }
