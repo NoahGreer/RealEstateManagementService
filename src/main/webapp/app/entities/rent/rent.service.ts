@@ -8,6 +8,7 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IRent } from 'app/shared/model/rent.model';
+import { isRestElement } from '@babel/types';
 
 type EntityResponseType = HttpResponse<IRent>;
 type EntityArrayResponseType = HttpResponse<IRent[]>;
@@ -50,7 +51,13 @@ export class RentService {
   }
 
   pay(id: number): Observable<HttpResponse<{}>> {
+    // const today = new Date();
+    const temp = this.http.get<IRent>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+
+    // return this.http
+    //   .put<IRent>(this.resourceUrl, temp, { observe: 'response' })
+    //   .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   protected convertDateFromClient(rent: IRent): IRent {

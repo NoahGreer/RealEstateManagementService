@@ -30,15 +30,15 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
                     <li>
-                        <a class="dropdown-item" routerLink="reports/vehicles" routerLinkActive="report"
-                            [routerLinkActiveOptions]="{ path: 'report' }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="api/reports/vehicles" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact : true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.reports.rentsPaid">Rent Report</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="reports/paid" routerLinkActive="report"
-                            [routerLinkActiveOptions]="{ path: 'report' }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="api/reports/paid" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact : true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.reports.vehicle">Vehicle Report</span>
                         </a>

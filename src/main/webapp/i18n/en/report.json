@@ -1,0 +1,14 @@
+{
+  "realEstateManagementServiceApp": {
+    "report": {
+      "home": {
+        "title": "Reports",
+        "notFound": "No report data found"
+      },
+
+      "detail": {
+        "title": "Report"
+      }
+    }
+  }
+}

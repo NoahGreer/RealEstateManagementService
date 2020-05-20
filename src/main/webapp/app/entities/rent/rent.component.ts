@@ -81,8 +81,8 @@ export class RentComponent implements OnInit, OnDestroy {
   }
 
   pay(rent: IRent): void {
-    const modelRef = this.modalService.open(RentPayDialogComponent, { size: 'lg', backdrop: 'static' });
-    modelRef.componentInstance.rent = rent;
+    const modalRef = this.modalService.open(RentPayDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.rent = rent;
   }
 
   sort(): string[] {

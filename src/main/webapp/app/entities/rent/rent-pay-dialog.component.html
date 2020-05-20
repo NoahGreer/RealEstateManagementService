@@ -1,15 +1,15 @@
-<form *ngIf="rent" name="payForm" (ngSubmit)="confirmPayment(rent?.id!)">
+<form *ngIf="rent" name="payForm" (ngSubmit)="confirmPayment()">
     <div class="modal-header">
         <h4 class="modal-title" jhiTranslate="rent.payment.title">Confirm payment</h4>
 
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="cancel()">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
     </div>
 
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
 
-        <p id="jhi-payment-rent-heading" jhiTranslate="realEstateManagementServiceApp.rent.payment.question" [translateValues]="{ id: rent.id }">Mark this rent as paid?</p>
+        <p id="jhi-payment-rent-heading" jhiTranslate="realEstateManagementServiceApp.rent.payment.question"
+            [translateValues]="{ id: rent.id }">Mark this rent as paid?</p>
     </div>
 
     <div class="modal-footer">
