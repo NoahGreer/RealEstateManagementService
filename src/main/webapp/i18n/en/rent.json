@@ -7,6 +7,10 @@
         "createOrEditLabel": "Create or edit a Rent",
         "notFound": "No Rents found"
       },
+      "payment": {
+        "title": "Confirm payment",
+        "question": "Are you sure you want mark rent as paid {{ id }}?"
+      },
       "created": "A new Rent is created with identifier {{ param }}",
       "updated": "A Rent is updated with identifier {{ param }}",
       "deleted": "A Rent is deleted with identifier {{ param }}",

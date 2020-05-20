@@ -49,6 +49,10 @@ export class RentService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  pay(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
   protected convertDateFromClient(rent: IRent): IRent {
     const copy: IRent = Object.assign({}, rent, {
       dueDate: rent.dueDate && rent.dueDate.isValid() ? rent.dueDate.format(DATE_FORMAT) : undefined,

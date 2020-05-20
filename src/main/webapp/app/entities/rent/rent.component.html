@@ -43,6 +43,12 @@
                     </td>
                     <td class="text-right">
                         <div class="btn-group">
+                            <button type="submit" (click)="pay(rent)"
+                                    class="btn btn-light btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.pay">Delete</span>
+                            </button>
+
                             <button type="submit"
                                     [routerLink]="['/rent', rent.id, 'view']"
                                     class="btn btn-info btn-sm">
