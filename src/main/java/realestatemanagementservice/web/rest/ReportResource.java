@@ -3,6 +3,8 @@ package realestatemanagementservice.web.rest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +12,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
 import realestatemanagementservice.service.*;
 import realestatemanagementservice.service.dto.*;
 
+/**
+ * REST controller for managing {@link realestatemanagementservice.domain.Reports}.
+ */
 @RestController
 @RequestMapping("/api")
 public class ReportResource {
@@ -23,14 +30,20 @@ public class ReportResource {
 	
 	private final ApartmentQueryService apartmentQueryService;
 	private final LeaseQueryService leaseQueryService;
+	private final InfractionQueryService infractionQueryService;
+	private final PersonQueryService personQueryService;
 	private final RentQueryService rentQueryService;
 	private final VehicleQueryService vehicleQueryService;
 	
 	public ReportResource(ApartmentQueryService apartmentQueryService, 
+			InfractionQueryService infractionQueryService,
+			PersonQueryService personQueryService,
 			RentQueryService rentQueryService, 
 			LeaseQueryService leaseQueryService, 
 			VehicleQueryService vehicleQueryService) {
 		this.apartmentQueryService = apartmentQueryService;
+		this.infractionQueryService = infractionQueryService;
+		this.personQueryService = personQueryService;
 		this.leaseQueryService = leaseQueryService;
 		this.rentQueryService = rentQueryService;
 		this.vehicleQueryService = vehicleQueryService;
@@ -113,5 +126,64 @@ public class ReportResource {
     	List<VehicleDTO> vehicles = vehicleQueryService.findByCriteria(vehicleCriteria);
     	
     	return ResponseEntity.ok().body(vehicles);
+    }
+	
+	/**
+     * {@code GET  /person/email} : get all the email for all people with active leases.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
+     */
+	@SuppressWarnings("null")
+	@GetMapping("/person/email")
+    public ResponseEntity<List<String>> getEmails() {
+        log.debug("REST request to get all the Emails of active people");
+        
+    	final BooleanFilter notMinor = new BooleanFilter();
+        notMinor.setEquals(true);
+        
+        final StringFilter hasEmail = new StringFilter();
+        hasEmail.setSpecified(true);
+      
+		final List<Long> activeLeaseIds = leaseQueryService.findActiveLeaseIds();
+        
+        final LongFilter hasActiveLease = new LongFilter();
+        hasActiveLease.setIn(activeLeaseIds);
+        
+        final PersonCriteria criteria = new PersonCriteria();
+        criteria.setIsMinor(notMinor);
+        criteria.setEmailAddress(hasEmail);
+        criteria.setLeaseId(hasActiveLease);
+        
+        final List<PersonDTO> peoplewithemail = personQueryService.findByCriteria(criteria);
+        
+        final List<String> activeEmails = new ArrayList<>();
+        for (final PersonDTO peopleemail : peoplewithemail) {
+        	activeEmails.add(peopleemail.getEmailAddress());
+        }
+        
+        return ResponseEntity.ok().body(activeEmails);
+	}
+    
+    /**
+     * {@code GET  /infractions/year} : get all the infractions in a given year.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
+     */
+	@GetMapping("/infractions/year")
+    public ResponseEntity<List<InfractionDTO>> getInfractionsByYear(@RequestParam("year") @Min(1900) @Max(2100) int year) {
+		log.debug("REST request to get Infraction for year criteria: {}", year);
+    	
+		final LocalDate startOfYear = LocalDate.of(year, 1, 1);
+    	final LocalDate endOfYear = LocalDate.of(year, 12, 31);
+    	
+    	final LocalDateFilter dateFilter = new LocalDateFilter();
+    	dateFilter.setGreaterThanOrEqual(startOfYear);
+    	dateFilter.setLessThanOrEqual(endOfYear);
+    	
+    	final InfractionCriteria criteria = new InfractionCriteria();
+    	criteria.setDateOccurred(dateFilter);
+    	
+		final List<InfractionDTO> infractionsThisYear = infractionQueryService.findByCriteria(criteria);
+    	
+    	return ResponseEntity.ok().body(infractionsThisYear);
     }
 }
