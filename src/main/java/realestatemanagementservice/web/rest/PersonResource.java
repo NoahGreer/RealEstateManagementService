@@ -3,7 +3,6 @@ package realestatemanagementservice.web.rest;
 import realestatemanagementservice.service.PersonService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.PersonDTO;
-import realestatemanagementservice.service.dto.LeaseDTO;
 import realestatemanagementservice.service.dto.PersonCriteria;
 import realestatemanagementservice.service.PersonQueryService;
 import io.github.jhipster.service.filter.BooleanFilter;

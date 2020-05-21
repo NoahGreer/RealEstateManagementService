@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.jhipster.service.QueryService;
-
+import io.github.jhipster.service.filter.LocalDateFilter;
 import realestatemanagementservice.domain.Lease;
 import realestatemanagementservice.domain.*; // for static metamodels
 import realestatemanagementservice.repository.LeaseRepository;
