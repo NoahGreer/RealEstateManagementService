@@ -5,7 +5,7 @@ import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.LeaseDTO;
 import realestatemanagementservice.service.dto.LeaseCriteria;
 import realestatemanagementservice.service.LeaseQueryService;
-import io.github.jhipster.service.filter.LocalDateFilter;
+
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +47,7 @@ public class LeaseResource {
         this.leaseService = leaseService;
         this.leaseQueryService = leaseQueryService;
     }
-    
+
     /**
      * {@code POST  /leases} : Create a new lease.
      *
@@ -103,50 +101,6 @@ public class LeaseResource {
         Page<LeaseDTO> page = leaseQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-    
-    /**
-     * {@code GET  /leases/active} : get all the active leases, ie today is between date signed and move out date.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
-     */
-    @GetMapping("/leases/active")
-    public ResponseEntity<List<LeaseDTO>> getActiveLeaseDTO() {
-        log.debug("REST request to get active Leases");
-        
-        final LocalDate today = LocalDate.now();
-        
-        LocalDateFilter datesignedFilter = new LocalDateFilter();
-        datesignedFilter.setGreaterThanOrEqual(today);
-        
-        LocalDateFilter endDateFilter = new LocalDateFilter();
-        endDateFilter.setLessThan(today);
-        
-        LeaseCriteria criteria = new LeaseCriteria();
-        criteria.setDateSigned(datesignedFilter);
-        criteria.setEndDate(endDateFilter);
-        
-        List<LeaseDTO> activeLeases = leaseQueryService.findByCriteria(criteria);
-        return ResponseEntity.ok().body(activeLeases);
-    }
-    
-    /**
-     * {@code GET  /leases/activeID} : get all the active lease IDs, ie today is between date signed and move out date.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
-     */
-    @SuppressWarnings("unchecked")
-	@GetMapping("/leases/activeID")
-    public ResponseEntity<List<Long>> getActiveLeaseID() {
-        log.debug("REST request to get active Leases");
-        
-        List<LeaseDTO> leaseIDList = (List<LeaseDTO>) getActiveLeaseDTO();
-        List<Long> activeLeases =  new ArrayList<Long>();
-        for(LeaseDTO lease : leaseIDList) {
-        	activeLeases.add(lease.getId());
-        }
-        
-        return ResponseEntity.ok().body(activeLeases);
     }
 
     /**
