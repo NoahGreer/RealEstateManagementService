@@ -232,7 +232,7 @@ public class ReportResource {
      */
 	@GetMapping("/maintenance/open")
     public ResponseEntity<List<String>> getOpenMaintenace() {
-		log.debug("REST request to get a list of available apartments");
+		log.debug("REST request to get a list of all maintenance entities that do not show the the contractor has recieved payment for work done");
   
     	final StringFilter receiptOfPayment = new StringFilter();
     	receiptOfPayment.setSpecified(true);
