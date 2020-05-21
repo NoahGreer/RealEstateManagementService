@@ -189,7 +189,6 @@ public class ReportResource {
 	
 	/**
      * {@code GET  /apartments/available} : get all the currently available apartments.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
      */
 	@GetMapping("/apartments/available")
