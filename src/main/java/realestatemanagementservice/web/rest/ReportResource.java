@@ -31,6 +31,7 @@ public class ReportResource {
 	
 	private final ApartmentQueryService apartmentQueryService;
 	private final BuildingService buildingService;
+	private final ContractorService contractorService;
 	private final LeaseQueryService leaseQueryService;
 	private final MaintenanceQueryService maintenanceQueryService;
 	private final InfractionQueryService infractionQueryService;
@@ -40,6 +41,7 @@ public class ReportResource {
 	
 	public ReportResource(ApartmentQueryService apartmentQueryService, 
 			BuildingService buildingService,
+			ContractorService contractorService,
 			InfractionQueryService infractionQueryService,
 			PersonQueryService personQueryService,
 			RentQueryService rentQueryService, 
@@ -48,6 +50,7 @@ public class ReportResource {
 			VehicleQueryService vehicleQueryService) {
 		this.apartmentQueryService = apartmentQueryService;
 		this.buildingService = buildingService;
+		this.contractorService = contractorService;
 		this.infractionQueryService = infractionQueryService;
 		this.personQueryService = personQueryService;
 		this.leaseQueryService = leaseQueryService;
@@ -248,5 +251,35 @@ public class ReportResource {
         }
     	
     	return ResponseEntity.ok().body(openMaintenance);
+    }
+
+	/**
+     * {@code GET  /maintenance/contractor} : get all work done by a particular contractor.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all work done by a particular contractor.
+     */
+	@GetMapping("/maintenance/contractor")
+    public ResponseEntity<List<String>> getMaintenaceByContractor(@RequestParam("id") Long id) {
+		log.debug("REST request to get a list of all work done by one contractor");
+  
+    	final LongFilter idFilter = new LongFilter();
+    	idFilter.setEquals(id);
+    	
+    	final MaintenanceCriteria criteria = new MaintenanceCriteria();
+    	criteria.setId(idFilter);
+    	
+		final List<MaintenanceDTO> maintenance = maintenanceQueryService.findByCriteria(criteria);
+		
+		//adding a header of all the contractor information
+		final List<String> maintenanceContractor = new ArrayList<>();
+		Optional<ContractorDTO> contractor = contractorService.findOne(id);
+		maintenanceContractor.add(contractor.get().toString());
+		
+		for (final MaintenanceDTO maintenanceWork : maintenance) {
+			
+			maintenanceContractor.add(maintenanceWork.toString());
+        }
+    	
+    	return ResponseEntity.ok().body(maintenanceContractor);
     }
 }
