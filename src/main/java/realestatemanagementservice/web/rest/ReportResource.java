@@ -3,6 +3,7 @@ package realestatemanagementservice.web.rest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -29,6 +30,7 @@ public class ReportResource {
 	private final Logger log = LoggerFactory.getLogger(ReportResource.class);
 	
 	private final ApartmentQueryService apartmentQueryService;
+	private final BuildingService buildingService;
 	private final LeaseQueryService leaseQueryService;
 	private final InfractionQueryService infractionQueryService;
 	private final PersonQueryService personQueryService;
@@ -36,12 +38,14 @@ public class ReportResource {
 	private final VehicleQueryService vehicleQueryService;
 	
 	public ReportResource(ApartmentQueryService apartmentQueryService, 
+			BuildingService buildingService,
 			InfractionQueryService infractionQueryService,
 			PersonQueryService personQueryService,
 			RentQueryService rentQueryService, 
 			LeaseQueryService leaseQueryService, 
 			VehicleQueryService vehicleQueryService) {
 		this.apartmentQueryService = apartmentQueryService;
+		this.buildingService = buildingService;
 		this.infractionQueryService = infractionQueryService;
 		this.personQueryService = personQueryService;
 		this.leaseQueryService = leaseQueryService;
@@ -211,7 +215,9 @@ public class ReportResource {
 		
 		final List<String> availableApartments = new ArrayList<>();
 		for (final ApartmentDTO readyApartments : moveInReadyApartments) {
-			availableApartments.add(readyApartments.getUnitNumber());
+			Optional<BuildingDTO> aBuilding = buildingService.findOne(readyApartments.getBuildingId());
+			
+			availableApartments.add(aBuilding.get().getName()+" "+readyApartments.getUnitNumber());
         }
     	
     	return ResponseEntity.ok().body(availableApartments);
