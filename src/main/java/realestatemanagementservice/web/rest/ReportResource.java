@@ -32,6 +32,7 @@ public class ReportResource {
 	private final ApartmentQueryService apartmentQueryService;
 	private final BuildingService buildingService;
 	private final LeaseQueryService leaseQueryService;
+	private final MaintenanceQueryService maintenanceQueryService;
 	private final InfractionQueryService infractionQueryService;
 	private final PersonQueryService personQueryService;
 	private final RentQueryService rentQueryService;
@@ -43,12 +44,14 @@ public class ReportResource {
 			PersonQueryService personQueryService,
 			RentQueryService rentQueryService, 
 			LeaseQueryService leaseQueryService, 
+			MaintenanceQueryService maintenanceQueryService,
 			VehicleQueryService vehicleQueryService) {
 		this.apartmentQueryService = apartmentQueryService;
 		this.buildingService = buildingService;
 		this.infractionQueryService = infractionQueryService;
 		this.personQueryService = personQueryService;
 		this.leaseQueryService = leaseQueryService;
+		this.maintenanceQueryService = maintenanceQueryService;
 		this.rentQueryService = rentQueryService;
 		this.vehicleQueryService = vehicleQueryService;
 	}
@@ -221,5 +224,29 @@ public class ReportResource {
         }
     	
     	return ResponseEntity.ok().body(availableApartments);
+    }
+	
+	/**
+     * {@code GET  /maintenance/open} : get all the open maintenance orders.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of open maintenance orders.
+     */
+	@GetMapping("/maintenance/open")
+    public ResponseEntity<List<String>> getOpenMaintenace() {
+		log.debug("REST request to get a list of available apartments");
+  
+    	final StringFilter receiptOfPayment = new StringFilter();
+    	receiptOfPayment.setSpecified(true);
+    	
+    	final MaintenanceCriteria criteria = new MaintenanceCriteria();
+    	criteria.setReceiptOfPayment(receiptOfPayment);
+    	
+		final List<MaintenanceDTO> maintenanceProcessIncomplete = maintenanceQueryService.findByCriteria(criteria);
+		
+		final List<String> openMaintenance = new ArrayList<>();
+		for (final MaintenanceDTO maintenanceWork : maintenanceProcessIncomplete) {
+			openMaintenance.add(maintenanceWork.toString());
+        }
+    	
+    	return ResponseEntity.ok().body(openMaintenance);
     }
 }
