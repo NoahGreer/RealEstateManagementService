@@ -186,4 +186,29 @@ public class ReportResource {
     	
     	return ResponseEntity.ok().body(infractionsThisYear);
     }
+	
+	/**
+     * {@code GET  /apartments/available} : get all the currently available apartments.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
+     */
+	@GetMapping("/apartments/available")
+    public ResponseEntity<List<String>> getAvailableApartments() {
+		log.debug("REST request to get all currently available apartments");
+  
+    	final BooleanFilter moveInReady = new BooleanFilter();
+    	moveInReady.setEquals(true);
+    	
+    	final ApartmentCriteria criteria = new ApartmentCriteria();
+    	criteria.setMoveInReady(moveInReady);
+    	
+		final List<ApartmentDTO> moveInReadyApartments = apartmentQueryService.findByCriteria(criteria);
+		
+		final List<String> availableApartments = new ArrayList<>();
+		for (final ApartmentDTO readyApartments : moveInReadyApartments) {
+			availableApartments.add(readyApartments.getUnitNumber());
+        }
+    	
+    	return ResponseEntity.ok().body(availableApartments);
+    }
 }
