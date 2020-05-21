@@ -5,9 +5,7 @@ import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.PersonDTO;
 import realestatemanagementservice.service.dto.PersonCriteria;
 import realestatemanagementservice.service.PersonQueryService;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
+
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,45 +103,6 @@ public class PersonResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /person/email} : get all the email for all people with active leases.
-     *
-     * @param date the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
-     */
-    @SuppressWarnings("null")
-	@GetMapping("/people/email")
-    public ResponseEntity<List<String>> getEmails() {
-        //log.debug("REST request to get all the Emails of active people");
-        
-    	BooleanFilter notMinor = new BooleanFilter();
-        notMinor.setEquals(true);
-        
-        StringFilter hasEmail = new StringFilter();
-        hasEmail.setContains("@");
-        
-        @SuppressWarnings("unchecked")
-       
-		List<Long> leaseIDList = (List<Long>) LeaseResource.class.getActiveLeaseID();
-        
-        LongFilter hasActiveLease = new LongFilter();
-        hasActiveLease.setIn(leaseIDList);
-        
-        PersonCriteria criteria = new PersonCriteria();
-        criteria.setIsMinor(notMinor);
-        criteria.setEmailAddress(hasEmail);
-        criteria.setLeaseId(hasActiveLease);
-        
-        List<PersonDTO> peoplewithemail = personQueryService.findByCriteria(criteria);
-        
-        List<String> activeEmails =  new ArrayList<String>();
-        for(PersonDTO person : peoplewithemail) {
-        	activeEmails.add(person.getEmailAddress());
-        }
-        
-        return ResponseEntity.ok().body(activeEmails);
-    }
-    
     /**
      * {@code GET  /people/count} : count all the people.
      *
