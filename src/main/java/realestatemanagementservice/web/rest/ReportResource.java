@@ -134,7 +134,7 @@ public class ReportResource {
 	
 	/**
      * {@code GET  /person/email} : get all the email for all people with active leases.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
      */
 	@SuppressWarnings("null")
 	@GetMapping("/person/email")
@@ -170,7 +170,7 @@ public class ReportResource {
     /**
      * {@code GET  /infractions/year} : get all the infractions in a given year.
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
      */
 	@GetMapping("/infractions/year")
     public ResponseEntity<List<String>> getInfractionsByYear(@RequestParam("year") @Min(1900) @Max(2100) int year) {
@@ -199,7 +199,7 @@ public class ReportResource {
 	
 	/**
      * {@code GET  /apartments/available} : get all the currently available apartments.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of available apartments.
      */
 	@GetMapping("/apartments/available")
     public ResponseEntity<List<String>> getAvailableApartments() {
