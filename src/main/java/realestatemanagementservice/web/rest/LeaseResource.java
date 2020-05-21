@@ -50,8 +50,6 @@ public class LeaseResource {
         this.leaseQueryService = leaseQueryService;
     }
     
-    static LocalDate today = LocalDate.now();
-
     /**
      * {@code POST  /leases} : Create a new lease.
      *
@@ -115,6 +113,8 @@ public class LeaseResource {
     @GetMapping("/leases/active")
     public ResponseEntity<List<LeaseDTO>> getActiveLeaseDTO() {
         log.debug("REST request to get active Leases");
+        
+        final LocalDate today = LocalDate.now();
         
         LocalDateFilter datesignedFilter = new LocalDateFilter();
         datesignedFilter.setGreaterThanOrEqual(today);
