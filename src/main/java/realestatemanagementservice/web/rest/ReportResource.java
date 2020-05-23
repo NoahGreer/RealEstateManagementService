@@ -340,4 +340,52 @@ public class ReportResource {
     	
     	return ResponseEntity.ok().body(maintenanceWork);
     }
+
+	/**
+     * {@code GET  /pet/owner} : get all pets and their owner's.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all maintenance in a particular unit.
+     */
+	@GetMapping("/pet/owner")
+    public ResponseEntity<List<String>> getPetByOwner() {
+		log.debug("REST request to get a list of all pets and their owner's");
+		
+		final List<Long> activeLeaseIds = leaseQueryService.findActiveLeaseIds();
+	  
+		final LongFilter hasActiveLease = new LongFilter();
+        hasActiveLease.setIn(activeLeaseIds);
+		
+        final PetCriteria criter = new PetCriteria();
+        criter.setLeaseId(hasActiveLease);
+        
+		final List<PetDTO> activePets = petQueryService.findByCriteria(criter);
+		
+		final List<Long> leasesWithPets = new ArrayList<>();
+        for (final PetDTO pets : activePets) {
+        	leasesWithPets.add(pets.getLeaseId());
+        }
+		
+		final BooleanFilter primaryContact = new BooleanFilter();
+		primaryContact.setEquals(true);
+        
+		final LongFilter hasPetOnLease = new LongFilter();
+		hasPetOnLease.setIn(leasesWithPets);
+		
+        final PersonCriteria criteria = new PersonCriteria();
+        criteria.setPrimaryContact(primaryContact);
+        criteria.setLeaseId(hasPetOnLease);
+        
+		final List<PersonDTO> primaryActivePeople = personQueryService.findByCriteria(criteria);
+        
+        final List<String> activePetsAndPeople = new ArrayList<>();
+        for (final PersonDTO people : primaryActivePeople) {
+        	activePetsAndPeople.add(people.toShortString());
+        	for(final PetDTO pet : activePets) {
+        		if(people.getLeaseId() = pet.getLeaseId()) {
+        			activePetsAndPeople.add(pet.toString())
+        		}
+        	}
+        }
+        
+        return ResponseEntity.ok().body(activePetsAndPeople);
+    }
 }
