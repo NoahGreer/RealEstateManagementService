@@ -264,7 +264,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all work done by a particular contractor.
      */
 	@GetMapping("/maintenance/contractor")
-    public ResponseEntity<List<String>> getMaintenaceByContractor(@RequestParam("id") Long id) {
+    public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByContractor(@RequestParam("id") Long id) {
 		log.debug("REST request to get a list of all work done by one contractor");
   
     	final LongFilter idFilter = new LongFilter();
@@ -274,18 +274,8 @@ public class ReportResource {
     	criteria.setId(idFilter);
     	
 		final List<MaintenanceDTO> maintenance = maintenanceQueryService.findByCriteria(criteria);
-		
-		//adding a header of all the contractor information
-		final List<String> maintenanceContractor = new ArrayList<>();
-		Optional<ContractorDTO> contractor = contractorService.findOne(id);
-		maintenanceContractor.add(contractor.get().toString());
-		
-		for (final MaintenanceDTO maintenanceWork : maintenance) {
-			
-			maintenanceContractor.add(maintenanceWork.toString());
-        }
     	
-    	return ResponseEntity.ok().body(maintenanceContractor);
+    	return ResponseEntity.ok().body(maintenance);
     }
 	
 	/**
