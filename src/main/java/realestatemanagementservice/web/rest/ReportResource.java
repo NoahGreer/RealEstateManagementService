@@ -180,7 +180,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
      */
 	@GetMapping("/person/contact")
-    public ResponseEntity<List<String>> getContact() {
+    public ResponseEntity<List<PersonDTO>> getContact() {
         log.debug("REST request to get all the contact information of active people");
       
 		final List<Long> activeLeaseIds = leaseQueryService.findActiveLeaseIds();
@@ -193,12 +193,7 @@ public class ReportResource {
         
         final List<PersonDTO> activePeople = personQueryService.findByCriteria(criteria);
         
-        final List<String> activeInformation = new ArrayList<>();
-        for (final PersonDTO people : activePeople) {
-        	activeInformation.add(people.toShortString());
-        }
-        
-        return ResponseEntity.ok().body(activeInformation);
+        return ResponseEntity.ok().body(activePeople);
 	}
     
     /**
