@@ -17,7 +17,7 @@ export class RentPayDialogComponent {
     this.activeModal.dismiss();
   }
 
-  confirmPayment(): void {
+  confirmPayment(id: number): void {
     this.rentService.pay(id).subscribe(() => {
       this.eventManager.broadcast('rentListModification');
       this.activeModal.close();

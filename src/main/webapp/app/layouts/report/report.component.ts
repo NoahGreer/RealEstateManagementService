@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 
 import { IReport } from 'app/shared/model/report.model';
 
@@ -15,7 +16,9 @@ import { ReportService } from './report.service';
 })
 export class ReportComponent implements OnInit, OnDestroy {
   reportData?: IReport[];
+  reportFields?: String[];
   eventSubscriber?: Subscription;
+  itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page!: number;
   predicate!: string;
