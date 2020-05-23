@@ -145,7 +145,6 @@ public class ReportResource {
      * {@code GET  /person/email} : get all the email for all people with active leases.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
      */
-	@SuppressWarnings("null")
 	@GetMapping("/person/email")
     public ResponseEntity<List<String>> getEmails() {
         log.debug("REST request to get all the Emails of active people");
@@ -174,6 +173,32 @@ public class ReportResource {
         }
         
         return ResponseEntity.ok().body(activeEmails);
+	}
+	
+	/**
+     * {@code GET  /person/contact} : get all the contact information for all people with active leases.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
+     */
+	@GetMapping("/person/contact")
+    public ResponseEntity<List<String>> getContact() {
+        log.debug("REST request to get all the contact information of active people");
+      
+		final List<Long> activeLeaseIds = leaseQueryService.findActiveLeaseIds();
+        
+        final LongFilter hasActiveLease = new LongFilter();
+        hasActiveLease.setIn(activeLeaseIds);
+        
+        final PersonCriteria criteria = new PersonCriteria();
+        criteria.setLeaseId(hasActiveLease);
+        
+        final List<PersonDTO> activePeople = personQueryService.findByCriteria(criteria);
+        
+        final List<String> activeInformation = new ArrayList<>();
+        for (final PersonDTO people : activePeople) {
+        	activeInformation.add(people.toShortString());
+        }
+        
+        return ResponseEntity.ok().body(activeInformation);
 	}
     
     /**
