@@ -26,12 +26,12 @@ public class ReportResource {
 	}
 	
 	/**
-     * {@code GET  /reports/paid} : get all the rents paid through the specified date for that month.
+	 * {@code GET  /reports/rents/paid} : get all the rents paid through the specified date for that month.
      *
      * @param date the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
      */
-    @GetMapping("/reports/paid")
+	@GetMapping("/reports/rents/paid")
     public ResponseEntity<List<RentDTO>> getRentsPaid(@RequestParam("date") 
     		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         log.debug("REST request to get Rents paid for date criteria: {}", date);

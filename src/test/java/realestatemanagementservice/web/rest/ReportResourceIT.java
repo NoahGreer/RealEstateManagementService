@@ -107,8 +107,8 @@ public class ReportResourceIT {
         rentRepository.saveAll(entities);
         rentRepository.flush();
 
-        // Get all the rentList
-        restRentMockMvc.perform(get("/api/reports/paid?date=" + criteriaDate.format(DateTimeFormatter.ISO_LOCAL_DATE)))
+        // Get list of rents paid
+        restRentMockMvc.perform(get("/api/reports/rents/paid?date=" + criteriaDate.format(DateTimeFormatter.ISO_LOCAL_DATE)))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$", hasSize(2)))
