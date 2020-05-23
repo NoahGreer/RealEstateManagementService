@@ -271,7 +271,7 @@ public class ReportResource {
     	idFilter.setEquals(id);
     	
     	final MaintenanceCriteria criteria = new MaintenanceCriteria();
-    	criteria.setId(idFilter);
+    	criteria.setContractorId(idFilter);
     	
 		final List<MaintenanceDTO> maintenance = maintenanceQueryService.findByCriteria(criteria);
     	
