@@ -391,7 +391,7 @@ public class ReportResource {
      * {@code GET  /tax/property} : get the full property tax history.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list the full property tax history.
      */
-	@GetMapping("/maintenance/contractor")
+	@GetMapping("/tax/property")
     public ResponseEntity<List<String>> getTaxHistory() {
 		log.debug("REST request to get a list of the full property tax historyr");
 		
