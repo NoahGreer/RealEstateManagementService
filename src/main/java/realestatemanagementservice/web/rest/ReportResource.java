@@ -386,4 +386,26 @@ public class ReportResource {
 
 		return ResponseEntity.ok().body(activePetsAndPeople);
 	}
+
+	/**
+     * {@code GET  /tax/property} : get the full property tax history.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list the full property tax history.
+     */
+	@GetMapping("/maintenance/contractor")
+    public ResponseEntity<List<String>> getTaxHistory() {
+		log.debug("REST request to get a list of the full property tax historyr");
+		
+		final List<PropertyTaxDTO> propertyTax = propertyTaxQueryService.findByCriteria(null);
+		
+		final List<String> taxHistory = new ArrayList<>();
+		
+		for (final PropertyTaxDTO history : propertyTax) {
+			
+			Optional<BuildingDTO> govTaxID = buildingService.findOne(history.getBuildingId());
+			
+			taxHistory.add(history.toString()+" "+govTaxID.get().toString());
+        }
+    	
+    	return ResponseEntity.ok().body(taxHistory);
+    }
 }
