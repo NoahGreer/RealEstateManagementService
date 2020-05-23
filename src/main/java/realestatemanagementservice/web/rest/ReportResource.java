@@ -78,7 +78,7 @@ public class ReportResource {
     	apartmentCriteria.setBuildingId(lf);
     	List<ApartmentDTO> apartments = apartmentQueryService.findByCriteria(apartmentCriteria);
     	
-    	List<Long> longs = new ArrayList<Long>();
+    	List<Long> longs = new ArrayList<>();
     	for (ApartmentDTO apartment : apartments) {
     		longs.add(apartment.getId());
     	}
