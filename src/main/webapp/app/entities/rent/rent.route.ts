@@ -19,6 +19,7 @@ export class RentResolve implements Resolve<IRent> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<IRent> | Observable<never> {
     const id = route.params['id'];
+
     if (id) {
       return this.service.find(id).pipe(
         flatMap((rent: HttpResponse<Rent>) => {

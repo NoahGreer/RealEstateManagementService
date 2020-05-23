@@ -10,4 +10,4 @@ import { reportRoute } from './report.route';
   imports: [RealEstateManagementServiceSharedModule, RouterModule.forChild(reportRoute)],
   declarations: [ReportComponent]
 })
-export class RealEstateManagementServiceRentModule {}
+export class RealEstateManagementServiceReportModule {}
