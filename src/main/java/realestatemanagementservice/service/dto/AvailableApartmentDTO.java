@@ -2,6 +2,7 @@ package realestatemanagementservice.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 
 import realestatemanagementservice.service.dto.ApartmentDTO;
 import realestatemanagementservice.service.BuildingService;
@@ -11,57 +12,39 @@ import realestatemanagementservice.service.BuildingService;
  */
 public class AvailableApartmentDTO implements Serializable {
 
-	private Long id;
+	private BuildingService buildingService;
 	
-	private String buildingName;
-
-    private String unitNumber;
-
-    private Boolean moveInReady;
-
-    private Long buildingId;
+	private ApartmentDTO apartment;
+    
+    Optional<BuildingDTO> aBuilding = buildingService.findOne(apartment.getBuildingId());
     
     
-    
+	
+	private Long id = apartment.getId();
+	
+	private String buildingName = aBuilding.get().getName();
+
+    private String unitNumber = apartment.getUnitNumber();
+
+    private Boolean moveInReady = apartment.isMoveInReady();
+
     
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getBuildingName() {
     	return buildingName;
     }
     
-    public void setBuildingName(String buildingName) {
-    	this.buildingName = buildingName;
-    }
     
     public String getUnitNumber() {
         return unitNumber;
     }
 
-    public void setUnitNumber(String unitNumber) {
-        this.unitNumber = unitNumber;
-    }
 
     public Boolean isMoveInReady() {
         return moveInReady;
-    }
-
-    public void setMoveInReady(Boolean moveInReady) {
-        this.moveInReady = moveInReady;
-    }
-
-    public Long getBuildingId() {
-        return buildingId;
-    }
-
-    public void setBuildingId(Long buildingId) {
-        this.buildingId = buildingId;
     }
 
     @Override
@@ -73,11 +56,11 @@ public class AvailableApartmentDTO implements Serializable {
             return false;
         }
 
-        ApartmentDTO apartmentDTO = (ApartmentDTO) o;
-        if (apartmentDTO.getId() == null || getId() == null) {
+        AvailableApartmentDTO availableApartmentDTO = (AvailableApartmentDTO) o;
+        if (availableApartmentDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), apartmentDTO.getId());
+        return Objects.equals(getId(), availableApartmentDTO.getId());
     }
 
     @Override
