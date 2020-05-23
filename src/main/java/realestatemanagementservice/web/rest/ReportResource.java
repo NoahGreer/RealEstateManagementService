@@ -202,7 +202,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
      */
 	@GetMapping("/infractions/year")
-    public ResponseEntity<List<String>> getInfractionsByYear(@RequestParam("year") @Min(1900) @Max(2100) int year) {
+    public ResponseEntity<List<InfractionDTO>> getInfractionsByYear(@RequestParam("year") @Min(1900) @Max(2100) int year) {
 		log.debug("REST request to get Infraction for year criteria: {}", year);
     	
 		final LocalDate startOfYear = LocalDate.of(year, 1, 1);
@@ -216,14 +216,8 @@ public class ReportResource {
     	criteria.setDateOccurred(dateFilter);
     	
 		final List<InfractionDTO> infractionsThisYear = infractionQueryService.findByCriteria(criteria);
-		
-		final List<String> infractionsThisYearList = new ArrayList<>();
-		for (final InfractionDTO infraction : infractionsThisYear) {
-			
-			infractionsThisYearList.add(infraction.toString());
-        }
     	
-    	return ResponseEntity.ok().body(infractionsThisYearList);
+    	return ResponseEntity.ok().body(infractionsThisYear);
     }
 	
 	/**
