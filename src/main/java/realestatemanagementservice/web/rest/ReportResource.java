@@ -5,29 +5,23 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.github.jhipster.service.filter.LocalDateFilter;
-import io.github.jhipster.service.filter.LongFilter;
 import realestatemanagementservice.service.*;
 import realestatemanagementservice.service.dto.*;
 
 @RestController
 @RequestMapping("/api")
 public class ReportResource {
+	
 	private final Logger log = LoggerFactory.getLogger(ReportResource.class);
 	
-	@Value("${jhipster.clientApp.name}")
-	private String applicationName;
-	
-	private final RentService rentService;
 	private final RentQueryService rentQueryService;
 	
-	public ReportResource(RentService rentService, RentQueryService rentQueryService) {
-		this.rentService = rentService;
+	public ReportResource(RentQueryService rentQueryService) {
 		this.rentQueryService = rentQueryService;
 	}
 	
@@ -55,5 +49,4 @@ public class ReportResource {
         List<RentDTO> rents = rentQueryService.findByCriteria(criteria);
         return ResponseEntity.ok().body(rents);
     }
-    
 }

@@ -11,14 +11,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,35 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import realestatemanagementservice.domain.Rent;
 import realestatemanagementservice.repository.RentRepository;
-import realestatemanagementservice.service.RentQueryService;
-import realestatemanagementservice.service.RentService;
-import realestatemanagementservice.service.mapper.RentMapper;
 
 public class ReportResourceIT {
 	
-	private static final LocalDate DEFAULT_DUE_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DUE_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_DUE_DATE = LocalDate.ofEpochDay(-1L);
-
-    private static final LocalDate DEFAULT_RECIEVED_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_RECIEVED_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_RECIEVED_DATE = LocalDate.ofEpochDay(-1L);
-
-    private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
-    private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
-    private static final BigDecimal SMALLER_AMOUNT = new BigDecimal(1 - 1);
-	
 	@Autowired
     private RentRepository rentRepository;
-
-    @Autowired
-    private RentMapper rentMapper;
-
-    @Autowired
-    private RentService rentService;
-
-    @Autowired
-    private RentQueryService rentQueryService;
 
     @Autowired
     private EntityManager em;
@@ -63,27 +37,6 @@ public class ReportResourceIT {
     @Autowired
     private MockMvc restRentMockMvc;
 
-    private Rent rent;
-    
-    /**
-     * Create an updated entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
-    public static Rent createEntity(EntityManager em) {
-        Rent rent = new Rent()
-            .dueDate(DEFAULT_DUE_DATE)
-            .recievedDate(DEFAULT_RECIEVED_DATE)
-            .amount(DEFAULT_AMOUNT);
-        return rent;
-    }
-    
-    @BeforeEach
-    public void initTest() {
-        rent = createEntity(em);
-    }
-	
 	@Test
     @Transactional
     public void getRentsPaid() throws Exception {
