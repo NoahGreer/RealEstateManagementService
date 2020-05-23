@@ -251,7 +251,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of open maintenance orders.
      */
 	@GetMapping("/maintenance/open")
-    public ResponseEntity<List<String>> getOpenMaintenace() {
+    public ResponseEntity<List<MaintenanceDTO>> getOpenMaintenace() {
 		log.debug("REST request to get a list of all maintenance entities that do not show the the contractor has recieved payment for work done");
   
     	final StringFilter receiptOfPayment = new StringFilter();
@@ -261,13 +261,8 @@ public class ReportResource {
     	criteria.setReceiptOfPayment(receiptOfPayment);
     	
 		final List<MaintenanceDTO> maintenanceProcessIncomplete = maintenanceQueryService.findByCriteria(criteria);
-		
-		final List<String> openMaintenance = new ArrayList<>();
-		for (final MaintenanceDTO maintenanceWork : maintenanceProcessIncomplete) {
-			openMaintenance.add(maintenanceWork.toString());
-        }
     	
-    	return ResponseEntity.ok().body(openMaintenance);
+    	return ResponseEntity.ok().body(maintenanceProcessIncomplete);
     }
 
 	/**
