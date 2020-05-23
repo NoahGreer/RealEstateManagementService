@@ -79,7 +79,7 @@ public class ReportResource {
     	List<ApartmentDTO> apartments = apartmentQueryService.findByCriteria(apartmentCriteria);
     	
     	List<Long> longs = new ArrayList<Long>();
-    	for(ApartmentDTO apartment : apartments) {
+    	for (ApartmentDTO apartment : apartments) {
     		longs.add(apartment.getId());
     	}
     	
@@ -90,7 +90,7 @@ public class ReportResource {
     	leaseCriteria.setApartmentId(lf);
     	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
     	
-    	for(LeaseDTO lease : leases) {
+    	for (LeaseDTO lease : leases) {
     		longs.add(lease.getId());
     	}
     	
