@@ -17,4 +17,8 @@ export class ReportService {
   public resourceUrl = SERVER_API_URL + 'api/reports';
 
   constructor(protected http: HttpClient) {}
+
+  getString(): String {
+    return 'This is a string';
+  }
 }

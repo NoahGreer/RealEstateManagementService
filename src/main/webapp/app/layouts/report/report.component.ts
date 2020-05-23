@@ -11,7 +11,7 @@ import { IReport } from 'app/shared/model/report.model';
 import { ReportService } from './report.service';
 
 @Component({
-  selector: 'jhi-building',
+  selector: 'jhi-report',
   templateUrl: './report.component.html'
 })
 export class ReportComponent implements OnInit, OnDestroy {
