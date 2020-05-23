@@ -344,7 +344,7 @@ public class ReportResource {
 	/**
 	 * {@code GET  /pet/owner} : get all pets and their owner's.
 	 * 
-	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all maintenance in a particular unit.
+	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list all pets and their owner's.
 	 */
 	@GetMapping("/pet/owner")
 	public ResponseEntity<List<String>> getPetsAndOwners() {
