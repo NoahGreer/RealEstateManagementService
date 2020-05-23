@@ -225,8 +225,8 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of available apartments.
      */
 	@GetMapping("/apartments/available")
-    public ResponseEntity<List<String>> getAvailableApartments() {
-		log.debug("REST request to get all currently available apartments");
+    public ResponseEntity<List<ApartmentDTO>> getAvailableApartments() {
+	log.debug("REST request to get all currently available apartments");
   
     	final BooleanFilter moveInReady = new BooleanFilter();
     	moveInReady.setEquals(true);
@@ -235,15 +235,8 @@ public class ReportResource {
     	criteria.setMoveInReady(moveInReady);
     	
 		final List<ApartmentDTO> moveInReadyApartments = apartmentQueryService.findByCriteria(criteria);
-		
-		final List<String> availableApartments = new ArrayList<>();
-		for (final ApartmentDTO readyApartments : moveInReadyApartments) {
-			Optional<BuildingDTO> aBuilding = buildingService.findOne(readyApartments.getBuildingId());
-			
-			availableApartments.add(aBuilding.get().getName()+" "+readyApartments.getUnitNumber());
-        }
     	
-    	return ResponseEntity.ok().body(availableApartments);
+    	return ResponseEntity.ok().body(moveInReadyApartments);
     }
 	
 	/**
@@ -301,7 +294,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all maintenance in a particular unit.
      */
 	@GetMapping("/maintenance/unit")
-    public ResponseEntity<List<String>> getMaintenaceByUnit(@RequestParam("id") Long id) {
+    public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByUnit(@RequestParam("id") Long id) {
 		log.debug("REST request to get a list of all maintenance in a particular unit");
   
     	final LongFilter idFilter = new LongFilter();
@@ -311,18 +304,8 @@ public class ReportResource {
     	criteria.setApartmentId(idFilter);
     	
 		final List<MaintenanceDTO> maintenance = maintenanceQueryService.findByCriteria(criteria);
-		
-		//adding a header of all the contractor information
-		final List<String> maintenanceWork = new ArrayList<>();
-		Optional<ApartmentDTO> apartment = apartmentService.findOne(id);
-		maintenanceWork.add(apartment.get().toString());
-		
-		for (final MaintenanceDTO apartmentWork : maintenance) {
-			
-			maintenanceWork.add(apartmentWork.toString());
-        }
     	
-    	return ResponseEntity.ok().body(maintenanceWork);
+    	return ResponseEntity.ok().body(maintenance);
     }
 
 	/**
@@ -349,27 +332,27 @@ public class ReportResource {
 
 		final BooleanFilter primaryContact = new BooleanFilter();
 		primaryContact.setEquals(true);
-
-		final PersonCriteria personCriteria = new PersonCriteria();
-		personCriteria.setPrimaryContact(primaryContact);
-		personCriteria.setLeaseId(hasActiveLease);
-
-		final List<PersonDTO> primaryActivePeople = personQueryService.findByCriteria(personCriteria);
-
-		final List<String> activePetsAndPeople = new ArrayList<>();
-		for (final LeaseDTO lease : leases) {
-			for (final PersonDTO person : primaryActivePeople) {
-				if (lease.getPeople().contains(person)) {
-					activePetsAndPeople.add(person.toShortString());
-					for (final PetDTO pet : lease.getPets()) {
-						activePetsAndPeople.add(pet.toString());
-					}
-				}
-			}
-		}
-
-		return ResponseEntity.ok().body(activePetsAndPeople);
-	}
+    	
+    	final PersonCriteria personCriteria = new PersonCriteria();
+        personCriteria.setPrimaryContact(primaryContact);
+        personCriteria.setLeaseId(hasActiveLease);
+        
+        final List<PersonDTO> primaryActivePeople = personQueryService.findByCriteria(personCriteria);
+    	
+        final List<String> activePetsAndPeople = new ArrayList<>();
+        for (final LeaseDTO lease : leases) {
+    		for (final PersonDTO person : primaryActivePeople) {
+    			if (lease.getPeople().contains(person)) {
+		        	activePetsAndPeople.add(person);
+		        	for (final PetDTO pet : lease.getPets()) {
+		        		activePetsAndPeople.add(pet.toString());	
+		        	}
+	        	}
+    		}
+        }
+    	
+    	return ResponseEntity.ok().body(activePetsAndPeople);
+    }
 
 	/**
      * {@code GET  /tax/property} : get the full property tax history.
