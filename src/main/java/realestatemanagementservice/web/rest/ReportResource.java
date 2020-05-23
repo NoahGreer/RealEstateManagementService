@@ -61,12 +61,18 @@ public class ReportResource {
         return ResponseEntity.ok().body(rents);
     }
     
-    @GetMapping("/reports/vehicles")
-    public ResponseEntity<List<VehicleDTO>> getAuthorizedVehicles(@RequestParam("buildingId") Long buildingId){
-    	log.debug("REST request to get authorized Vehicles for a given buildingID: {}", buildingId);
+    /**
+     * {@code GET  /reports/buildings/:id/vehicles/authorized} : get the authorized vehicles for the "id" building.
+     *
+     * @param id the id of the buildingDTO to retrieve authorized vehicles for.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with list of authorized vehicles in body.
+     */
+    @GetMapping("/reports/buildings/{id}/vehicles/authorized")
+    public ResponseEntity<List<VehicleDTO>> getBuildingAuthorizedVehicles(@PathVariable Long id) {
+		log.debug("REST request to get authorized Vehicles for Building : {}", id);
     	
     	LongFilter lf = new LongFilter();
-    	lf.setEquals(buildingId);
+    	lf.setEquals(id);
     	
     	ApartmentCriteria apartmentCriteria = new ApartmentCriteria();
     	apartmentCriteria.setBuildingId(lf);
