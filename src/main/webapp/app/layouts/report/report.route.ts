@@ -15,7 +15,7 @@ export class ReportResolve implements Resolve<IReport> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IReport> | Observable<never> {
-    let testReport = new Report(12, 'Report Name', ['House', 'Apple', 'Words']);
+    const testReport = new Report(12, 'Report Name', ['House', 'Apple', 'Words']);
 
     return of(testReport);
   }
