@@ -105,31 +105,6 @@ public class RentResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-    
-    /**
-     * {@code GET  /rents/paid} : get all the rents paid through the specified date for that month.
-     *
-     * @param date the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
-     */
-    @GetMapping("/rents/paid")
-    public ResponseEntity<List<RentDTO>> getRentsPaid(@RequestParam("date") 
-    		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        log.debug("REST request to get Rents paid for date criteria: {}", date);
-        
-        LocalDateFilter dueDateFilter = new LocalDateFilter();
-        dueDateFilter.setEquals(date.withDayOfMonth(1));
-        
-        LocalDateFilter receivedDateFilter = new LocalDateFilter();
-        receivedDateFilter.setLessThanOrEqual(date);
-        
-        RentCriteria criteria = new RentCriteria();
-        criteria.setDueDate(dueDateFilter);
-        criteria.setRecievedDate(receivedDateFilter);
-        
-        List<RentDTO> rents = rentQueryService.findByCriteria(criteria);
-        return ResponseEntity.ok().body(rents);
-    }
 
     /**
      * {@code GET  /rents/count} : count all the rents.
