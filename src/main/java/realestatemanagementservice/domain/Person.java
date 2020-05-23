@@ -272,11 +272,4 @@ public class Person implements Serializable {
             ", employmentVerificationConfirmationNumber='" + getEmploymentVerificationConfirmationNumber() + "'" +
             "}";
     }
-    
-    public String toShortString() {
-        return getFirstName() + " " + getLastName() +
-            ", " + getPhoneNumber() +
-            ", " + getEmailAddress() +
-            ", primaryContact=" + isPrimaryContact();
-    }
 }
