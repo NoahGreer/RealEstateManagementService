@@ -284,10 +284,10 @@ public class ReportResourceIT {
 		
 		//Create test Apartments to associate repairs with
 		Apartment includedApartment = new Apartment();
-		includedApartment.setUnitNumber("V123");
+		includedApartment.setUnitNumber("V12");
 		
 		Apartment excludedApartment = new Apartment();
-		excludedApartment.setUnitNumber("I456");
+		excludedApartment.setUnitNumber("I45");
 		
 		Set<Apartment> apartments = new HashSet<Apartment>();
 		apartments.add(includedApartment);
@@ -298,15 +298,19 @@ public class ReportResourceIT {
 		
 		//Repairs associated with a valid unit number
 		Maintenance firstValidMaintenance = new Maintenance();
+		firstValidMaintenance.setApartment(includedApartment);
 		firstValidMaintenance.setDescription("Valid Maintenance #1");
 		Maintenance secondValidMaintenance = new Maintenance();
+		secondValidMaintenance.setApartment(includedApartment);
 		secondValidMaintenance.setDescription("Valid Maintenance #2");
 		
 		//Repairs associated with an invalid unit number
 		Maintenance firstInvalidMaintenance = new Maintenance();
 		firstInvalidMaintenance.setDescription("Invalid Maintenance #1");
+		firstInvalidMaintenance.setApartment(excludedApartment);
 		Maintenance secondInvalidMaintenance = new Maintenance();
 		secondInvalidMaintenance.setDescription("Invalid Maintenance #2");
+		secondInvalidMaintenance.setApartment(excludedApartment);
 		
 		Set<Maintenance> validRepairs = new HashSet<Maintenance>();
 		validRepairs.add(firstValidMaintenance);
