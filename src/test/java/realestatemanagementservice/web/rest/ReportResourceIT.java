@@ -568,39 +568,39 @@ public class ReportResourceIT {
 		buildingRepository.flush();
 		
 		//Create test Apartments
-		Apartment includedApartment1 = new Apartment();
-		includedApartment1.setUnitNumber("V1");
-		includedApartment1.setMoveInReady(true);
-		includedApartment1.setBuilding(allAvailableBuilding);
+		Apartment allAvailableBuildingIncludedApartment1 = new Apartment();
+		allAvailableBuildingIncludedApartment1.setUnitNumber("V1");
+		allAvailableBuildingIncludedApartment1.setMoveInReady(true);
+		allAvailableBuildingIncludedApartment1.setBuilding(allAvailableBuilding);
 		
-		Apartment includedApartment2 = new Apartment();
-		includedApartment2.setUnitNumber("V2");
-		includedApartment2.setMoveInReady(true);
-		includedApartment2.setBuilding(allAvailableBuilding);
+		Apartment allAvailableBuildingIncludedApartment2 = new Apartment();
+		allAvailableBuildingIncludedApartment2.setUnitNumber("V2");
+		allAvailableBuildingIncludedApartment2.setMoveInReady(true);
+		allAvailableBuildingIncludedApartment2.setBuilding(allAvailableBuilding);
 
-		Apartment includedApartment3 = new Apartment();
-		includedApartment3.setUnitNumber("V3");
-		includedApartment3.setMoveInReady(true);
-		includedApartment3.setBuilding(someAvailableBuilding);;
+		Apartment someAvailableBuildingIncludedApartment3 = new Apartment();
+		someAvailableBuildingIncludedApartment3.setUnitNumber("V3");
+		someAvailableBuildingIncludedApartment3.setMoveInReady(true);
+		someAvailableBuildingIncludedApartment3.setBuilding(someAvailableBuilding);;
 		
-		Apartment excludedApartment1 = new Apartment();
-		excludedApartment1.setUnitNumber("I1");
-		excludedApartment1.setMoveInReady(false);
-		excludedApartment1.setBuilding(someAvailableBuilding);
+		Apartment someAvailableBuildingExcludedApartment1 = new Apartment();
+		someAvailableBuildingExcludedApartment1.setUnitNumber("I1");
+		someAvailableBuildingExcludedApartment1.setMoveInReady(false);
+		someAvailableBuildingExcludedApartment1.setBuilding(someAvailableBuilding);
 		
 		//Apartment not attached to any building
-		Apartment excludedApartment2 = new Apartment();
-		excludedApartment2.setUnitNumber("I2");
-		excludedApartment2.setMoveInReady(true);
+		Apartment noBuildingExcludedApartment2 = new Apartment();
+		noBuildingExcludedApartment2.setUnitNumber("I2");
+		noBuildingExcludedApartment2.setMoveInReady(true);
 		
 		Set<Apartment> includedApartments = new HashSet<Apartment>();
-		includedApartments.add(includedApartment1);
-		includedApartments.add(includedApartment2);
-		includedApartments.add(includedApartment3);
+		includedApartments.add(allAvailableBuildingIncludedApartment1);
+		includedApartments.add(allAvailableBuildingIncludedApartment2);
+		includedApartments.add(someAvailableBuildingIncludedApartment3);
 		
 		Set<Apartment> excludedApartments = new HashSet<Apartment>();
-		excludedApartments.add(excludedApartment1);
-		excludedApartments.add(excludedApartment2);
+		excludedApartments.add(someAvailableBuildingExcludedApartment1);
+		excludedApartments.add(noBuildingExcludedApartment2);
 		
 		apartmentRepository.saveAll(includedApartments);
 		apartmentRepository.saveAll(excludedApartments);
@@ -609,8 +609,10 @@ public class ReportResourceIT {
 		restRentMockMvc.perform(get("/api/reports/apartments/available"))
 			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$", hasSize(3)))
-			.andExpect(jsonPath("$[0].id", equalTo(includedApartment1.getId().intValue())))
-			.andExpect(jsonPath("$[1].id", equalTo(includedApartment2.getId().intValue())))
-			.andExpect(jsonPath("$[2].id", equalTo(includedApartment3.getId().intValue())));
+			.andExpect(jsonPath("$[0].id", equalTo(allAvailableBuildingIncludedApartment1.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(allAvailableBuildingIncludedApartment2.getId().intValue())))
+			.andExpect(jsonPath("$[2].id", equalTo(someAvailableBuildingIncludedApartment3.getId().intValue())));
 	}
+	
+	
 }
