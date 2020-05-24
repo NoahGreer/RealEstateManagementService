@@ -489,7 +489,7 @@ public class ReportResourceIT {
 		maintenanceRepository.flush();
 		
 		restRentMockMvc.perform(get("/api/reports/maintenance/open"))
-			.andExpect(status().isOk())
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$", hasSize(2)))
 			.andExpect(jsonPath("$[0].id", equalTo(firstValidMaintenance.getId().intValue())))
 			.andExpect(jsonPath("$[1].id", equalTo(secondValidMaintenance.getId().intValue())));
@@ -544,5 +544,73 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$[1].id", equalTo(secondValidInfraction.getId().intValue())));
 	}
 	
-	
+	@Test
+	@Transactional
+	public void getAvailableApartments() throws Exception {
+		
+		//Creating test buildings to attach apartments to
+		Building allAvailableBuilding = new Building();
+		allAvailableBuilding.setName("All Available");
+		
+		Building someAvailableBuilding = new Building();
+		someAvailableBuilding.setName("Some Available");
+		
+		Building nonAvailableBuilding = new Building();
+		nonAvailableBuilding.setName("No Available");
+		
+		Set<Building> buildingEntities = new HashSet<>();
+		buildingEntities.add(allAvailableBuilding);
+		buildingEntities.add(someAvailableBuilding);
+		buildingEntities.add(nonAvailableBuilding);
+
+		// Initialize buildings in the database
+		buildingRepository.saveAll(buildingEntities);
+		buildingRepository.flush();
+		
+		//Create test Apartments
+		Apartment includedApartment1 = new Apartment();
+		includedApartment1.setUnitNumber("V1");
+		includedApartment1.setMoveInReady(true);
+		includedApartment1.setBuilding(allAvailableBuilding);
+		
+		Apartment includedApartment2 = new Apartment();
+		includedApartment2.setUnitNumber("V2");
+		includedApartment2.setMoveInReady(true);
+		includedApartment2.setBuilding(allAvailableBuilding);
+
+		Apartment includedApartment3 = new Apartment();
+		includedApartment3.setUnitNumber("V3");
+		includedApartment3.setMoveInReady(true);
+		includedApartment3.setBuilding(someAvailableBuilding);;
+		
+		Apartment excludedApartment1 = new Apartment();
+		excludedApartment1.setUnitNumber("I1");
+		excludedApartment1.setMoveInReady(false);
+		excludedApartment1.setBuilding(someAvailableBuilding);
+		
+		//Apartment not attached to any building
+		Apartment excludedApartment2 = new Apartment();
+		excludedApartment2.setUnitNumber("I2");
+		excludedApartment2.setMoveInReady(true);
+		
+		Set<Apartment> includedApartments = new HashSet<Apartment>();
+		includedApartments.add(includedApartment1);
+		includedApartments.add(includedApartment2);
+		includedApartments.add(includedApartment3);
+		
+		Set<Apartment> excludedApartments = new HashSet<Apartment>();
+		excludedApartments.add(excludedApartment1);
+		excludedApartments.add(excludedApartment2);
+		
+		apartmentRepository.saveAll(includedApartments);
+		apartmentRepository.saveAll(excludedApartments);
+		apartmentRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/apartments/available"))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(3)))
+			.andExpect(jsonPath("$[0].id", equalTo(includedApartment1.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(includedApartment2.getId().intValue())))
+			.andExpect(jsonPath("$[2].id", equalTo(includedApartment3.getId().intValue())));
+	}
 }
