@@ -473,8 +473,8 @@ public class ReportResourceIT {
 		firstInvalidMaintenance.setDescription("Invalid Maintenance #1");
 		firstInvalidMaintenance.setRepairPaidOn(today);;
 		Maintenance secondInvalidMaintenance = new Maintenance();
+		secondInvalidMaintenance.setDescription("Invalid Maintenance #2");
 		secondInvalidMaintenance.setDateComplete(yesterday);;
-		
 		
 		Set<Maintenance> validRepairs = new HashSet<Maintenance>();
 		validRepairs.add(firstValidMaintenance);
