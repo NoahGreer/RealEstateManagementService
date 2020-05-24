@@ -614,5 +614,97 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$[2].id", equalTo(someAvailableBuildingIncludedApartment3.getId().intValue())));
 	}
 	
+	@Test
+	@Transactional
+	public void getEmails() throws Exception {
+		
+		// Create test leases to associate test people with
+		final LocalDate today = LocalDate.now();
+		final LocalDate yesterday = today.minusDays(1);
+		
+		final LocalDate oneYearAfterToday = today.plusYears(1);
+		
+		final LocalDate oneYearBeforeYesterday = yesterday.minusYears(1);
+		final LocalDate oneYearAfterYesterday = yesterday.plusYears(1);
+
+		Lease excludedExpiredLease = new Lease();
+		excludedExpiredLease.dateSigned(oneYearBeforeYesterday);
+		excludedExpiredLease.endDate(yesterday);
+
+		Lease includedCurrentLease = new Lease();
+		includedCurrentLease.dateSigned(today);
+		includedCurrentLease.endDate(oneYearAfterToday);
+		
+		Lease includedSecondCurrentLease = new Lease();
+		includedSecondCurrentLease.dateSigned(yesterday);
+		includedSecondCurrentLease.endDate(oneYearAfterYesterday);
+		
+		Set<Lease> leaseEntities = new HashSet<>();
+		leaseEntities.add(excludedExpiredLease);
+		leaseEntities.add(includedCurrentLease);
+		leaseEntities.add(includedSecondCurrentLease);
+
+		// Initialize leases in the database
+		leaseRepository.saveAll(leaseEntities);
+		leaseRepository.flush();
+
+		// Person associated with an expired lease should be excluded from the report
+		Person excludedExpiredLeasePerson = new Person();
+		excludedExpiredLeasePerson.addLease(excludedExpiredLease);
+		excludedExpiredLeasePerson.setEmailAddress("ExpiredLease@Bademail");
+
+		// Person associated with a current lease for the included building should be included in the report
+		Person includedCurrentLeasePerson1 = new Person();
+		includedCurrentLeasePerson1.addLease(includedCurrentLease);
+		includedCurrentLeasePerson1.setEmailAddress("GoodLease@Goodemail");
+		
+		// Second Person associated with a current lease for the included building should be included in the report
+		Person includedCurrentLeasePerson2 = new Person();
+		includedCurrentLeasePerson2.addLease(includedCurrentLease);
+		includedCurrentLeasePerson2.setEmailAddress("GoodLease@SecondPersonOnLease");
+
+		// Person associated with a current lease but without an email should not be included
+		Person excludedCurrentLeasePersonMinor = new Person();
+		excludedCurrentLeasePersonMinor.addLease(includedCurrentLease);
+		excludedCurrentLeasePersonMinor.setEmailAddress("ExcludeGoodEmail@BadMinor");
+		excludedCurrentLeasePersonMinor.setIsMinor(true);
+		
+		// Person associated with the second current lease should be included in the report
+		Person includedSecondCurrentLeasePerson = new Person();
+		includedSecondCurrentLeasePerson.addLease(includedSecondCurrentLease);
+		includedSecondCurrentLeasePerson.setEmailAddress("SecondGoodLease@Goodemail");
+		
+		// Person associated with the second current lease but flagged as minor and to be excluded
+		Person excludedSecondCurrentLeasePerson2 = new Person();
+		excludedSecondCurrentLeasePerson2.addLease(includedSecondCurrentLease);
+		excludedSecondCurrentLeasePerson2.setEmailAddress(null);
+		
+		// Person not associated with a lease to be excluded
+		Person excludedNoLeasePerson = new Person();
+		excludedNoLeasePerson.addLease(null);
+		excludedNoLeasePerson.setEmailAddress("NoLease@BadEmail");
+
+		
+		Set<Person> personEntities = new HashSet<>();
+		personEntities.add(excludedExpiredLeasePerson);
+		personEntities.add(includedCurrentLeasePerson1);
+		personEntities.add(includedCurrentLeasePerson2);
+		personEntities.add(excludedCurrentLeasePersonMinor);
+		personEntities.add(includedSecondCurrentLeasePerson);
+		personEntities.add(excludedSecondCurrentLeasePerson2);
+		personEntities.add(excludedNoLeasePerson);
+
+		// Initialize Person in the database
+		personRepository.saveAll(personEntities);
+		personRepository.flush();
+		
+		// Get list of authorized vehicles
+		restRentMockMvc.perform(get("/api/reports/person/email"))
+				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(jsonPath("$", hasSize(3)))
+				.andExpect(jsonPath("$[0].emailAddress", equalTo(includedCurrentLeasePerson1.getEmailAddress())))
+				.andExpect(jsonPath("$[1].emailAddress", equalTo(includedCurrentLeasePerson2.getEmailAddress())))
+				.andExpect(jsonPath("$[3].emailAddress", equalTo(includedSecondCurrentLeasePerson.getEmailAddress())));
+	}
 	
 }
