@@ -415,7 +415,7 @@ public class ReportResourceIT {
 		contractorRepository.saveAll(contractors);
 		contractorRepository.flush();
 		
-		//Repairs associated with a valid unit number
+		//Repairs associated with a valid contractor
 		Maintenance firstValidMaintenance = new Maintenance();
 		firstValidMaintenance.setContractor(includedContractor);
 		firstValidMaintenance.setDescription("Valid Maintenance #1");
@@ -423,7 +423,7 @@ public class ReportResourceIT {
 		secondValidMaintenance.setContractor(includedContractor);
 		secondValidMaintenance.setDescription("Valid Maintenance #2");
 		
-		//Repairs associated with an invalid unit number
+		//Repairs associated with an invalid invalid
 		Maintenance firstInvalidMaintenance = new Maintenance();
 		firstInvalidMaintenance.setDescription("Invalid Maintenance #1");
 		firstInvalidMaintenance.setContractor(excludedContractor);
@@ -460,7 +460,7 @@ public class ReportResourceIT {
 		final LocalDate today = LocalDate.now();
 		final LocalDate yesterday = today.minusDays(1);
 		
-		//Repairs associated with a valid unit number
+		//Repairs associated with a valid ReceiptOfPayment
 		Maintenance firstValidMaintenance = new Maintenance();
 		firstValidMaintenance.setDescription("Valid Maintenance #1");
 		firstValidMaintenance.setReceiptOfPayment("PaidInFull1");
@@ -468,7 +468,7 @@ public class ReportResourceIT {
 		secondValidMaintenance.setDescription("Valid Maintenance #2");
 		secondValidMaintenance.setReceiptOfPayment("PaidInFull2");;
 		
-		//Repairs associated with an invalid unit number
+		//Repairs not associated with ReceiptOfPayment
 		Maintenance firstInvalidMaintenance = new Maintenance();
 		firstInvalidMaintenance.setDescription("Invalid Maintenance #1");
 		firstInvalidMaintenance.setRepairPaidOn(today);;
@@ -507,7 +507,7 @@ public class ReportResourceIT {
 		
 		final int thisYear = today.getYear();
 		
-		//Repairs associated with a valid unit number
+		//Infractions that occurred this year
 		Infraction firstValidInfraction = new Infraction();
 		firstValidInfraction.setResolution("ValidResolution1");
 		firstValidInfraction.setDateOccurred(lastMont);
@@ -515,7 +515,7 @@ public class ReportResourceIT {
 		secondValidInfraction.setResolution("ValidResolution1");
 		secondValidInfraction.setDateOccurred(today);
 		
-		//Repairs associated with an invalid unit number
+		//Infractions that did not occurre this year
 		Infraction firstInvalidInfraction = new Infraction();
 		firstInvalidInfraction.setResolution("InvalidResolutionLastyear");
 		firstInvalidInfraction.setDateOccurred(lastYear);
@@ -543,4 +543,6 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$[0].id", equalTo(firstValidInfraction.getId().intValue())))
 			.andExpect(jsonPath("$[1].id", equalTo(secondValidInfraction.getId().intValue())));
 	}
+	
+	
 }
