@@ -197,11 +197,11 @@ public class ReportResource {
 	}
     
     /**
-     * {@code GET  /infractions/year} : get all the infractions in a given year.
+     * {@code GET  /infractions/:id/year} : get all the infractions in a given year.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
      */
-	@GetMapping("/infractions/year")
+	@GetMapping("/infractions/{id}/year")
     public ResponseEntity<List<InfractionDTO>> getInfractionsByYear(@RequestParam("year") @Min(1900) @Max(2100) int year) {
 		log.debug("REST request to get Infraction for year criteria: {}", year);
     	
@@ -351,6 +351,8 @@ public class ReportResource {
 	@GetMapping("/tax/property")
     public ResponseEntity<List<String>> getTaxHistory() {
 		log.debug("REST request to get a list of the full property tax historyr");
+		
+		
 		
 		final List<PropertyTaxDTO> propertyTax = propertyTaxQueryService.findByCriteria(null);
 		
