@@ -85,9 +85,19 @@ public class ReportResource {
     	
 		LongFilter appartmentIdsFilter = new LongFilter();
 		appartmentIdsFilter.setIn(apartmentIds);
+		
+		final LocalDate today = LocalDate.now();
+		
+		LocalDateFilter dateSignedFilter = new LocalDateFilter();
+		dateSignedFilter.setLessThanOrEqual(today);
+		
+		LocalDateFilter endDateFilter = new LocalDateFilter();
+		endDateFilter.setGreaterThan(today);
     	
     	LeaseCriteria leaseCriteria = new LeaseCriteria();
     	leaseCriteria.setApartmentId(appartmentIdsFilter);
+    	leaseCriteria.setDateSigned(dateSignedFilter);
+    	leaseCriteria.setEndDate(endDateFilter);
     	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
     	
 		List<Long> leaseIds = new ArrayList<>();
