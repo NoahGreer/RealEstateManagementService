@@ -280,26 +280,6 @@ public class ReportResource {
     	
     	return ResponseEntity.ok().body(maintenance);
     }
-	
-	/**
-     * {@code GET  /maintenance/unit/:id} : get all maintenance in a particular unit.
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all maintenance in a particular unit.
-     */
-	@GetMapping("/maintenance/unit/{id}")
-    public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByUnit(@RequestParam("id") Long id) {
-		log.debug("REST request to get a list of all maintenance in a particular unit for criteria: {}", id);
-  
-    	final LongFilter idFilter = new LongFilter();
-    	idFilter.setEquals(id);
-    	
-    	final MaintenanceCriteria criteria = new MaintenanceCriteria();
-    	criteria.setApartmentId(idFilter);
-    	
-		final List<MaintenanceDTO> maintenance = maintenanceQueryService.findByCriteria(criteria);
-    	
-    	return ResponseEntity.ok().body(maintenance);
-    }
 
 	/**
      * {@code GET  /reports/pet/owner} : get all pets and their owner's.
