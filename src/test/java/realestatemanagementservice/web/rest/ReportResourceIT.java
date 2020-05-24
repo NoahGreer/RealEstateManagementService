@@ -449,4 +449,47 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$[0].id", equalTo(firstValidMaintenance.getId().intValue())))
 			.andExpect(jsonPath("$[1].id", equalTo(secondValidMaintenance.getId().intValue())));
 	}
+	
+	@Test
+	@Transactional
+	public void getOpenMaintenace() throws Exception {
+		
+		final LocalDate today = LocalDate.now();
+		final LocalDate yesterday = today.minusDays(1);
+		
+		//Repairs associated with a valid unit number
+		Maintenance firstValidMaintenance = new Maintenance();
+		firstValidMaintenance.setDescription("Valid Maintenance #1");
+		firstValidMaintenance.setReceiptOfPayment("PaidInFull1");
+		Maintenance secondValidMaintenance = new Maintenance();
+		secondValidMaintenance.setDescription("Valid Maintenance #2");
+		secondValidMaintenance.setReceiptOfPayment("PaidInFull2");;
+		
+		//Repairs associated with an invalid unit number
+		Maintenance firstInvalidMaintenance = new Maintenance();
+		firstInvalidMaintenance.setDescription("Invalid Maintenance #1");
+		firstInvalidMaintenance.setRepairPaidOn(today);;
+		Maintenance secondInvalidMaintenance = new Maintenance();
+		secondInvalidMaintenance.setDateComplete(yesterday);;
+		
+		
+		Set<Maintenance> validRepairs = new HashSet<Maintenance>();
+		validRepairs.add(firstValidMaintenance);
+		validRepairs.add(secondValidMaintenance);
+		
+		Set<Maintenance> invalidRepairs = new HashSet<Maintenance>();
+		invalidRepairs.add(firstInvalidMaintenance);
+		invalidRepairs.add(secondInvalidMaintenance);
+		
+		maintenanceRepository.saveAll(validRepairs);
+		maintenanceRepository.saveAll(invalidRepairs);
+		maintenanceRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/maintenance/open"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", equalTo(firstValidMaintenance.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(secondValidMaintenance.getId().intValue())));
+
+	}
 }
