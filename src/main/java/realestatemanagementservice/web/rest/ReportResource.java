@@ -37,6 +37,7 @@ public class ReportResource {
 	private final MaintenanceQueryService maintenanceQueryService;
 	private final InfractionQueryService infractionQueryService;
 	private final PersonQueryService personQueryService;
+	private final PropertyTaxQueryService propertyTaxQueryService;
 	private final RentQueryService rentQueryService;
 	private final VehicleQueryService vehicleQueryService;
 	
@@ -46,6 +47,7 @@ public class ReportResource {
 			ContractorService contractorService,
 			InfractionQueryService infractionQueryService,
 			PersonQueryService personQueryService,
+			PropertyTaxQueryService propertyTaxQueryService,
 			RentQueryService rentQueryService, 
 			LeaseQueryService leaseQueryService, 
 			MaintenanceQueryService maintenanceQueryService,
@@ -56,6 +58,7 @@ public class ReportResource {
 		this.contractorService = contractorService;
 		this.infractionQueryService = infractionQueryService;
 		this.personQueryService = personQueryService;
+		this.propertyTaxQueryService = propertyTaxQueryService;
 		this.leaseQueryService = leaseQueryService;
 		this.maintenanceQueryService = maintenanceQueryService;
 		this.rentQueryService = rentQueryService;
@@ -87,7 +90,7 @@ public class ReportResource {
         return ResponseEntity.ok().body(rents);
     }
     
-    /**
+	/**
      * {@code GET  /reports/buildings/:id/vehicles/authorized} : get the authorized vehicles for the "id" building.
      *
      * @param id the id of the buildingDTO to retrieve authorized vehicles for.
@@ -140,12 +143,12 @@ public class ReportResource {
     	
     	return ResponseEntity.ok().body(vehicles);
     }
-	
+    
 	/**
-     * {@code GET  /person/email} : get all the email for all people with active leases.
+     * {@code GET  /reports/person/email} : get all the email for all people with active leases.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
      */
-	@GetMapping("/person/email")
+	@GetMapping("/reports/person/email")
     public ResponseEntity<List<String>> getEmails() {
         log.debug("REST request to get all the Emails of active people");
         
@@ -176,10 +179,10 @@ public class ReportResource {
 	}
 	
 	/**
-     * {@code GET  /person/contact} : get all the contact information for all people with active leases.
+     * {@code GET  /reports/person/contact} : get all the contact information for all people with active leases.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
      */
-	@GetMapping("/person/contact")
+	@GetMapping("/reports/person/contact")
     public ResponseEntity<List<PersonDTO>> getContact() {
         log.debug("REST request to get all the contact information of active people");
       
@@ -197,11 +200,11 @@ public class ReportResource {
 	}
     
     /**
-     * {@code GET  /infractions/:id/year} : get all the infractions in a given year.
+     * {@code GET  /reports/infractions/:id/year} : get all the infractions in a given year.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
      */
-	@GetMapping("/infractions/{id}/year")
+	@GetMapping("/reports/infractions/{id}/year")
     public ResponseEntity<List<InfractionDTO>> getInfractionsByYear(@RequestParam("year") @Min(1900) @Max(2100) int year) {
 		log.debug("REST request to get Infraction for year criteria: {}", year);
     	
@@ -221,10 +224,10 @@ public class ReportResource {
     }
 	
 	/**
-     * {@code GET  /apartments/available} : get all the currently available apartments.
+     * {@code GET  /reports/apartments/available} : get all the currently available apartments.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of available apartments.
      */
-	@GetMapping("/apartments/available")
+	@GetMapping("/reports/apartments/available")
     public ResponseEntity<List<ApartmentDTO>> getAvailableApartments() {
 	log.debug("REST request to get all currently available apartments");
   
@@ -240,10 +243,10 @@ public class ReportResource {
     }
 	
 	/**
-     * {@code GET  /maintenance/open} : get all the open maintenance orders.
+     * {@code GET  /reports/maintenance/open} : get all the open maintenance orders.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of open maintenance orders.
      */
-	@GetMapping("/maintenance/open")
+	@GetMapping("/reports/maintenance/open")
     public ResponseEntity<List<MaintenanceDTO>> getOpenMaintenace() {
 		log.debug("REST request to get a list of all maintenance entities that do not show the the contractor has recieved payment for work done");
   
@@ -263,7 +266,7 @@ public class ReportResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all work done by a particular contractor.
      */
-	@GetMapping("/maintenance/contractor/{id}")
+	@GetMapping("/reports/maintenance/contractor/{id}")
     public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByContractor(@RequestParam("id") Long id) {
 		log.debug("REST request to get a list of all work done by one contractor for id criteria: {}", id);
   
@@ -299,11 +302,10 @@ public class ReportResource {
     }
 
 	/**
-	 * {@code GET  /pet/owner} : get all pets and their owner's.
-	 * 
-	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list all pets and their owner's.
-	 */
-	@GetMapping("/pet/owner")
+     * {@code GET  /reports/pet/owner} : get all pets and their owner's.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list all pets and their owner's.
+     */
+	@GetMapping("/reports/pet/owner")
 	public ResponseEntity<List<String>> getPetsAndOwners() {
 		log.debug("REST request to get a list of all pets and their owner's");
 
@@ -345,14 +347,12 @@ public class ReportResource {
     }
 
 	/**
-     * {@code GET  /tax/property} : get the full property tax history.
+     * {@code GET  /reports/tax/property} : get the full property tax history.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list the full property tax history.
      */
-	@GetMapping("/tax/property")
+	@GetMapping("/reports/tax/property")
     public ResponseEntity<List<String>> getTaxHistory() {
 		log.debug("REST request to get a list of the full property tax historyr");
-		
-		
 		
 		final List<PropertyTaxDTO> propertyTax = propertyTaxQueryService.findByCriteria(null);
 		
@@ -366,5 +366,56 @@ public class ReportResource {
         }
     	
     	return ResponseEntity.ok().body(taxHistory);
+    }
+	
+    @GetMapping("/reports/apartments/{id}/maintenance/history")
+    public ResponseEntity<List<MaintenanceDTO>> getApartmentMaintenanceHistory(@PathVariable Long id) {
+    	log.debug("REST request to get Apartment Maintenance history for id criteria: {}", id);
+    	
+    	LongFilter apartmentIdFilter = new LongFilter();
+    	apartmentIdFilter.setEquals(id);
+    	
+    	MaintenanceCriteria maintenanceCriteria = new MaintenanceCriteria();
+    	maintenanceCriteria.setApartmentId(apartmentIdFilter);
+    	
+    	List<MaintenanceDTO> repairs = maintenanceQueryService.findByCriteria(maintenanceCriteria);
+    	
+    	return ResponseEntity.ok().body(repairs);
+    }
+    
+    @GetMapping("/reports/apartments/{id}/tenants")
+    public ResponseEntity<List<PersonDTO>> getApartmentTenants(@PathVariable Long id) {
+    	log.debug("REST request to get Apartment tenants for id criteria: {}", id);
+    	
+    	LongFilter apartmentIdFilter = new LongFilter();
+    	apartmentIdFilter.setEquals(id);
+    	
+    	final LocalDate today = LocalDate.now();
+    	
+    	LocalDateFilter dateSignedFilter = new LocalDateFilter();
+    	dateSignedFilter.setLessThanOrEqual(today);
+    	
+    	LocalDateFilter endDateFilter = new LocalDateFilter();
+    	endDateFilter.setGreaterThanOrEqual(today);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setApartmentId(apartmentIdFilter);
+    	leaseCriteria.setDateSigned(dateSignedFilter);
+    	leaseCriteria.setEndDate(endDateFilter);
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+    	List<Long> leaseIds = new ArrayList<>();
+    	for (LeaseDTO lease : leases) {
+    		leaseIds.add(lease.getId());
+    	}
+    	
+		LongFilter leaseIdsFilter = new LongFilter();
+		leaseIdsFilter.setIn(leaseIds);
+		
+    	PersonCriteria personCriteria = new PersonCriteria();
+    	personCriteria.setLeaseId(leaseIdsFilter);
+    	List<PersonDTO> people = personQueryService.findByCriteria(personCriteria);
+    	
+    	return ResponseEntity.ok().body(people);
     }
 }

@@ -27,16 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import realestatemanagementservice.RealEstateManagementServiceApp;
-import realestatemanagementservice.domain.Apartment;
-import realestatemanagementservice.domain.Building;
-import realestatemanagementservice.domain.Lease;
-import realestatemanagementservice.domain.Rent;
-import realestatemanagementservice.domain.Vehicle;
-import realestatemanagementservice.repository.ApartmentRepository;
-import realestatemanagementservice.repository.BuildingRepository;
-import realestatemanagementservice.repository.LeaseRepository;
-import realestatemanagementservice.repository.RentRepository;
-import realestatemanagementservice.repository.VehicleRepository;
+import realestatemanagementservice.domain.*;
+import realestatemanagementservice.repository.*;
 
 /**
  * Integration tests for the {@link RentResource} REST controller.
@@ -61,6 +53,12 @@ public class ReportResourceIT {
 	
 	@Autowired
 	private VehicleRepository vehicleRepository;
+	
+	@Autowired
+	private MaintenanceRepository maintenanceRepository;
+	
+	@Autowired
+	private PersonRepository personRepository;
 
 	@Autowired
 	private EntityManager em;
@@ -262,5 +260,133 @@ public class ReportResourceIT {
 				.andExpect(jsonPath("$", hasSize(2)))
 				.andExpect(jsonPath("$[0].id", equalTo(includedBuildingFirstApartmentCurrentLeaseVehicle.getId().intValue())))
 				.andExpect(jsonPath("$[1].id", equalTo(includedBuildingSecondApartmentCurrentLeaseVehicle.getId().intValue())));
+	}
+	
+	@Test
+	@Transactional
+	public void getApartmentMaintenanceHistory() throws Exception {
+		
+		//Create test Apartments to associate repairs with
+		Apartment includedApartment = new Apartment();
+		includedApartment.setUnitNumber("V12");
+		
+		Apartment excludedApartment = new Apartment();
+		excludedApartment.setUnitNumber("I45");
+		
+		Set<Apartment> apartments = new HashSet<Apartment>();
+		apartments.add(includedApartment);
+		apartments.add(excludedApartment);
+		
+		apartmentRepository.saveAll(apartments);
+		apartmentRepository.flush();
+		
+		//Repairs associated with a valid unit number
+		Maintenance firstValidMaintenance = new Maintenance();
+		firstValidMaintenance.setApartment(includedApartment);
+		firstValidMaintenance.setDescription("Valid Maintenance #1");
+		Maintenance secondValidMaintenance = new Maintenance();
+		secondValidMaintenance.setApartment(includedApartment);
+		secondValidMaintenance.setDescription("Valid Maintenance #2");
+		
+		//Repairs associated with an invalid unit number
+		Maintenance firstInvalidMaintenance = new Maintenance();
+		firstInvalidMaintenance.setDescription("Invalid Maintenance #1");
+		firstInvalidMaintenance.setApartment(excludedApartment);
+		Maintenance secondInvalidMaintenance = new Maintenance();
+		secondInvalidMaintenance.setDescription("Invalid Maintenance #2");
+		secondInvalidMaintenance.setApartment(excludedApartment);
+		
+		Set<Maintenance> validRepairs = new HashSet<Maintenance>();
+		validRepairs.add(firstValidMaintenance);
+		validRepairs.add(secondValidMaintenance);
+		
+		Set<Maintenance> invalidRepairs = new HashSet<Maintenance>();
+		invalidRepairs.add(firstInvalidMaintenance);
+		invalidRepairs.add(secondInvalidMaintenance);
+		
+		includedApartment.setMaintenances(validRepairs);
+		excludedApartment.setMaintenances(invalidRepairs);
+		
+		maintenanceRepository.saveAll(validRepairs);
+		maintenanceRepository.saveAll(invalidRepairs);
+		maintenanceRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/apartments/" + includedApartment.getId() + "/maintenance/history"))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", equalTo(firstValidMaintenance.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(secondValidMaintenance.getId().intValue())));
+	}
+	
+	@Test
+	@Transactional
+	public void getApartmentTenants() throws Exception {
+		
+		//Create test Apartments to link leases to
+		Apartment includedApartment = new Apartment();
+		includedApartment.setUnitNumber("Included Apartment");
+		Apartment excludedApartment = new Apartment();
+		excludedApartment.setUnitNumber("Excluded Apartment");
+		
+		Set<Apartment> apartments = new HashSet<Apartment>();
+		apartments.add(includedApartment);
+		apartments.add(excludedApartment);
+		
+		apartmentRepository.saveAll(apartments);
+		apartmentRepository.flush();
+		
+		final LocalDate today = LocalDate.now();
+		
+		//Create test Leases to link People to
+		Lease validLeaseValidApartment = new Lease();
+		validLeaseValidApartment.setDateSigned(today.minusYears(1));
+		validLeaseValidApartment.setEndDate(today.plusYears(1));
+		Lease invalidLeaseValidApartment = new Lease();
+		invalidLeaseValidApartment.setDateSigned(today.minusYears(2));
+		invalidLeaseValidApartment.setEndDate(today.minusYears(1));
+		
+		Lease validLeaseInvalidApartment = new Lease();
+		validLeaseInvalidApartment.setDateSigned(today.minusYears(1));
+		validLeaseInvalidApartment.setEndDate(today.plusYears(1));
+		Lease invalidLeaseInvalidApartment = new Lease();
+		invalidLeaseInvalidApartment.setDateSigned(today.minusYears(2));
+		invalidLeaseInvalidApartment.setEndDate(today.minusYears(1));
+		
+		includedApartment.addLease(validLeaseValidApartment);
+		includedApartment.addLease(invalidLeaseValidApartment);
+		excludedApartment.addLease(validLeaseInvalidApartment);
+		excludedApartment.addLease(invalidLeaseInvalidApartment);
+		
+		Set<Lease> leases = new HashSet<Lease>();
+		leases.add(validLeaseValidApartment);
+		leases.add(invalidLeaseValidApartment);
+		leases.add(validLeaseInvalidApartment);
+		leases.add(invalidLeaseInvalidApartment);
+		
+		leaseRepository.saveAll(leases);
+		leaseRepository.flush();
+		
+		//Create test People to link to Leases
+		Person validPerson = new Person();
+		validPerson.setFirstName("ValidPerson");
+		Person invalidPerson = new Person();
+		invalidPerson.setFirstName("InvalidPerson");
+		
+		validPerson.addLease(validLeaseValidApartment);
+		invalidPerson.addLease(invalidLeaseInvalidApartment);
+		invalidPerson.addLease(validLeaseInvalidApartment);
+		invalidPerson.addLease(invalidLeaseValidApartment);
+		
+		Set<Person> people = new HashSet<Person>();
+		people.add(validPerson);
+		people.add(invalidPerson);
+		
+		personRepository.saveAll(people);
+		personRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/apartments/"+ includedApartment.getId() +"/tenants"))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(1)))
+			.andExpect(jsonPath("$[0].id", equalTo(validPerson.getId().intValue())));
 	}
 }
