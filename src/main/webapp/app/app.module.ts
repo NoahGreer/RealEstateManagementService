@@ -10,7 +10,6 @@ import { RealEstateManagementServiceEntityModule } from './entities/entity.modul
 import { RealEstateManagementServiceReportModule } from './layouts/report/report.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { MainComponent } from './layouts/main/main.component';
-import { ReportComponent } from './layouts/report/report.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
