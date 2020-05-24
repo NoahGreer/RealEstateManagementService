@@ -78,23 +78,23 @@ public class ReportResource {
     	apartmentCriteria.setBuildingId(lf);
     	List<ApartmentDTO> apartments = apartmentQueryService.findByCriteria(apartmentCriteria);
     	
-    	List<Long> longs = new ArrayList<>();
+    	List<Long> apartmentIds = new ArrayList<>();
     	for (ApartmentDTO apartment : apartments) {
-    		longs.add(apartment.getId());
+    		apartmentIds.add(apartment.getId());
     	}
     	
-    	lf.setIn(longs);
-    	longs.clear();
+    	lf.setIn(apartmentIds);
     	
     	LeaseCriteria leaseCriteria = new LeaseCriteria();
     	leaseCriteria.setApartmentId(lf);
     	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
     	
+		List<Long> leaseIds = new ArrayList<>();
     	for (LeaseDTO lease : leases) {
-    		longs.add(lease.getId());
+    		leaseIds.add(lease.getId());
     	}
     	
-    	lf.setIn(longs);
+    	lf.setIn(leaseIds);
     	
     	VehicleCriteria vehicleCriteria = new VehicleCriteria();
     	vehicleCriteria.setLeaseId(lf);
