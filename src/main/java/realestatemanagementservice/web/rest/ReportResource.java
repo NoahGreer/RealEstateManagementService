@@ -200,11 +200,11 @@ public class ReportResource {
 	}
     
     /**
-     * {@code GET  /reports/infractions/:id/year} : get all the infractions in a given year.
+     * {@code GET  /reports/infractions/year/:id} : get all the infractions in a given year.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
      */
-	@GetMapping("/reports/infractions/{id}/year")
+	@GetMapping("/reports/infractions/year/{id}")
     public ResponseEntity<List<InfractionDTO>> getInfractionsByYear(@RequestParam("year") @Min(1900) @Max(2100) int year) {
 		log.debug("REST request to get Infraction for year criteria: {}", year);
     	
@@ -228,8 +228,8 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of available apartments.
      */
 	@GetMapping("/reports/apartments/available")
-    public ResponseEntity<List<ApartmentDTO>> getAvailableApartments() {
-	log.debug("REST request to get all currently available apartments");
+    public ResponseEntity<List<AvailableApartmentDTO>> getAvailableApartments() {
+		log.debug("REST request to get all currently available apartments");
   
     	final BooleanFilter moveInReady = new BooleanFilter();
     	moveInReady.setEquals(true);
@@ -238,8 +238,15 @@ public class ReportResource {
     	criteria.setMoveInReady(moveInReady);
     	
 		final List<ApartmentDTO> moveInReadyApartments = apartmentQueryService.findByCriteria(criteria);
+		
+		final List<AvailableApartmentDTO> availableApartments = new ArryList<>();
+		
+		for(ApartmentDTO apartments : moveInReadyApartments) {
+			AvailableApartmentDTO apartment = new AvailableApartmentDTO(apartments);
+			availableApartments.add(apartment);
+		}
     	
-    	return ResponseEntity.ok().body(moveInReadyApartments);
+    	return ResponseEntity.ok().body(availableApartments);
     }
 	
 	/**

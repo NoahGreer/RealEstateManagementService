@@ -12,21 +12,29 @@ import realestatemanagementservice.service.BuildingService;
  */
 public class AvailableApartmentDTO implements Serializable {
 
+	private ApartmentDTO apartmentDTO;
+
 	private BuildingService buildingService;
 	
-	private ApartmentDTO apartment;
-    
-    Optional<BuildingDTO> aBuilding = buildingService.findOne(apartment.getBuildingId());
-    
-    
+	Optional<BuildingDTO> aBuilding = buildingService.findOne(apartmentDTO.getBuildingId());
 	
-	private Long id = apartment.getId();
+	private Long id;
 	
-	private String buildingName = aBuilding.get().getName();
+	private String buildingName;
 
-    private String unitNumber = apartment.getUnitNumber();
+    private String unitNumber;
 
-    private Boolean moveInReady = apartment.isMoveInReady();
+    private Boolean moveInReady;
+	
+	public AvailableApartmentDTO(ApartmentDTO apartmentDTO) {
+		this.apartmentDTO = apartmentDTO;
+		this.buildingName = aBuilding.get().getName();
+		this.moveInReady = apartmentDTO.isMoveInReady();
+		this.unitNumber = apartmentDTO.getUnitNumber();
+		this.id = apartmentDTO.getId();
+	}
+	
+    
 
     
     public Long getId() {
