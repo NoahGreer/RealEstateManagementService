@@ -65,6 +65,9 @@ public class ReportResourceIT {
 	private ContractorRepository contractorRepository;
 
 	@Autowired
+	private InfractionRepository infractionRepository;
+	
+	@Autowired
 	private EntityManager em;
 
 	@Autowired
@@ -491,5 +494,53 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$[0].id", equalTo(firstValidMaintenance.getId().intValue())))
 			.andExpect(jsonPath("$[1].id", equalTo(secondValidMaintenance.getId().intValue())));
 
+	}
+	
+	@Test
+	@Transactional
+	public void getInfractionsByYear() throws Exception {
+		
+		final LocalDate today = LocalDate.now();
+		final LocalDate lastMont = today.minusMonths(1);
+		final LocalDate lastYear = today.minusYears(1);
+		final LocalDate nextYear = today.plusYears(1);
+		
+		final int thisYear = today.getYear();
+		
+		//Repairs associated with a valid unit number
+		Infraction firstValidInfraction = new Infraction();
+		firstValidInfraction.setResolution("ValidResolution1");
+		firstValidInfraction.setDateOccurred(lastMont);
+		Infraction secondValidInfraction = new Infraction();
+		secondValidInfraction.setResolution("ValidResolution1");
+		secondValidInfraction.setDateOccurred(today);
+		
+		//Repairs associated with an invalid unit number
+		Infraction firstInvalidInfraction = new Infraction();
+		firstInvalidInfraction.setResolution("InvalidResolutionLastyear");
+		firstInvalidInfraction.setDateOccurred(lastYear);
+		Infraction secondInvalidInfraction = new Infraction();
+		secondInvalidInfraction.setResolution("InvalidResolutionNextYear");
+		secondInvalidInfraction.setDateOccurred(nextYear);
+		
+		
+		Set<Infraction> validInfractions = new HashSet<Infraction>();
+		validInfractions.add(firstValidInfraction);
+		validInfractions.add(secondValidInfraction);
+		
+		Set<Infraction> invalidInfractions = new HashSet<Infraction>();
+		invalidInfractions.add(firstInvalidInfraction);
+		invalidInfractions.add(secondInvalidInfraction);
+		
+		
+		infractionRepository.saveAll(validInfractions);
+		infractionRepository.saveAll(invalidInfractions);
+		infractionRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/infractions/year/" + thisYear))
+		.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", equalTo(firstValidInfraction.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(secondValidInfraction.getId().intValue())));
 	}
 }
