@@ -280,6 +280,58 @@ public class ReportResourceIT {
 	
 	@Test
 	@Transactional
+	public void getApartmentMaintenanceHistory() throws Exception {
+		
+		//Create test Apartments to associate repairs with
+		Apartment includedApartment = new Apartment();
+		includedApartment.setUnitNumber("V123");
+		
+		Apartment excludedApartment = new Apartment();
+		excludedApartment.setUnitNumber("I456");
+		
+		Set<Apartment> apartments = new HashSet<Apartment>();
+		apartments.add(includedApartment);
+		apartments.add(excludedApartment);
+		
+		apartmentRepository.saveAll(apartments);
+		apartmentRepository.flush();
+		
+		//Repairs associated with a valid unit number
+		Maintenance firstValidMaintenance = new Maintenance();
+		firstValidMaintenance.setDescription("Valid Maintenance #1");
+		Maintenance secondValidMaintenance = new Maintenance();
+		secondValidMaintenance.setDescription("Valid Maintenance #2");
+		
+		//Repairs associated with an invalid unit number
+		Maintenance firstInvalidMaintenance = new Maintenance();
+		firstInvalidMaintenance.setDescription("Invalid Maintenance #1");
+		Maintenance secondInvalidMaintenance = new Maintenance();
+		secondInvalidMaintenance.setDescription("Invalid Maintenance #2");
+		
+		Set<Maintenance> validRepairs = new HashSet<Maintenance>();
+		validRepairs.add(firstValidMaintenance);
+		validRepairs.add(secondValidMaintenance);
+		
+		Set<Maintenance> invalidRepairs = new HashSet<Maintenance>();
+		invalidRepairs.add(firstInvalidMaintenance);
+		invalidRepairs.add(secondInvalidMaintenance);
+		
+		includedApartment.setMaintenances(validRepairs);
+		excludedApartment.setMaintenances(invalidRepairs);
+		
+		maintenanceRepository.saveAll(validRepairs);
+		maintenanceRepository.saveAll(invalidRepairs);
+		maintenanceRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/apartments/" + includedApartment.getId() + "/maintenance/history"))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", equalTo(firstValidMaintenance.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(secondValidMaintenance.getId().intValue())));
+	}
+	
+	@Test
+	@Transactional
 	public void getMaintenaceByContractor() throws Exception {
 		
 		//Create test Contractors to associate repairs with
