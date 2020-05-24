@@ -259,13 +259,13 @@ public class ReportResource {
     }
 
 	/**
-     * {@code GET  /maintenance/contractor} : get all work done by a particular contractor.
+     * {@code GET  /maintenance/contractor/:id} : get all work done by a particular contractor.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all work done by a particular contractor.
      */
-	@GetMapping("/maintenance/contractor")
+	@GetMapping("/maintenance/contractor/{id}")
     public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByContractor(@RequestParam("id") Long id) {
-		log.debug("REST request to get a list of all work done by one contractor");
+		log.debug("REST request to get a list of all work done by one contractor for id criteria: {}", id);
   
     	final LongFilter idFilter = new LongFilter();
     	idFilter.setEquals(id);
