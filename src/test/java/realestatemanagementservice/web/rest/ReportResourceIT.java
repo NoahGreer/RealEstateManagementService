@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -59,6 +60,9 @@ public class ReportResourceIT {
 	
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private ContractorRepository contractorRepository;
 
 	@Autowired
 	private EntityManager em;
@@ -388,5 +392,61 @@ public class ReportResourceIT {
 			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$", hasSize(1)))
 			.andExpect(jsonPath("$[0].id", equalTo(validPerson.getId().intValue())));
+	}
+	
+	@Test
+	@Transactional
+	public void getMaintenaceByContractor() throws Exception {
+		
+		//Create test Contractors to associate repairs with
+		Contractor includedContractor = new Contractor();
+		includedContractor.setCompanyName("Include");
+		
+		Contractor excludedContractor = new Contractor();
+		excludedContractor.setCompanyName("Exclude");
+		
+		Set<Contractor> contractors = new HashSet<Contractor>();
+		contractors.add(includedContractor);
+		contractors.add(excludedContractor);
+		
+		contractorRepository.saveAll(contractors);
+		contractorRepository.flush();
+		
+		//Repairs associated with a valid unit number
+		Maintenance firstValidMaintenance = new Maintenance();
+		firstValidMaintenance.setContractor(includedContractor);
+		firstValidMaintenance.setDescription("Valid Maintenance #1");
+		Maintenance secondValidMaintenance = new Maintenance();
+		secondValidMaintenance.setContractor(includedContractor);
+		secondValidMaintenance.setDescription("Valid Maintenance #2");
+		
+		//Repairs associated with an invalid unit number
+		Maintenance firstInvalidMaintenance = new Maintenance();
+		firstInvalidMaintenance.setDescription("Invalid Maintenance #1");
+		firstInvalidMaintenance.setContractor(excludedContractor);
+		Maintenance secondInvalidMaintenance = new Maintenance();
+		secondInvalidMaintenance.setDescription("Invalid Maintenance #2");
+		secondInvalidMaintenance.setContractor(excludedContractor);
+		
+		Set<Maintenance> validRepairs = new HashSet<Maintenance>();
+		validRepairs.add(firstValidMaintenance);
+		validRepairs.add(secondValidMaintenance);
+		
+		Set<Maintenance> invalidRepairs = new HashSet<Maintenance>();
+		invalidRepairs.add(firstInvalidMaintenance);
+		invalidRepairs.add(secondInvalidMaintenance);
+		
+		includedContractor.setMaintenances(validRepairs);
+		excludedContractor.setMaintenances(invalidRepairs);
+		
+		maintenanceRepository.saveAll(validRepairs);
+		maintenanceRepository.saveAll(invalidRepairs);
+		maintenanceRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/contractors/" + includedContractor.getId() + "/maintenance/history"))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", equalTo(firstValidMaintenance.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(secondValidMaintenance.getId().intValue())));
 	}
 }
