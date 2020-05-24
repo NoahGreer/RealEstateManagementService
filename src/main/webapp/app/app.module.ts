@@ -7,7 +7,6 @@ import { RealEstateManagementServiceCoreModule } from 'app/core/core.module';
 import { RealEstateManagementServiceAppRoutingModule } from './app-routing.module';
 import { RealEstateManagementServiceHomeModule } from './home/home.module';
 import { RealEstateManagementServiceEntityModule } from './entities/entity.module';
-import { RealEstateManagementServiceReportModule } from './layouts/report/report.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
@@ -22,7 +21,6 @@ import { ErrorComponent } from './layouts/error/error.component';
     RealEstateManagementServiceSharedModule,
     RealEstateManagementServiceCoreModule,
     RealEstateManagementServiceHomeModule,
-    RealEstateManagementServiceReportModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     RealEstateManagementServiceEntityModule,
     RealEstateManagementServiceAppRoutingModule

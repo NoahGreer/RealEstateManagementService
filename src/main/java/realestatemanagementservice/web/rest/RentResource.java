@@ -98,6 +98,21 @@ public class RentResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents in body.
      */
+    @GetMapping("/rentsTEST")
+    public ResponseEntity<List<RentDTO>> getAllRentsTEST(RentCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Rents by criteria: {}", criteria);
+        Page<RentDTO> page = rentQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    
+    /**
+     * {@code GET  /rents} : get all the rents.
+     *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents in body.
+     */
     @GetMapping("/rents")
     public ResponseEntity<List<RentDTO>> getAllRents(RentCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Rents by criteria: {}", criteria);

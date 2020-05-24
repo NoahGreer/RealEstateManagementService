@@ -1,0 +1,32 @@
+<div>
+    <h2 id="page-heading">
+        <span>Report</span>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="report?.length === 0">
+        <span jhiTranslate="realEstateManagementServiceApp.report.home.notFound">No report data found</span>
+        <div>This is a test, hopefully this shows up.</div>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="report?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th>HEADER</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let reportField of report;">
+                    <td>{{ reportField }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

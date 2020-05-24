@@ -15,9 +15,13 @@ import javax.validation.constraints.Min;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
@@ -47,7 +51,7 @@ public class ReportResource {
 	private final PropertyTaxQueryService propertyTaxQueryService;
 	private final RentQueryService rentQueryService;
 	private final VehicleQueryService vehicleQueryService;
-	
+		
 	public ReportResource(ApartmentQueryService apartmentQueryService, 
 			ApartmentService apartmentService, 
 			BuildingQueryService buildingQueryService, 
@@ -74,6 +78,25 @@ public class ReportResource {
 		this.vehicleQueryService = vehicleQueryService;
 	}
 	
+    /**
+     * {@code GET  /reportTest} : get all the rents.
+     *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of report fields in body.
+     */
+    @GetMapping("/reports/reportTest")
+    public ResponseEntity<List<String>> getTestReport() {
+    	List<String> things = new ArrayList<>();
+    	things.add("this");
+    	things.add("is");
+    	things.add("a");
+    	things.add("test");
+    	things.add("that");
+    	things.add("works");
+        return ResponseEntity.ok().body(things);
+    }
+    
 	/**
 	 * {@code GET  /reports/rents/paid} : get all the rents paid through the specified date for that month.
      *
