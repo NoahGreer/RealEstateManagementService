@@ -514,11 +514,47 @@ public class ReportResource {
     	LongFilter apartmentIdFilter = new LongFilter();
     	apartmentIdFilter.setEquals(id);
     	
-    	MaintenanceCriteria maintenanceCriteria =  new MaintenanceCriteria();
+    	MaintenanceCriteria maintenanceCriteria = new MaintenanceCriteria();
     	maintenanceCriteria.setApartmentId(apartmentIdFilter);
     	
     	List<MaintenanceDTO> repairs = maintenanceQueryService.findByCriteria(maintenanceCriteria);
     	
     	return ResponseEntity.ok().body(repairs);
+    }
+    
+    @GetMapping("/reports/apartments/{id}/tenants")
+    public ResponseEntity<List<PersonDTO>> getApartmentTenants(@PathVariable Long id) {
+    	log.debug("REST request to get Apartment tenants for id criteria: {}", id);
+    	
+    	LongFilter apartmentIdFilter = new LongFilter();
+    	apartmentIdFilter.setEquals(id);
+    	
+    	final LocalDate today = LocalDate.now();
+    	
+    	LocalDateFilter dateSignedFilter = new LocalDateFilter();
+    	dateSignedFilter.setLessThanOrEqual(today);
+    	
+    	LocalDateFilter endDateFilter = new LocalDateFilter();
+    	endDateFilter.setGreaterThanOrEqual(today);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setApartmentId(apartmentIdFilter);
+    	leaseCriteria.setDateSigned(dateSignedFilter);
+    	leaseCriteria.setEndDate(endDateFilter);
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+    	List<Long> leaseIds = new ArrayList<>();
+    	for (LeaseDTO lease : leases) {
+    		leaseIds.add(lease.getId());
+    	}
+    	
+		LongFilter leaseIdsFilter = new LongFilter();
+		leaseIdsFilter.setIn(leaseIds);
+		
+    	PersonCriteria personCriteria = new PersonCriteria();
+    	personCriteria.setLeaseId(leaseIdsFilter);
+    	List<PersonDTO> people = personQueryService.findByCriteria(personCriteria);
+    	
+    	return ResponseEntity.ok().body(people);
     }
 }

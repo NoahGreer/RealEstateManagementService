@@ -1040,4 +1040,74 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$[0].id", equalTo(includedContractorOneJobType.getId().intValue())))
 			.andExpect(jsonPath("$[1].id", equalTo(includedContractorMultiJobType.getId().intValue())));
 	}
+
+	public void getApartmentTenants() throws Exception {
+		
+		//Create test Apartments to link leases to
+		Apartment includedApartment = new Apartment();
+		includedApartment.setUnitNumber("Included Apartment");
+		Apartment excludedApartment = new Apartment();
+		excludedApartment.setUnitNumber("Excluded Apartment");
+		
+		Set<Apartment> apartments = new HashSet<Apartment>();
+		apartments.add(includedApartment);
+		apartments.add(excludedApartment);
+		
+		apartmentRepository.saveAll(apartments);
+		apartmentRepository.flush();
+		
+		final LocalDate today = LocalDate.now();
+		
+		//Create test Leases to link People to
+		Lease validLeaseValidApartment = new Lease();
+		validLeaseValidApartment.setDateSigned(today.minusYears(1));
+		validLeaseValidApartment.setEndDate(today.plusYears(1));
+		Lease invalidLeaseValidApartment = new Lease();
+		invalidLeaseValidApartment.setDateSigned(today.minusYears(2));
+		invalidLeaseValidApartment.setEndDate(today.minusYears(1));
+		
+		Lease validLeaseInvalidApartment = new Lease();
+		validLeaseInvalidApartment.setDateSigned(today.minusYears(1));
+		validLeaseInvalidApartment.setEndDate(today.plusYears(1));
+		Lease invalidLeaseInvalidApartment = new Lease();
+		invalidLeaseInvalidApartment.setDateSigned(today.minusYears(2));
+		invalidLeaseInvalidApartment.setEndDate(today.minusYears(1));
+		
+		includedApartment.addLease(validLeaseValidApartment);
+		includedApartment.addLease(invalidLeaseValidApartment);
+		excludedApartment.addLease(validLeaseInvalidApartment);
+		excludedApartment.addLease(invalidLeaseInvalidApartment);
+		
+		Set<Lease> leases = new HashSet<Lease>();
+		leases.add(validLeaseValidApartment);
+		leases.add(invalidLeaseValidApartment);
+		leases.add(validLeaseInvalidApartment);
+		leases.add(invalidLeaseInvalidApartment);
+		
+		leaseRepository.saveAll(leases);
+		leaseRepository.flush();
+		
+		//Create test People to link to Leases
+		Person validPerson = new Person();
+		validPerson.setFirstName("ValidPerson");
+		Person invalidPerson = new Person();
+		invalidPerson.setFirstName("InvalidPerson");
+		
+		validPerson.addLease(validLeaseValidApartment);
+		invalidPerson.addLease(invalidLeaseInvalidApartment);
+		invalidPerson.addLease(validLeaseInvalidApartment);
+		invalidPerson.addLease(invalidLeaseValidApartment);
+		
+		Set<Person> people = new HashSet<Person>();
+		people.add(validPerson);
+		people.add(invalidPerson);
+		
+		personRepository.saveAll(people);
+		personRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/apartments/"+ includedApartment.getId() +"/tenants"))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(1)))
+			.andExpect(jsonPath("$[0].id", equalTo(validPerson.getId().intValue())));
+	}
 }
