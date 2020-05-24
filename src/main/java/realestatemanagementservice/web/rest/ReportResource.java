@@ -71,11 +71,11 @@ public class ReportResource {
     public ResponseEntity<List<VehicleDTO>> getBuildingAuthorizedVehicles(@PathVariable Long id) {
 		log.debug("REST request to get authorized Vehicles for Building : {}", id);
     	
-    	LongFilter lf = new LongFilter();
-    	lf.setEquals(id);
+    	LongFilter buildingIdFilter = new LongFilter();
+    	buildingIdFilter.setEquals(id);
     	
     	ApartmentCriteria apartmentCriteria = new ApartmentCriteria();
-    	apartmentCriteria.setBuildingId(lf);
+    	apartmentCriteria.setBuildingId(buildingIdFilter);
     	List<ApartmentDTO> apartments = apartmentQueryService.findByCriteria(apartmentCriteria);
     	
     	List<Long> apartmentIds = new ArrayList<>();
@@ -83,10 +83,11 @@ public class ReportResource {
     		apartmentIds.add(apartment.getId());
     	}
     	
-    	lf.setIn(apartmentIds);
+		LongFilter appartmentIdsFilter = new LongFilter();
+		appartmentIdsFilter.setIn(apartmentIds);
     	
     	LeaseCriteria leaseCriteria = new LeaseCriteria();
-    	leaseCriteria.setApartmentId(lf);
+    	leaseCriteria.setApartmentId(appartmentIdsFilter);
     	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
     	
 		List<Long> leaseIds = new ArrayList<>();
@@ -94,10 +95,11 @@ public class ReportResource {
     		leaseIds.add(lease.getId());
     	}
     	
-    	lf.setIn(leaseIds);
+		LongFilter leaseIdsFilter = new LongFilter();
+		leaseIdsFilter.setIn(leaseIds);
     	
     	VehicleCriteria vehicleCriteria = new VehicleCriteria();
-    	vehicleCriteria.setLeaseId(lf);
+    	vehicleCriteria.setLeaseId(leaseIdsFilter);
     	List<VehicleDTO> vehicles = vehicleQueryService.findByCriteria(vehicleCriteria);
     	
     	return ResponseEntity.ok().body(vehicles);
