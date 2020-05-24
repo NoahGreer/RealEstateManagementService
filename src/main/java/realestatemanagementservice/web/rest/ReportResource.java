@@ -505,5 +505,20 @@ public class ReportResource {
 		List<ContractorDTO> contractors = contractorQueryService.findByCriteria(contractorCriteria);
 
 		return ResponseEntity.ok().body(contractors);
+	}
+	
+    @GetMapping("/reports/apartments/{id}/maintenance/history")
+    public ResponseEntity<List<MaintenanceDTO>> getApartmentMaintenanceHistory(@PathVariable Long id) {
+    	log.debug("REST request to get Apartment Maintenance history for id criteria: {}", id);
+    	
+    	LongFilter apartmentIdFilter = new LongFilter();
+    	apartmentIdFilter.setEquals(id);
+    	
+    	MaintenanceCriteria maintenanceCriteria =  new MaintenanceCriteria();
+    	maintenanceCriteria.setApartmentId(apartmentIdFilter);
+    	
+    	List<MaintenanceDTO> repairs = maintenanceQueryService.findByCriteria(maintenanceCriteria);
+    	
+    	return ResponseEntity.ok().body(repairs);
     }
 }
