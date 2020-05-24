@@ -279,13 +279,13 @@ public class ReportResource {
     }
 	
 	/**
-     * {@code GET  /maintenance/unit} : get all maintenance in a particular unit.
+     * {@code GET  /maintenance/unit/:id} : get all maintenance in a particular unit.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all maintenance in a particular unit.
      */
-	@GetMapping("/maintenance/unit")
+	@GetMapping("/maintenance/unit/{id}")
     public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByUnit(@RequestParam("id") Long id) {
-		log.debug("REST request to get a list of all maintenance in a particular unit");
+		log.debug("REST request to get a list of all maintenance in a particular unit for criteria: {}", id);
   
     	final LongFilter idFilter = new LongFilter();
     	idFilter.setEquals(id);
