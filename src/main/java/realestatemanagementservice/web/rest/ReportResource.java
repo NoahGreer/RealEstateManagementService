@@ -1,6 +1,7 @@
 package realestatemanagementservice.web.rest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.github.jhipster.service.filter.LocalDateFilter;
+import io.github.jhipster.service.filter.LongFilter;
 import realestatemanagementservice.service.*;
 import realestatemanagementservice.service.dto.*;
 
@@ -19,10 +21,19 @@ public class ReportResource {
 	
 	private final Logger log = LoggerFactory.getLogger(ReportResource.class);
 	
+	private final ApartmentQueryService apartmentQueryService;
+	private final LeaseQueryService leaseQueryService;
 	private final RentQueryService rentQueryService;
+	private final VehicleQueryService vehicleQueryService;
 	
-	public ReportResource(RentQueryService rentQueryService) {
+	public ReportResource(ApartmentQueryService apartmentQueryService, 
+			RentQueryService rentQueryService, 
+			LeaseQueryService leaseQueryService, 
+			VehicleQueryService vehicleQueryService) {
+		this.apartmentQueryService = apartmentQueryService;
+		this.leaseQueryService = leaseQueryService;
 		this.rentQueryService = rentQueryService;
+		this.vehicleQueryService = vehicleQueryService;
 	}
 	
 	/**
@@ -48,5 +59,59 @@ public class ReportResource {
         
         List<RentDTO> rents = rentQueryService.findByCriteria(criteria);
         return ResponseEntity.ok().body(rents);
+    }
+    
+    /**
+     * {@code GET  /reports/buildings/:id/vehicles/authorized} : get the authorized vehicles for the "id" building.
+     *
+     * @param id the id of the buildingDTO to retrieve authorized vehicles for.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with list of authorized vehicles in body.
+     */
+    @GetMapping("/reports/buildings/{id}/vehicles/authorized")
+    public ResponseEntity<List<VehicleDTO>> getBuildingAuthorizedVehicles(@PathVariable Long id) {
+		log.debug("REST request to get authorized Vehicles for Building : {}", id);
+    	
+    	LongFilter buildingIdFilter = new LongFilter();
+    	buildingIdFilter.setEquals(id);
+    	
+    	ApartmentCriteria apartmentCriteria = new ApartmentCriteria();
+    	apartmentCriteria.setBuildingId(buildingIdFilter);
+    	List<ApartmentDTO> apartments = apartmentQueryService.findByCriteria(apartmentCriteria);
+    	
+    	List<Long> apartmentIds = new ArrayList<>();
+    	for (ApartmentDTO apartment : apartments) {
+    		apartmentIds.add(apartment.getId());
+    	}
+    	
+		LongFilter appartmentIdsFilter = new LongFilter();
+		appartmentIdsFilter.setIn(apartmentIds);
+		
+		final LocalDate today = LocalDate.now();
+		
+		LocalDateFilter dateSignedFilter = new LocalDateFilter();
+		dateSignedFilter.setLessThanOrEqual(today);
+		
+		LocalDateFilter endDateFilter = new LocalDateFilter();
+		endDateFilter.setGreaterThan(today);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setApartmentId(appartmentIdsFilter);
+    	leaseCriteria.setDateSigned(dateSignedFilter);
+    	leaseCriteria.setEndDate(endDateFilter);
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+		List<Long> leaseIds = new ArrayList<>();
+    	for (LeaseDTO lease : leases) {
+    		leaseIds.add(lease.getId());
+    	}
+    	
+		LongFilter leaseIdsFilter = new LongFilter();
+		leaseIdsFilter.setIn(leaseIds);
+    	
+    	VehicleCriteria vehicleCriteria = new VehicleCriteria();
+    	vehicleCriteria.setLeaseId(leaseIdsFilter);
+    	List<VehicleDTO> vehicles = vehicleQueryService.findByCriteria(vehicleCriteria);
+    	
+    	return ResponseEntity.ok().body(vehicles);
     }
 }
