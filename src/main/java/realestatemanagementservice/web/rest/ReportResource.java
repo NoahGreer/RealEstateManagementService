@@ -204,8 +204,6 @@ public class ReportResource {
         }
         
         return ResponseEntity.ok().body(activeContacts);
-        
-        return ResponseEntity.ok().body(activePeople);
 	}
     
     /**
