@@ -12,7 +12,7 @@
         <div>This is a test, hopefully this shows up.</div>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="report?.length > 0">
+    <div class="table-responsive" id="entities">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr>
@@ -22,9 +22,37 @@
             </thead>
 
             <tbody>
-                <tr *ngFor="let reportField of report;">
-                    <td>{{ reportField }}</td>
-                </tr>
+                
+                 <div *ngFor="let item of report | keyvalue;">
+                     
+                    <div *ngIf=" item?.length === 0">
+                        SINGLE ITEM:  {{ item }}
+                    </div>
+                    <div *ngIf=" item?.length > 0">
+                        MULTI ITEMS
+                        <div *ngFor="let subItem of item">
+                            SUB ITEM : {{ subItem }}
+
+                        </div>
+                    </div> 
+                </div>
+                    <!--
+                    <div> {{ item }}</div>
+
+                    <div>
+                        Item Key:  {{ item.key }}
+                        <div *ngFor="let value of item.value | keyvalue">
+                            ITEM: {{ value.value }}:
+                            <div *ngFor="let subValue of value |keyvalue">
+                             {{ subValue.value}}
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+                </div> -->
+
             </tbody>
         </table>
     </div>

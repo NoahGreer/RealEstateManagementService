@@ -8,9 +8,10 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IReport } from 'app/shared/model/report.model';
+import { IRent } from 'app/shared/model/rent.model';
 
-type EntityResponseType = HttpResponse<IReport>;
-type TestResponseType = HttpResponse<String[]>;
+type ReportResponseType = HttpResponse<IReport>;
+type TestResponseType = HttpResponse<any[]>;
 type EntityArrayResponseType = HttpResponse<IReport[]>;
 
 @Injectable({ providedIn: 'root' })
@@ -20,6 +21,10 @@ export class ReportService {
   constructor(protected http: HttpClient) {}
 
   findRentsPaid(): Observable<TestResponseType> {
-    return this.http.get<String[]>(`${this.resourceUrl}/reportTest`, { observe: 'response' });
+    return this.http.get<any[]>(`${this.resourceUrl}/rents/paid?date=2020-05-10`, { observe: 'response' });
+  }
+
+  findTestReport(): Observable<TestResponseType> {
+    return this.http.get<any>(`${this.resourceUrl}/reportTest`, { observe: 'response' });
   }
 }

@@ -15,7 +15,7 @@ import { ReportService } from './report.service';
   templateUrl: './report.component.html'
 })
 export class ReportComponent implements OnInit, OnDestroy {
-  report?: String[];
+  report?: any[];
   eventSubscriber?: Subscription;
 
   constructor(
@@ -25,18 +25,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  // loadRentsPaid(): void {
-  //   this.reportService.findRentsPaid().subscribe(
-  //     (res: HttpResponse<String[]>) => (this.report = res.body || []));
-  // }
-
   ngOnInit(): void {
-    this.reportService.findRentsPaid().subscribe((res: HttpResponse<String[]>) => (this.report = res.body || []));
-    // this.activatedRoute.data.subscribe(({ report }) => {
-    //   this.report = report;
-    //   // eslint-disable-next-line no-console
-    //   console.log("Report Assigned in ngOnInit");
-    // });
+    this.reportService.findRentsPaid().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
   }
 
   ngOnDestroy(): void {

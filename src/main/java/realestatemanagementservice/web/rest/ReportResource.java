@@ -86,15 +86,9 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of report fields in body.
      */
     @GetMapping("/reports/reportTest")
-    public ResponseEntity<List<String>> getTestReport() {
-    	List<String> things = new ArrayList<>();
-    	things.add("this");
-    	things.add("is");
-    	things.add("a");
-    	things.add("test");
-    	things.add("that");
-    	things.add("works");
-        return ResponseEntity.ok().body(things);
+    public ResponseEntity<String[]> getTestReport() {
+
+        return ResponseEntity.ok().body(new String[] {"Hey","Look","At","This"});
     }
     
 	/**
@@ -144,8 +138,8 @@ public class ReportResource {
     		apartmentIds.add(apartment.getId());
     	}
     	
-		LongFilter appartmentIdsFilter = new LongFilter();
-		appartmentIdsFilter.setIn(apartmentIds);
+		LongFilter apartmentIdsFilter = new LongFilter();
+		apartmentIdsFilter.setIn(apartmentIds);
 		
 		final LocalDate today = LocalDate.now();
 		
@@ -156,7 +150,7 @@ public class ReportResource {
 		endDateFilter.setGreaterThan(today);
     	
     	LeaseCriteria leaseCriteria = new LeaseCriteria();
-    	leaseCriteria.setApartmentId(appartmentIdsFilter);
+    	leaseCriteria.setApartmentId(apartmentIdsFilter);
     	leaseCriteria.setDateSigned(dateSignedFilter);
     	leaseCriteria.setEndDate(endDateFilter);
     	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
