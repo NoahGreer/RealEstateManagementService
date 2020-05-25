@@ -78,7 +78,7 @@ public class AvailableApartmentDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ApartmentDTO{" +
+        return "AvailableApartmentDTO{" +
             "id=" + getId() +
             ", nameBuilding='" + getBuildingName() + "'" +
             ", unitNumber='" + getUnitNumber() + "'" +
