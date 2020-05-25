@@ -1,10 +1,11 @@
 package realestatemanagementservice.service.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 
-public class PetOwnerDTO {
+public class PetOwnerDTO implements Serializable{
 	
 	private Long id;
 
