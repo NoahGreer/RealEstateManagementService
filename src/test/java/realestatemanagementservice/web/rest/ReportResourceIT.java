@@ -68,6 +68,9 @@ public class ReportResourceIT {
 	private InfractionRepository infractionRepository;
 	
 	@Autowired
+	private PetRepository petRepository;
+	
+	@Autowired
 	private EntityManager em;
 
 	@Autowired
@@ -901,6 +904,28 @@ public class ReportResourceIT {
 		includedCurrentLeaseMultiPetWithPerson2.setName("Second Best Pet");
 		
 		// Get list of Owners with Pets
+		Set<Person> personEntities = new HashSet<>();
+		personEntities.add(excludedExpiredLeasePerson);
+		personEntities.add(excludedNoPetPerson);
+		personEntities.add(includedCurrentLeasePersonWithPet);
+		personEntities.add(includedCurrentLeaseMultiPeopleWithPet1);
+		personEntities.add(includedCurrentLeaseMultiPeopleWithPet2);
+		personEntities.add(includedCurrentLeasePeopleWithMultiPet);
+		
+		personRepository.saveAll(personEntities);
+		personRepository.flush();
+		
+		
+		Set<Pet> petEntities = new HashSet<>();
+		petEntities.add(excludedExpiredLeasePet);
+		petEntities.add(includedCurrentLeasePetWithPerson);
+		petEntities.add(includedCurrentLeasePetWithMultiplePeople);
+		petEntities.add(includedCurrentLeaseMultiPetWithPerson1);
+		petEntities.add(includedCurrentLeaseMultiPetWithPerson2);
+		
+		petRepository.saveAll(petEntities);
+		petRepository.flush();
+
 		restRentMockMvc.perform(get("/api/reports/pet/owner"))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$", hasSize(4)))
