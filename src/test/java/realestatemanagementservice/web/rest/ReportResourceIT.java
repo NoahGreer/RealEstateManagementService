@@ -606,6 +606,7 @@ public class ReportResourceIT {
 		apartmentRepository.saveAll(excludedApartments);
 		apartmentRepository.flush();
 		
+		//Get list of available apartments
 		restRentMockMvc.perform(get("/api/reports/apartments/available"))
 			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$", hasSize(3)))
@@ -698,13 +699,13 @@ public class ReportResourceIT {
 		personRepository.saveAll(personEntities);
 		personRepository.flush();
 		
-		// Get list of authorized vehicles
+		// Get list of Emails
 		restRentMockMvc.perform(get("/api/reports/person/email"))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(jsonPath("$[0].emailAddress", equalTo(includedCurrentLeasePerson1.getEmailAddress())))
 				.andExpect(jsonPath("$[1].emailAddress", equalTo(includedCurrentLeasePerson2.getEmailAddress())))
-				.andExpect(jsonPath("$[3].emailAddress", equalTo(includedSecondCurrentLeasePerson.getEmailAddress())));
+				.andExpect(jsonPath("$[2].emailAddress", equalTo(includedSecondCurrentLeasePerson.getEmailAddress())));
 	}
 	
 	@Test
@@ -778,13 +779,134 @@ public class ReportResourceIT {
 		personRepository.saveAll(personEntities);
 		personRepository.flush();
 		
-		// Get list of authorized vehicles
+		// Get list of Contact information
 		restRentMockMvc.perform(get("/api/reports/person/contact"))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$", hasSize(3)))
-				.andExpect(jsonPath("$[0].emailAddress", equalTo(includedCurrentLeasePerson1.getEmailAddress())))
-				.andExpect(jsonPath("$[1].emailAddress", equalTo(includedCurrentLeasePerson2.getEmailAddress())))
-				.andExpect(jsonPath("$[3].emailAddress", equalTo(includedSecondCurrentLeasePerson.getEmailAddress())));
+				.andExpect(jsonPath("$[0].id", equalTo(includedCurrentLeasePerson1.getId().intValue())))
+				.andExpect(jsonPath("$[1].id", equalTo(includedCurrentLeasePerson2.getId().intValue())))
+				.andExpect(jsonPath("$[2].id", equalTo(includedSecondCurrentLeasePerson.getId().intValue())));
 	}
 	
+	@Test
+	@Transactional
+	public void getPetsAndOwners() throws Exception {
+		
+		/* test groupings
+		 * person and pet on expired lease
+		 * person and pet on both an expired and current lease
+		 * person with out pet on current lease
+		 * multiple people and pet on current lease
+		 * person with multiple pets on current lease
+		 */
+		
+		// Create test leases to associate test people with
+		final LocalDate today = LocalDate.now();
+		final LocalDate yesterday = today.minusDays(1);
+		
+		final LocalDate oneYearAfterToday = today.plusYears(1);
+		
+		final LocalDate oneYearBeforeYesterday = yesterday.minusYears(1);
+		final LocalDate oneYearAfterYesterday = yesterday.plusYears(1);
+
+		Lease excludedExpiredLease = new Lease();
+		excludedExpiredLease.dateSigned(oneYearBeforeYesterday);
+		excludedExpiredLease.endDate(yesterday);
+		
+		Lease excludedSecondExpiredLease = new Lease();
+		excludedSecondExpiredLease.dateSigned(oneYearBeforeYesterday);
+		excludedSecondExpiredLease.endDate(yesterday);
+
+		Lease excludedCurrentLease = new Lease();
+		excludedCurrentLease.dateSigned(today);
+		excludedCurrentLease.endDate(oneYearAfterToday);
+		
+		Lease includedCurrentLease = new Lease();
+		includedCurrentLease.dateSigned(yesterday);
+		includedCurrentLease.endDate(oneYearAfterYesterday);
+		
+		Lease includedSecondCurrentLease = new Lease();
+		includedSecondCurrentLease.dateSigned(yesterday);
+		includedSecondCurrentLease.endDate(oneYearAfterYesterday);
+		
+		Lease includedThirdCurrentLease = new Lease();
+		includedThirdCurrentLease.dateSigned(yesterday);
+		includedThirdCurrentLease.endDate(oneYearAfterYesterday);
+		
+		Set<Lease> leaseEntities = new HashSet<>();
+		leaseEntities.add(excludedExpiredLease);
+		leaseEntities.add(excludedSecondExpiredLease);
+		leaseEntities.add(excludedCurrentLease);
+		leaseEntities.add(includedCurrentLease);
+		leaseEntities.add(includedSecondCurrentLease);
+		leaseEntities.add(includedThirdCurrentLease);
+		
+		// Initialize leases in the database
+		leaseRepository.saveAll(leaseEntities);
+		leaseRepository.flush();
+
+		Person excludedExpiredLeasePerson = new Person();
+		excludedExpiredLeasePerson.addLease(excludedExpiredLease);
+		excludedExpiredLeasePerson.setFirstName("Experied Lease");
+		excludedExpiredLeasePerson.isPrimaryContact();
+		
+		Pet excludedExpiredLeasePet = new Pet();
+		excludedExpiredLeasePet.addLease(excludedExpiredLease);
+		excludedExpiredLeasePet.setName("Left Town");
+		
+		
+		Person excludedNoPetPerson = new Person();
+		excludedNoPetPerson.addLease(excludedCurrentLease);
+		excludedNoPetPerson.setFirstName("No Pet Person");
+		excludedNoPetPerson.isPrimaryContact();
+		
+		
+		Person includedCurrentLeasePersonWithPet = new Person();
+		includedCurrentLeasePersonWithPet.addLease(excludedSecondExpiredLease);
+		includedCurrentLeasePersonWithPet.addLease(includedCurrentLease);
+		includedCurrentLeasePersonWithPet.setFirstName("Both good and bad Lease Person");
+		includedCurrentLeasePersonWithPet.isPrimaryContact();
+		
+		Pet includedCurrentLeasePetWithPerson = new Pet();
+		includedCurrentLeasePetWithPerson.addLease(excludedSecondExpiredLease);
+		includedCurrentLeasePetWithPerson.addLease(includedCurrentLease);
+		includedCurrentLeasePetWithPerson.setName("Long Time Pet");
+		
+		
+		Person includedCurrentLeaseMultiPeopleWithPet1 = new Person();
+		includedCurrentLeaseMultiPeopleWithPet1.addLease(includedSecondCurrentLease);
+		includedCurrentLeaseMultiPeopleWithPet1.setFirstName("Primary Contact With Pet");
+		includedCurrentLeaseMultiPeopleWithPet1.isPrimaryContact();
+		
+		Person includedCurrentLeaseMultiPeopleWithPet2 = new Person();
+		includedCurrentLeaseMultiPeopleWithPet2.addLease(includedSecondCurrentLease);
+		includedCurrentLeaseMultiPeopleWithPet2.setFirstName("Not Primary Contact With Pet");
+		
+		Pet includedCurrentLeasePetWithMultiplePeople = new Pet();
+		includedCurrentLeasePetWithMultiplePeople.addLease(includedSecondCurrentLease);
+		includedCurrentLeasePetWithMultiplePeople.setName("Family Pet");
+		
+		
+		Person includedCurrentLeasePeopleWithMultiPet = new Person();
+		includedCurrentLeasePeopleWithMultiPet.addLease(includedThirdCurrentLease);
+		includedCurrentLeasePeopleWithMultiPet.setFirstName("Primary Contact With Multiple Pets");
+		includedCurrentLeasePeopleWithMultiPet.isPrimaryContact();
+		
+		Pet includedCurrentLeaseMultiPetWithPerson1 = new Pet();
+		includedCurrentLeaseMultiPetWithPerson1.addLease(includedThirdCurrentLease);
+		includedCurrentLeaseMultiPetWithPerson1.setName("Best Pet");
+		
+		Pet includedCurrentLeaseMultiPetWithPerson2 = new Pet();
+		includedCurrentLeaseMultiPetWithPerson2.addLease(includedThirdCurrentLease);
+		includedCurrentLeaseMultiPetWithPerson2.setName("Second Best Pet");
+		
+		// Get list of Owners with Pets
+		restRentMockMvc.perform(get("/api/reports/pet/owner"))
+				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(jsonPath("$", hasSize(4)))
+				.andExpect(jsonPath("$[0].id", equalTo(includedCurrentLeasePetWithPerson.getId().intValue())))
+				.andExpect(jsonPath("$[1].id", equalTo(includedCurrentLeaseMultiPeopleWithPet1.getId().intValue())))
+				.andExpect(jsonPath("$[2].id", equalTo(includedCurrentLeaseMultiPetWithPerson1.getId().intValue())))
+				.andExpect(jsonPath("$[3].id", equalTo(includedCurrentLeaseMultiPetWithPerson2.getId().intValue())));
+	}
 }
