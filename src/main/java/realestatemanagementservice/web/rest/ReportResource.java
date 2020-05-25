@@ -240,7 +240,7 @@ public class ReportResource {
     	
 		final List<ApartmentDTO> moveInReadyApartments = apartmentQueryService.findByCriteria(criteria);
 		
-		final List<AvailableApartmentDTO> availableApartments = new ArryList<>();
+		final List<AvailableApartmentDTO> availableApartments = new ArrayList<>();
 		
 		for(ApartmentDTO apartments : moveInReadyApartments) {
 			AvailableApartmentDTO apartment = new AvailableApartmentDTO(apartments);
