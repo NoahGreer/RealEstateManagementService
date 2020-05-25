@@ -33,9 +33,6 @@ public class AvailableApartmentDTO implements Serializable {
 		this.unitNumber = apartmentDTO.getUnitNumber();
 		this.id = apartmentDTO.getId();
 	}
-	
-    
-
     
     public Long getId() {
         return id;
