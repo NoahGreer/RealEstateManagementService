@@ -44,8 +44,8 @@ public class EmailDTO implements Serializable{
 
     @Override
     public String toString() {
-        return "PersonDTO{" +
-            ", emailAddress='" + getEmailAddress() + "'" +
+        return "EmailDTO{" +
+            "emailAddress='" + getEmailAddress() + "'" +
             "}";
     }
 }
