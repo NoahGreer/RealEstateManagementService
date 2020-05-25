@@ -149,7 +149,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
      */
 	@GetMapping("/reports/person/email")
-    public ResponseEntity<List<String>> getEmails() {
+    public ResponseEntity<List<EmailDTO>> getEmails() {
         log.debug("REST request to get all the Emails of active people");
         
     	final BooleanFilter notMinor = new BooleanFilter();
@@ -170,9 +170,10 @@ public class ReportResource {
         
         final List<PersonDTO> peoplewithemail = personQueryService.findByCriteria(criteria);
         
-        final List<String> activeEmails = new ArrayList<>();
+        final List<EmailDTO> activeEmails = new ArrayList<>();
         for (final PersonDTO peopleemail : peoplewithemail) {
-        	activeEmails.add(peopleemail.getEmailAddress());
+        	EmailDTO emails = new EmailDTO(peopleemail);
+        	activeEmails.add(emails);
         }
         
         return ResponseEntity.ok().body(activeEmails);
