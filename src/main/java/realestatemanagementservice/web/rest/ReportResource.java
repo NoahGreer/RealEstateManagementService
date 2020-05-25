@@ -300,7 +300,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list all pets and their owner's.
      */
 	@GetMapping("/reports/pet/owner")
-	public ResponseEntity<List<String>> getPetsAndOwners() {
+	public ResponseEntity<List<PetOwnerDTO>> getPetsAndOwners() {
 		log.debug("REST request to get a list of all pets and their owner's");
 
 		final List<Long> activeLeaseIds = leaseQueryService.findActiveLeaseIds();
@@ -325,13 +325,12 @@ public class ReportResource {
         
         final List<PersonDTO> primaryActivePeople = personQueryService.findByCriteria(personCriteria);
     	
-        final List<String> activePetsAndPeople = new ArrayList<>();
+        final List<PetOwnerDTO> activePetsAndPeople = new ArrayList<>();
         for (final LeaseDTO lease : leases) {
     		for (final PersonDTO person : primaryActivePeople) {
     			if (lease.getPeople().contains(person)) {
-		        	activePetsAndPeople.add(person);
 		        	for (final PetDTO pet : lease.getPets()) {
-		        		activePetsAndPeople.add(pet.toString());	
+		        		activePetsAndPeople.add(new PetOwnerDTO(person,pet));	
 		        	}
 	        	}
     		}
