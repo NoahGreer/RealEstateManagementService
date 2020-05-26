@@ -190,12 +190,12 @@ public class ReportResource {
         criteria.setEmailAddress(hasEmail);
         criteria.setLeaseId(hasActiveLease);
         
-        final List<PersonDTO> peoplewithemail = personQueryService.findByCriteria(criteria);
+        final List<PersonDTO> peopleWithEmail = personQueryService.findByCriteria(criteria);
         
         final List<EmailDTO> activeEmails = new ArrayList<>();
-        for (final PersonDTO peopleemail : peoplewithemail) {
-        	EmailDTO emails = new EmailDTO(peopleemail);
-        	activeEmails.add(emails);
+        for (final PersonDTO personWithEmail : peopleWithEmail) {
+        	EmailDTO email = new EmailDTO(personWithEmail);
+        	activeEmails.add(email);
         }
         
         return ResponseEntity.ok().body(activeEmails);

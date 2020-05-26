@@ -77,14 +77,14 @@ public class LeaseQueryService extends QueryService<Lease> {
     public List<LeaseDTO> findActiveLeases() {
         final LocalDate today = LocalDate.now();
         
-        final LocalDateFilter datesignedFilter = new LocalDateFilter();
-        datesignedFilter.setGreaterThanOrEqual(today);
+        final LocalDateFilter dateSignedFilter = new LocalDateFilter();
+        dateSignedFilter.setGreaterThanOrEqual(today);
         
         final LocalDateFilter endDateFilter = new LocalDateFilter();
         endDateFilter.setLessThan(today);
         
         final LeaseCriteria criteria = new LeaseCriteria();
-        criteria.setDateSigned(datesignedFilter);
+        criteria.setDateSigned(dateSignedFilter);
         criteria.setEndDate(endDateFilter);
         
         final List<LeaseDTO> activeLeases = findByCriteria(criteria);
