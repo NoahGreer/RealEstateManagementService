@@ -358,7 +358,7 @@ public class ReportResource {
     	
     	LeaseCriteria leaseCriteria = new LeaseCriteria();
     	leaseCriteria.setDateSigned(dateSignedFilter);
-    	leaseCriteria.setEndDate(endDateFilter);;
+    	leaseCriteria.setEndDate(endDateFilter);
 		leaseCriteria.setPetId(hasPetsOnLease);
 		List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
 		
