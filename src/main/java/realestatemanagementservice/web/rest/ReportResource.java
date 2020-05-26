@@ -338,12 +338,12 @@ public class ReportResource {
     }
 
 	/**
-     * {@code GET  /reports/pet/owner} : get all pets and their owner's.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list all pets and their owner's.
+     * {@code GET  /reports/pet/owner} : get all pets and their owners.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and list all pets and their owners.
      */
 	@GetMapping("/reports/pet/owner")
 	public ResponseEntity<List<PetOwnerDTO>> getPetsAndOwners() {
-		log.debug("REST request to get a list of all pets and their owner's");
+		log.debug("REST request to get a list of all pets and their owners");
 
 		final LocalDate today = LocalDate.now();
 		
