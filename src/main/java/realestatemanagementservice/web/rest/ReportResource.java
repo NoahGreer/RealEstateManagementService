@@ -151,10 +151,10 @@ public class ReportResource {
     }
     
 	/**
-     * {@code GET  /reports/person/email} : get all the email for all people with active leases.
+     * {@code GET  /reports/people/email} : get all the email for all people with active leases.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
      */
-	@GetMapping("/reports/person/email")
+	@GetMapping("/reports/people/email")
     public ResponseEntity<List<EmailDTO>> getEmails() {
         log.debug("REST request to get all the Emails of active people");
         
@@ -202,10 +202,10 @@ public class ReportResource {
 	}
 	
 	/**
-     * {@code GET  /reports/person/contact} : get all the contact information for all people with active leases.
+     * {@code GET  /reports/people/contact} : get all the contact information for all people with active leases.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
      */
-	@GetMapping("/reports/person/contact")
+	@GetMapping("/reports/people/contact")
     public ResponseEntity<List<ContactDTO>> getContact() {
         log.debug("REST request to get all the contact information of active people");
       

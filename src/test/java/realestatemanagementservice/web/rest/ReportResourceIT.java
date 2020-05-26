@@ -710,7 +710,7 @@ public class ReportResourceIT {
 		personRepository.flush();
 		
 		// Get list of Emails
-		restRentMockMvc.perform(get("/api/reports/person/email"))
+		restRentMockMvc.perform(get("/api/reports/people/email"))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(jsonPath("$[0].emailAddress", equalTo(includedCurrentLeasePerson1.getEmailAddress())))
@@ -789,7 +789,7 @@ public class ReportResourceIT {
 		personRepository.flush();
 		
 		// Get list of Contact information
-		restRentMockMvc.perform(get("/api/reports/person/contact"))
+		restRentMockMvc.perform(get("/api/reports/people/contact"))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(jsonPath("$[0].id", equalTo(includedCurrentLeasePerson1.getId().intValue())))
