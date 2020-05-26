@@ -540,7 +540,7 @@ public class ReportResourceIT {
 		infractionRepository.saveAll(invalidInfractions);
 		infractionRepository.flush();
 		
-		restRentMockMvc.perform(get("/api/reports/infractions/year/" + thisYear))
+		restRentMockMvc.perform(get("/api/reports/infractions?year=" + thisYear))
 		.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$", hasSize(2)))
 			.andExpect(jsonPath("$[0].id", equalTo(firstValidInfraction.getId().intValue())))

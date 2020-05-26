@@ -213,11 +213,11 @@ public class ReportResource {
 	}
     
     /**
-     * {@code GET  /reports/infractions/year/:id} : get all the infractions in a given year.
-     * @param criteria the criteria which the requested entities should match.
+     * {@code GET  /reports/infractions} : get all the infractions in a given year.
+     * @param year the year which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
      */
-	@GetMapping("/reports/infractions/year/{id}")
+	@GetMapping("/reports/infractions")
     public ResponseEntity<List<InfractionDTO>> getInfractionsByYear(@RequestParam("year") @Min(1900) @Max(2100) int year) {
 		log.debug("REST request to get Infraction for year criteria: {}", year);
     	
