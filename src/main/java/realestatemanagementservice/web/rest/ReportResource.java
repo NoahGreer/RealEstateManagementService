@@ -307,7 +307,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all work done by a particular contractor.
      */
 	@GetMapping("/reports/contractors/{id}/maintenance/history")
-    public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByContractor(@RequestParam("id") Long id) {
+    public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByContractor(@PathVariable("id") Long id) {
 		log.debug("REST request to get a list of all work done by one contractor for id criteria: {}", id);
   
     	final LongFilter idFilter = new LongFilter();
