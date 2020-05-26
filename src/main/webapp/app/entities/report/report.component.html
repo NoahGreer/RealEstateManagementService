@@ -1,11 +1,15 @@
 <div>
     <h2 id="page-heading">
-        <span>Report</span>
+    <div> </div>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
 
     <jhi-alert></jhi-alert>
+
+    <!-- <div *ngIf="data !== undefined">
+        {{ data }}
+    </div> -->
 
     <div class="alert alert-warning" id="no-result" *ngIf="report?.length === 0">
         <span jhiTranslate="realEstateManagementServiceApp.report.home.notFound">No report data found</span>
@@ -13,48 +17,34 @@
     </div>
 
     <div class="table-responsive" id="entities">
-        <table class="table table-striped" aria-describedby="page-heading">
-            <thead>
-                <tr>
-                    <th>HEADER</th>
-                </tr>
 
-            </thead>
+        <div *ngIf="report !== undefined">
+            <div *ngFor="let item of report | keyvalue;" class=" m-2 rounded w-25" style="display:inline-block">
 
-            <tbody>
-                
-                 <div *ngFor="let item of report | keyvalue;">
-                     
-                    <div *ngIf=" item?.length === 0">
-                        SINGLE ITEM:  {{ item }}
-                    </div>
-                    <div *ngIf=" item?.length > 0">
-                        MULTI ITEMS
-                        <div *ngFor="let subItem of item">
-                            SUB ITEM : {{ subItem }}
+                <div class="card rounded" >
+                    <h4 *ngIf="objectType; else objectNotDefined" 
+                    class="card-title" style="text-transform:capitalize; text-align:center">
+                        {{ objectType }} {{ item.key }}:
+                    </h4>
+                    <ng-template #objectNotDefined>
+                        {{ item.key }}
+                    </ng-template>
+                    
 
-                        </div>
-                    </div> 
-                </div>
-                    <!--
-                    <div> {{ item }}</div>
-
-                    <div>
-                        Item Key:  {{ item.key }}
-                        <div *ngFor="let value of item.value | keyvalue">
-                            ITEM: {{ value.value }}:
-                            <div *ngFor="let subValue of value |keyvalue">
-                             {{ subValue.value}}
-                            </div>
+                    <div *ngFor="let subItem of item.value | keyvalue" class="card-body ml-4">
+                        <div *ngIf="subItem.key === 'id'; else elseBlock" >
                             
+                            <b><a [routerLink]="['/', objectType, subItem.value, 'view']">{{ subItem.key }}</a>
+                            : {{ subItem.value }}</b>
+                        </div>
+                        <ng-template #elseBlock>
+                            {{ subItem.key}} : {{ subItem.value }} 
+                        </ng-template>
                         </div>
                     </div>
+                </div>
 
 
-                </div> -->
+            </div>
 
-            </tbody>
-        </table>
-    </div>
-
-</div>
+        </div>

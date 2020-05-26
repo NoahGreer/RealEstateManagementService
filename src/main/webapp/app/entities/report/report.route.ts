@@ -17,7 +17,7 @@ export class ReportResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
-    return this.service.findRentsPaid().pipe(
+    return this.service.getTestReport().pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
           return of(report.body);
@@ -29,6 +29,43 @@ export class ReportResolve implements Resolve<any> {
     );
   }
 }
+
+@Injectable({ providedIn: 'root' })
+export class RentsPaidReportResolve implements Resolve<any> {
+  constructor(private service: ReportService, private router: Router) {}
+
+  resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
+    return this.service.getRentsPaid('2020-05-01').pipe(
+      flatMap((report: HttpResponse<any[]>) => {
+        if (report.body) {
+          return of(report.body);
+        } else {
+          this.router.navigate(['404']);
+          return EMPTY;
+        }
+      })
+    );
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class AuthorizedVehicleReportResolve implements Resolve<any> {
+  constructor(private service: ReportService, private router: Router) {}
+
+  resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
+    return this.service.getAuthorizedVehicles(1).pipe(
+      flatMap((report: HttpResponse<any[]>) => {
+        if (report.body) {
+          return of(report.body);
+        } else {
+          this.router.navigate(['404']);
+          return EMPTY;
+        }
+      })
+    );
+  }
+}
+
 export const reportRoute: Routes = [
   {
     path: '',
@@ -38,19 +75,31 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'WORKING REPORT'
+      pageTitle: 'realEstateManagementServiceApp.report.home.test-report'
     },
     canActivate: [UserRouteAccessService]
   },
   {
-    path: 'something',
+    path: 'rents-paid',
     component: ReportComponent,
     resolve: {
-      report: ReportResolve
+      report: RentsPaidReportResolve
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'WORKING REPORT'
+      pageTitle: 'realEstateManagementServiceApp.report.home.rents-paid'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'authorized-vehicles',
+    component: ReportComponent,
+    resolve: {
+      report: AuthorizedVehicleReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.authorized-vehicles'
     },
     canActivate: [UserRouteAccessService]
   }

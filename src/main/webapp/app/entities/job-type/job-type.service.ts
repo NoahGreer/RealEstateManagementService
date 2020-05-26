@@ -24,8 +24,6 @@ export class JobTypeService {
   }
 
   find(id: number): Observable<EntityResponseType> {
-    // eslint-disable-next-line no-console
-    console.log('RESOURCE URL: ' + this.resourceUrl);
     return this.http.get<IJobType>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
