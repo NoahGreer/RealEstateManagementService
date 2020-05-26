@@ -656,18 +656,22 @@ public class ReportResourceIT {
 		Person excludedExpiredLeasePerson = new Person();
 		excludedExpiredLeasePerson.addLease(excludedExpiredLease);
 		excludedExpiredLeasePerson.setEmailAddress("ExpiredLease@Bademail");
+		excludedExpiredLeasePerson.setIsMinor(false);
 
 		// Person associated with a current lease should be included in the report
 		Person includedCurrentLeasePerson1 = new Person();
 		includedCurrentLeasePerson1.addLease(includedCurrentLease);
 		includedCurrentLeasePerson1.setEmailAddress("GoodLease@Goodemail");
+		includedCurrentLeasePerson1.setIsMinor(false);
 		
 		// Second Person associated with a current lease should be included in the report
 		Person includedCurrentLeasePerson2 = new Person();
 		includedCurrentLeasePerson2.addLease(includedCurrentLease);
 		includedCurrentLeasePerson2.setEmailAddress("GoodLease@SecondPersonOnLease");
+		includedCurrentLeasePerson2.setIsMinor(false);
 
-		// Person associated with a current lease but without an email should not be included
+
+		// Person associated with a current lease but flagged as minor not be included
 		Person excludedCurrentLeasePersonMinor = new Person();
 		excludedCurrentLeasePersonMinor.addLease(includedCurrentLease);
 		excludedCurrentLeasePersonMinor.setEmailAddress("ExcludeGoodEmail@BadMinor");
@@ -677,16 +681,19 @@ public class ReportResourceIT {
 		Person includedSecondCurrentLeasePerson = new Person();
 		includedSecondCurrentLeasePerson.addLease(includedSecondCurrentLease);
 		includedSecondCurrentLeasePerson.setEmailAddress("SecondGoodLease@Goodemail");
+		includedSecondCurrentLeasePerson.setIsMinor(false);
+
 		
-		// Person associated with the second current lease but flagged as minor and to be excluded
+		// Person associated with the second current lease without an email and to be excluded
 		Person excludedSecondCurrentLeasePerson2 = new Person();
 		excludedSecondCurrentLeasePerson2.addLease(includedSecondCurrentLease);
-		excludedSecondCurrentLeasePerson2.setEmailAddress(null);
+		excludedSecondCurrentLeasePerson2.setIsMinor(false);
 		
 		// Person not associated with a lease to be excluded
 		Person excludedNoLeasePerson = new Person();
-		excludedNoLeasePerson.addLease(null);
 		excludedNoLeasePerson.setEmailAddress("NoLease@BadEmail");
+		excludedNoLeasePerson.setIsMinor(false);
+
 
 		
 		Set<Person> personEntities = new HashSet<>();
@@ -767,7 +774,6 @@ public class ReportResourceIT {
 		
 		// Person not associated with a lease to be excluded
 		Person excludedNoLeasePerson = new Person();
-		excludedNoLeasePerson.addLease(null);
 		excludedNoLeasePerson.setEmailAddress("NoLease@BadEmail");
 
 		
@@ -912,9 +918,7 @@ public class ReportResourceIT {
 		personEntities.add(includedCurrentLeaseMultiPeopleWithPet2);
 		personEntities.add(includedCurrentLeasePeopleWithMultiPet);
 		
-		personRepository.saveAll(personEntities);
-		personRepository.flush();
-		
+		personRepository.saveAll(personEntities);	
 		
 		Set<Pet> petEntities = new HashSet<>();
 		petEntities.add(excludedExpiredLeasePet);
@@ -924,13 +928,14 @@ public class ReportResourceIT {
 		petEntities.add(includedCurrentLeaseMultiPetWithPerson2);
 		
 		petRepository.saveAll(petEntities);
+		personRepository.flush();
 		petRepository.flush();
 
 		restRentMockMvc.perform(get("/api/reports/pet/owner"))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$", hasSize(4)))
 				.andExpect(jsonPath("$[0].id", equalTo(includedCurrentLeasePetWithPerson.getId().intValue())))
-				.andExpect(jsonPath("$[1].id", equalTo(includedCurrentLeaseMultiPeopleWithPet1.getId().intValue())))
+				.andExpect(jsonPath("$[1].id", equalTo(includedCurrentLeasePetWithMultiplePeople.getId().intValue())))
 				.andExpect(jsonPath("$[2].id", equalTo(includedCurrentLeaseMultiPetWithPerson1.getId().intValue())))
 				.andExpect(jsonPath("$[3].id", equalTo(includedCurrentLeaseMultiPetWithPerson2.getId().intValue())));
 	}

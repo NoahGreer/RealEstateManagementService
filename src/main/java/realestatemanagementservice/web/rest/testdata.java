@@ -2,7 +2,12 @@ package realestatemanagementservice.web.rest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +25,58 @@ import realestatemanagementservice.domain.Pet;
 import realestatemanagementservice.domain.PropertyTax;
 import realestatemanagementservice.domain.Rent;
 import realestatemanagementservice.domain.Vehicle;
+import realestatemanagementservice.repository.ApartmentRepository;
+import realestatemanagementservice.repository.BuildingRepository;
+import realestatemanagementservice.repository.ContractorRepository;
+import realestatemanagementservice.repository.InfractionRepository;
+import realestatemanagementservice.repository.JobTypeRepository;
+import realestatemanagementservice.repository.LeaseRepository;
+import realestatemanagementservice.repository.MaintenanceRepository;
+import realestatemanagementservice.repository.PersonRepository;
+import realestatemanagementservice.repository.PetRepository;
+import realestatemanagementservice.repository.RentRepository;
+import realestatemanagementservice.repository.VehicleRepository;
 
 
 @RestController
 @RequestMapping("/api")
 public class testdata {
+	
+	@Autowired
+	private ApartmentRepository apartmentRepository;
+
+	@Autowired
+	private BuildingRepository buildingRepository;
+	
+	@Autowired
+	private LeaseRepository leaseRepository;
+
+	@Autowired
+	private RentRepository rentRepository;
+	
+	@Autowired
+	private VehicleRepository vehicleRepository;
+	
+	@Autowired
+	private MaintenanceRepository maintenanceRepository;
+	
+	@Autowired
+	private PersonRepository personRepository;
+	
+	@Autowired
+	private ContractorRepository contractorRepository;
+
+	@Autowired
+	private InfractionRepository infractionRepository;
+	
+	@Autowired
+	private PetRepository petRepository;
+	
+	@Autowired
+	private JobTypeRepository jobTypeRepository;
+	
+	@Autowired
+	private EntityManager em;
 
 	@Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -74,6 +126,24 @@ public class testdata {
 			notdone.setId(longsList[3]);
 			notdone.setName("notdonework");
 		
+			Set<Contractor> contractorEntities = new HashSet<>();
+			contractorEntities.add(contractor1);
+			contractorEntities.add(contractor2);
+			contractorEntities.add(contractor3);
+			contractorEntities.add(contractor4);
+
+			// Initialize the database
+			contractorRepository.saveAll(contractorEntities);
+			contractorRepository.flush();
+			
+			Set<JobType> jobTypeEntities = new HashSet<>();
+			jobTypeEntities.add(water);
+			jobTypeEntities.add(heating);
+			jobTypeEntities.add(notdone);
+
+			// Initialize the database
+			jobTypeRepository.saveAll(jobTypeEntities);
+			jobTypeRepository.flush();
 
 		//buildings
 		//built out as building - apartment - lease - (person, rent, vehicle, pet, infractions)

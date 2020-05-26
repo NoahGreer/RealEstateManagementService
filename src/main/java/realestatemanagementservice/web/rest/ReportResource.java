@@ -159,15 +159,31 @@ public class ReportResource {
         log.debug("REST request to get all the Emails of active people");
         
     	final BooleanFilter notMinor = new BooleanFilter();
-        notMinor.setEquals(true);
+        notMinor.setEquals(false);
         
         final StringFilter hasEmail = new StringFilter();
         hasEmail.setSpecified(true);
       
-		final List<Long> activeLeaseIds = leaseQueryService.findActiveLeaseIds();
+        final LocalDate today = LocalDate.now();
+		
+		LocalDateFilter dateSignedFilter = new LocalDateFilter();
+		dateSignedFilter.setLessThanOrEqual(today);
+		
+		LocalDateFilter endDateFilter = new LocalDateFilter();
+		endDateFilter.setGreaterThan(today);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setDateSigned(dateSignedFilter);
+    	leaseCriteria.setEndDate(endDateFilter);
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+		List<Long> leaseIds = new ArrayList<>();
+    	for (LeaseDTO lease : leases) {
+    		leaseIds.add(lease.getId());
+    	}
         
         final LongFilter hasActiveLease = new LongFilter();
-        hasActiveLease.setIn(activeLeaseIds);
+        hasActiveLease.setIn(leaseIds);
         
         final PersonCriteria criteria = new PersonCriteria();
         criteria.setIsMinor(notMinor);
@@ -329,25 +345,37 @@ public class ReportResource {
 	public ResponseEntity<List<PetOwnerDTO>> getPetsAndOwners() {
 		log.debug("REST request to get a list of all pets and their owner's");
 
-		final List<Long> activeLeaseIds = leaseQueryService.findActiveLeaseIds();
-
-		final LongFilter hasActiveLease = new LongFilter();
-		hasActiveLease.setIn(activeLeaseIds);
-
+		final LocalDate today = LocalDate.now();
+		
+		LocalDateFilter dateSignedFilter = new LocalDateFilter();
+		dateSignedFilter.setLessThanOrEqual(today);
+		
+		LocalDateFilter endDateFilter = new LocalDateFilter();
+		endDateFilter.setGreaterThan(today);
+		
 		final LongFilter hasPetsOnLease = new LongFilter();
 		hasPetsOnLease.setSpecified(true);
-
-		LeaseCriteria leaseCriteria = new LeaseCriteria();
-		leaseCriteria.setId(hasActiveLease);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setDateSigned(dateSignedFilter);
+    	leaseCriteria.setEndDate(endDateFilter);;
 		leaseCriteria.setPetId(hasPetsOnLease);
 		List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+		
+		List<Long> leaseIds = new ArrayList<>();
+    	for (LeaseDTO lease : leases) {
+    		leaseIds.add(lease.getId());
+    	}
+    	
+    	final LongFilter peopleWithActiveLeasesAndPets = new LongFilter();
+    	peopleWithActiveLeasesAndPets.setIn(leaseIds);
 
 		final BooleanFilter primaryContact = new BooleanFilter();
 		primaryContact.setEquals(true);
     	
     	final PersonCriteria personCriteria = new PersonCriteria();
         personCriteria.setPrimaryContact(primaryContact);
-        personCriteria.setLeaseId(hasActiveLease);
+        personCriteria.setLeaseId(peopleWithActiveLeasesAndPets);
         
         final List<PersonDTO> primaryActivePeople = personQueryService.findByCriteria(personCriteria);
     	
@@ -356,7 +384,8 @@ public class ReportResource {
     		for (final PersonDTO person : primaryActivePeople) {
     			if (lease.getPeople().contains(person)) {
 		        	for (final PetDTO pet : lease.getPets()) {
-		        		activePetsAndPeople.add(new PetOwnerDTO(person,pet));	
+		        		PetOwnerDTO PO = new PetOwnerDTO(person,pet);
+		        		activePetsAndPeople.add(PO);	
 		        	}
 	        	}
     		}
