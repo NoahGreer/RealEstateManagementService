@@ -25,13 +25,7 @@ public class PetOwnerDTO implements Serializable{
 
     private Boolean certifiedAssistanceAnimal;
     
-    private PersonDTO personDTO;
-    
-    private PetDTO petDTO;
-    
     public PetOwnerDTO(PersonDTO personDTO, PetDTO petDTO) {
-    	this.personDTO = personDTO;
-    	this.petDTO = petDTO;
     	this.id = petDTO.getId();
     	this.firstName = personDTO.getFirstName();
     	this.lastName = personDTO.getLastName();
