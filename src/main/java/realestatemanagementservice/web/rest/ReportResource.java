@@ -2,7 +2,10 @@ package realestatemanagementservice.web.rest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -31,6 +34,7 @@ public class ReportResource {
 	
 	private final ApartmentQueryService apartmentQueryService;
 	private final ApartmentService apartmentService;
+	private final BuildingQueryService buildingQueryService;
 	private final BuildingService buildingService;
 	private final ContractorService contractorService;
 	private final LeaseQueryService leaseQueryService;
@@ -43,6 +47,7 @@ public class ReportResource {
 	
 	public ReportResource(ApartmentQueryService apartmentQueryService, 
 			ApartmentService apartmentService, 
+			BuildingQueryService buildingQueryService, 
 			BuildingService buildingService,
 			ContractorService contractorService,
 			InfractionQueryService infractionQueryService,
@@ -54,6 +59,7 @@ public class ReportResource {
 			VehicleQueryService vehicleQueryService) {
 		this.apartmentQueryService = apartmentQueryService;
 		this.apartmentService = apartmentService;
+		this.buildingQueryService = buildingQueryService;
 		this.buildingService = buildingService;
 		this.contractorService = contractorService;
 		this.infractionQueryService = infractionQueryService;
@@ -246,11 +252,31 @@ public class ReportResource {
     	
 		final List<ApartmentDTO> moveInReadyApartments = apartmentQueryService.findByCriteria(criteria);
 		
-		final List<AvailableApartmentDTO> availableApartments = new ArrayList<>();
-		
+		final List<Long> moveInReadyApartmentsBuildingIds = new ArrayList<>();
 		for (final ApartmentDTO moveInReadyApartment : moveInReadyApartments) {
-			AvailableApartmentDTO apartment = new AvailableApartmentDTO(moveInReadyApartment);
-			availableApartments.add(apartment);
+			moveInReadyApartmentsBuildingIds.add(moveInReadyApartment.getBuildingId());
+		}
+		
+		final LongFilter moveInReadyApartmentBuildingIdsFilter = new LongFilter();
+		moveInReadyApartmentBuildingIdsFilter.setIn(moveInReadyApartmentsBuildingIds);
+		
+		final BuildingCriteria moveInReadyApartmentBuildingCriteria = new BuildingCriteria();
+		moveInReadyApartmentBuildingCriteria.setId(moveInReadyApartmentBuildingIdsFilter);
+		
+		final List<BuildingDTO> moveInReadyApartmentBuildings = buildingQueryService.findByCriteria(moveInReadyApartmentBuildingCriteria);
+		
+		final Map<Long, BuildingDTO> moveInReadyApartmentBuildingIdToBuildingDTO = new HashMap<>();
+		for (final BuildingDTO moveInReadyApartmentBuilding : moveInReadyApartmentBuildings) {
+			moveInReadyApartmentBuildingIdToBuildingDTO.put(moveInReadyApartmentBuilding.getId(), moveInReadyApartmentBuilding);
+		}
+		
+		final List<AvailableApartmentDTO> availableApartments = new ArrayList<>();
+		for (final ApartmentDTO moveInReadyApartment : moveInReadyApartments) {
+			BuildingDTO moveInReadyApartmentBuilding = moveInReadyApartmentBuildingIdToBuildingDTO.get(moveInReadyApartment.getBuildingId());
+			if (Objects.nonNull(moveInReadyApartmentBuilding)) {
+				AvailableApartmentDTO apartment = new AvailableApartmentDTO(moveInReadyApartment, moveInReadyApartmentBuilding);
+				availableApartments.add(apartment);
+			}
 		}
     	
     	return ResponseEntity.ok().body(availableApartments);

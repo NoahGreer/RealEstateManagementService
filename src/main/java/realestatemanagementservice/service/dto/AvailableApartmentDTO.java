@@ -2,36 +2,30 @@ package realestatemanagementservice.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Optional;
 
 import realestatemanagementservice.service.dto.ApartmentDTO;
-import realestatemanagementservice.service.BuildingService;
 
 /**
  * A DTO for the {@link realestatemanagementservice.domain.Apartment} entity.
  */
 public class AvailableApartmentDTO implements Serializable {
 
-	private ApartmentDTO apartmentDTO;
-
-	private BuildingService buildingService;
-	
-	Optional<BuildingDTO> aBuilding = buildingService.findOne(apartmentDTO.getBuildingId());
-	
 	private Long id;
 	
-	private String buildingName;
-
     private String unitNumber;
 
     private Boolean moveInReady;
+    
+    private String buildingName;
 	
-	public AvailableApartmentDTO(ApartmentDTO apartmentDTO) {
-		this.apartmentDTO = apartmentDTO;
-		this.buildingName = aBuilding.get().getName();
-		this.moveInReady = apartmentDTO.isMoveInReady();
-		this.unitNumber = apartmentDTO.getUnitNumber();
+	public AvailableApartmentDTO(ApartmentDTO apartmentDTO, BuildingDTO buildingDTO) {
+		Objects.requireNonNull(apartmentDTO, "apartmentDTO must not be null");
+		Objects.requireNonNull(buildingDTO, "buildingDTO must not be null");
+		
 		this.id = apartmentDTO.getId();
+		this.unitNumber = apartmentDTO.getUnitNumber();
+		this.moveInReady = apartmentDTO.isMoveInReady();
+		this.buildingName = buildingDTO.getName();
 	}
     
     public Long getId() {
@@ -42,11 +36,9 @@ public class AvailableApartmentDTO implements Serializable {
     	return buildingName;
     }
     
-    
     public String getUnitNumber() {
         return unitNumber;
     }
-
 
     public Boolean isMoveInReady() {
         return moveInReady;
@@ -82,5 +74,4 @@ public class AvailableApartmentDTO implements Serializable {
             ", moveInReady='" + isMoveInReady() + "'" +
             "}";
     }
-
 }
