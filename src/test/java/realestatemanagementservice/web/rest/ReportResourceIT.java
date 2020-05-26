@@ -857,7 +857,7 @@ public class ReportResourceIT {
 		Person excludedExpiredLeasePerson = new Person();
 		excludedExpiredLeasePerson.addLease(excludedExpiredLease);
 		excludedExpiredLeasePerson.setFirstName("Experied Lease");
-		excludedExpiredLeasePerson.isPrimaryContact();
+		excludedExpiredLeasePerson.setPrimaryContact(true);
 		
 		Pet excludedExpiredLeasePet = new Pet();
 		excludedExpiredLeasePet.addLease(excludedExpiredLease);
@@ -867,14 +867,14 @@ public class ReportResourceIT {
 		Person excludedNoPetPerson = new Person();
 		excludedNoPetPerson.addLease(excludedCurrentLease);
 		excludedNoPetPerson.setFirstName("No Pet Person");
-		excludedNoPetPerson.isPrimaryContact();
+		excludedNoPetPerson.setPrimaryContact(true);
 		
 		
 		Person includedCurrentLeasePersonWithPet = new Person();
 		includedCurrentLeasePersonWithPet.addLease(excludedSecondExpiredLease);
 		includedCurrentLeasePersonWithPet.addLease(includedCurrentLease);
 		includedCurrentLeasePersonWithPet.setFirstName("Both good and bad Lease Person");
-		includedCurrentLeasePersonWithPet.isPrimaryContact();
+		includedCurrentLeasePersonWithPet.setPrimaryContact(true);
 		
 		Pet includedCurrentLeasePetWithPerson = new Pet();
 		includedCurrentLeasePetWithPerson.addLease(excludedSecondExpiredLease);
@@ -885,7 +885,7 @@ public class ReportResourceIT {
 		Person includedCurrentLeaseMultiPeopleWithPet1 = new Person();
 		includedCurrentLeaseMultiPeopleWithPet1.addLease(includedSecondCurrentLease);
 		includedCurrentLeaseMultiPeopleWithPet1.setFirstName("Primary Contact With Pet");
-		includedCurrentLeaseMultiPeopleWithPet1.isPrimaryContact();
+		includedCurrentLeaseMultiPeopleWithPet1.setPrimaryContact(true);
 		
 		Person includedCurrentLeaseMultiPeopleWithPet2 = new Person();
 		includedCurrentLeaseMultiPeopleWithPet2.addLease(includedSecondCurrentLease);
@@ -899,7 +899,7 @@ public class ReportResourceIT {
 		Person includedCurrentLeasePeopleWithMultiPet = new Person();
 		includedCurrentLeasePeopleWithMultiPet.addLease(includedThirdCurrentLease);
 		includedCurrentLeasePeopleWithMultiPet.setFirstName("Primary Contact With Multiple Pets");
-		includedCurrentLeasePeopleWithMultiPet.isPrimaryContact();
+		includedCurrentLeasePeopleWithMultiPet.setPrimaryContact(true);
 		
 		Pet includedCurrentLeaseMultiPetWithPerson1 = new Pet();
 		includedCurrentLeaseMultiPetWithPerson1.addLease(includedThirdCurrentLease);
