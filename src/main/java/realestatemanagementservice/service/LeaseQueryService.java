@@ -78,10 +78,10 @@ public class LeaseQueryService extends QueryService<Lease> {
         final LocalDate today = LocalDate.now();
         
         final LocalDateFilter dateSignedFilter = new LocalDateFilter();
-        dateSignedFilter.setGreaterThanOrEqual(today);
+        dateSignedFilter.setLessThanOrEqual(today);
         
         final LocalDateFilter endDateFilter = new LocalDateFilter();
-        endDateFilter.setLessThan(today);
+        endDateFilter.setGreaterThan(today);
         
         final LeaseCriteria criteria = new LeaseCriteria();
         criteria.setDateSigned(dateSignedFilter);
