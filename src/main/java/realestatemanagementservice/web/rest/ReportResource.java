@@ -248,8 +248,8 @@ public class ReportResource {
 		
 		final List<AvailableApartmentDTO> availableApartments = new ArrayList<>();
 		
-		for(ApartmentDTO apartments : moveInReadyApartments) {
-			AvailableApartmentDTO apartment = new AvailableApartmentDTO(apartments);
+		for (final ApartmentDTO moveInReadyApartment : moveInReadyApartments) {
+			AvailableApartmentDTO apartment = new AvailableApartmentDTO(moveInReadyApartment);
 			availableApartments.add(apartment);
 		}
     	
