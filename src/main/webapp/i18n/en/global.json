@@ -9,6 +9,7 @@
         "main": "Reports",
         "availableApartments": "Current Available Apartments",
         "contacts": "Contacts",
+        "emails": "Emails",
         "vehicle": "Current Registered Vehicles",
         "rentsPaid": "Current Paid Rents"
       },
