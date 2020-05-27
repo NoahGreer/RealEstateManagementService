@@ -3,10 +3,13 @@ package realestatemanagementservice.web.rest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -360,7 +363,8 @@ public class ReportResource {
     	leaseCriteria.setDateSigned(dateSignedFilter);
     	leaseCriteria.setEndDate(endDateFilter);
 		leaseCriteria.setPetId(hasPetsOnLease);
-		List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+		// Wrap in a hash set to guarantee unique lease entries
+		Set<LeaseDTO> leases = new HashSet<>(leaseQueryService.findByCriteria(leaseCriteria));
 		
 		List<Long> leaseIds = new ArrayList<>();
     	for (LeaseDTO lease : leases) {
