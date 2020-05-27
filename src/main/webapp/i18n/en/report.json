@@ -4,6 +4,7 @@
       "home": {
         "title": "Reports",
         "rents-paid": "Rents Paid",
+        "available-apartments": "Available Apartments",
         "authorized-vehicles": "Authorized Vehicles",
         "test-report": "Test Report",
         "notFound": "No report data found"
