@@ -21,11 +21,11 @@ export class ReportService {
   constructor(protected http: HttpClient) {}
 
   getRentsPaid(date: string): Observable<TestResponseType> {
-    return this.http.get<Object[]>(`${this.resourceUrl}/rents/paid?date=` + date, { observe: 'response' });
+    return this.http.get<Object[]>(`${this.resourceUrl}/rents/paid?date=${date}`, { observe: 'response' });
   }
 
   getAuthorizedVehicles(building: number): Observable<TestResponseType> {
-    return this.http.get<Object[]>(`${this.resourceUrl}/buildings/` + building + `/vehicles/authorized`, { observe: 'response' });
+    return this.http.get<Object[]>(`${this.resourceUrl}/buildings/${building}/vehicles/authorized`, { observe: 'response' });
   }
 
   getTestReport(): Observable<TestResponseType> {
