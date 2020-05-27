@@ -10,8 +10,6 @@ import javax.validation.constraints.Min;
 
 public class PropertyTaxWithPropertyNumberDTO implements Serializable{
 	 private Long id;
-
-	 private PropertyTaxDTO propertyTaxDTO;
 	 
     @Min(value = 0)
     private Integer taxYear;
@@ -24,11 +22,11 @@ public class PropertyTaxWithPropertyNumberDTO implements Serializable{
     
     private String propertyNumber;
     
-    private BuildingDTO buildingDTO;
-    
     public PropertyTaxWithPropertyNumberDTO(PropertyTaxDTO propertyTaxDTO, BuildingDTO buildingDTO) {
-		this.propertyTaxDTO = propertyTaxDTO;
-		this.buildingDTO = buildingDTO;
+    	
+    	Objects.requireNonNull(propertyTaxDTO, "propertyTaxDTO must not be null");
+		Objects.requireNonNull(buildingDTO, "buildingDTO must not be null");
+		
 		this.id = propertyTaxDTO.getId();
 		this.taxYear = propertyTaxDTO.getTaxYear();
 		this.amount = propertyTaxDTO.getAmount();
