@@ -28,6 +28,18 @@ export class ReportService {
     return this.http.get<Object[]>(`${this.resourceUrl}/buildings/${buildingId}/vehicles/authorized`, { observe: 'response' });
   }
 
+  getAvailableApartments(): Observable<TestResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/apartments/available`, { observe: 'response' });
+  }
+
+  getContacts(): Observable<TestResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/people/contact`, { observe: 'response' });
+  }
+
+  getEmails(): Observable<TestResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/people/email`, { observe: 'response' });
+  }
+
   getTestReport(): Observable<TestResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/reportTest`, { observe: 'response' });
   }

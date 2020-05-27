@@ -7,6 +7,9 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "reports": {
         "main": "Reports",
+        "availableApartments": "Current Available Apartments",
+        "contacts": "Contacts",
+        "emails": "Emails",
         "vehicle": "Current Registered Vehicles",
         "rentsPaid": "Current Paid Rents"
       },

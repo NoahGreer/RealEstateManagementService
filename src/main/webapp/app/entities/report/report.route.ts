@@ -102,5 +102,41 @@ export const reportRoute: Routes = [
       pageTitle: 'realEstateManagementServiceApp.report.home.authorized-vehicles'
     },
     canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'available-apartments',
+    component: ReportComponent,
+    resolve: {
+      report: AuthorizedVehicleReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.available-apartments'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'contacts',
+    component: ReportComponent,
+    resolve: {
+      report: AuthorizedVehicleReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.contacts'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'emails',
+    component: ReportComponent,
+    resolve: {
+      report: AuthorizedVehicleReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.emails'
+    },
+    canActivate: [UserRouteAccessService]
   }
 ];
