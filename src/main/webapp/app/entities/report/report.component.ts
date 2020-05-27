@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 // import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 
 // import { IReport } from 'app/shared/model/report.model';
@@ -52,10 +53,6 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   getTodaysDate(): string {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    return yyyy + '-' + mm + '-' + dd;
+    return moment().format('YYYY-MM-DD');
   }
 }
