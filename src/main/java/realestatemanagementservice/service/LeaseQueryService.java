@@ -1,5 +1,7 @@
 package realestatemanagementservice.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.JoinType;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.jhipster.service.QueryService;
-
+import io.github.jhipster.service.filter.LocalDateFilter;
 import realestatemanagementservice.domain.Lease;
 import realestatemanagementservice.domain.*; // for static metamodels
 import realestatemanagementservice.repository.LeaseRepository;
@@ -66,6 +68,43 @@ public class LeaseQueryService extends QueryService<Lease> {
         final Specification<Lease> specification = createSpecification(criteria);
         return leaseRepository.findAll(specification, page)
             .map(leaseMapper::toDto);
+    }
+    
+    /**
+     * Return a {@link List} of {@link LeaseDTO} with active leases from the database.
+     * @return the matching entities.
+     */
+    public List<LeaseDTO> findActiveLeases() {
+        final LocalDate today = LocalDate.now();
+        
+        final LocalDateFilter dateSignedFilter = new LocalDateFilter();
+        dateSignedFilter.setLessThanOrEqual(today);
+        
+        final LocalDateFilter endDateFilter = new LocalDateFilter();
+        endDateFilter.setGreaterThan(today);
+        
+        final LeaseCriteria criteria = new LeaseCriteria();
+        criteria.setDateSigned(dateSignedFilter);
+        criteria.setEndDate(endDateFilter);
+        
+        final List<LeaseDTO> activeLeases = findByCriteria(criteria);
+        return activeLeases;
+    }
+    
+    /**
+     * Return a {@link List} of {@link LeaseDTO} with active leases from the database.
+     * @return the matching ids.
+     */
+    public List<Long> findActiveLeaseIds() {
+        
+        final List<LeaseDTO> activeLeases = findActiveLeases();
+        
+        final List<Long> activeLeaseIds = new ArrayList<>();
+        for (final LeaseDTO activeLease : activeLeases) {
+        	activeLeaseIds.add(activeLease.getId());
+        }
+        
+        return activeLeaseIds;
     }
 
     /**
