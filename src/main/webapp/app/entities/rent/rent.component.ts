@@ -10,6 +10,7 @@ import { IRent } from 'app/shared/model/rent.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { RentService } from './rent.service';
 import { RentDeleteDialogComponent } from './rent-delete-dialog.component';
+import { RentPayDialogComponent } from './rent-pay-dialog.component';
 
 @Component({
   selector: 'jhi-rent',
@@ -76,6 +77,11 @@ export class RentComponent implements OnInit, OnDestroy {
 
   delete(rent: IRent): void {
     const modalRef = this.modalService.open(RentDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.rent = rent;
+  }
+
+  pay(rent: IRent): void {
+    const modalRef = this.modalService.open(RentPayDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.rent = rent;
   }
 

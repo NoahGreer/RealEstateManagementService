@@ -8,6 +8,7 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IRent } from 'app/shared/model/rent.model';
+// import { isRestElement } from '@babel/types';
 
 type EntityResponseType = HttpResponse<IRent>;
 type EntityArrayResponseType = HttpResponse<IRent[]>;
@@ -46,6 +47,10 @@ export class RentService {
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  pay(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
