@@ -71,6 +71,9 @@ public class ReportResourceIT {
 	private PetRepository petRepository;
 	
 	@Autowired
+	private PropertyTaxRepository propertyTaxRepository;
+	
+	@Autowired
 	private EntityManager em;
 
 	@Autowired
@@ -938,5 +941,66 @@ public class ReportResourceIT {
 				.andExpect(jsonPath("$[1].id", equalTo(includedCurrentLeasePetWithMultiplePeople.getId().intValue())))
 				.andExpect(jsonPath("$[2].id", equalTo(includedCurrentLeaseMultiPetWithPerson1.getId().intValue())))
 				.andExpect(jsonPath("$[3].id", equalTo(includedCurrentLeaseMultiPetWithPerson2.getId().intValue())));
+	}
+	
+	@Test
+	@Transactional
+	public void getTaxHistory() throws Exception {
+		
+		//Creating test buildings to attach tax records to
+		Building multiYearBuildingHistory = new Building();
+		multiYearBuildingHistory.setPropertyNumber("MultiYear");
+		
+		Building oneYearBuildingHistory = new Building();
+		oneYearBuildingHistory.setPropertyNumber("One Year");
+		
+		Building noYearBuildingHistory = new Building();
+		noYearBuildingHistory.setPropertyNumber("No History");
+		
+		Set<Building> buildingEntities = new HashSet<>();
+		buildingEntities.add(multiYearBuildingHistory);
+		buildingEntities.add(oneYearBuildingHistory);
+		buildingEntities.add(noYearBuildingHistory);
+
+		// Initialize buildings in the database
+		buildingRepository.saveAll(buildingEntities);
+		buildingRepository.flush();
+		
+		//Create test tax histories
+		PropertyTax multiYearHistoryBuildingTaxRecortd1 = new PropertyTax();
+		multiYearHistoryBuildingTaxRecortd1.setBuilding(multiYearBuildingHistory);
+		multiYearHistoryBuildingTaxRecortd1.setTaxYear(2000);
+		multiYearHistoryBuildingTaxRecortd1.setConfirmationNumber("Confirmed 1");
+		
+		PropertyTax multiYearHistoryBuildingTaxRecortd2 = new PropertyTax();
+		multiYearHistoryBuildingTaxRecortd2.setBuilding(multiYearBuildingHistory);
+		multiYearHistoryBuildingTaxRecortd2.setTaxYear(2001);
+		multiYearHistoryBuildingTaxRecortd2.setConfirmationNumber("Confirmed 2");
+		
+		PropertyTax oneYearBuildingHistoryRecord = new PropertyTax();
+		oneYearBuildingHistoryRecord.setBuilding(oneYearBuildingHistory);
+		oneYearBuildingHistoryRecord.setTaxYear(2001);
+		oneYearBuildingHistoryRecord.setConfirmationNumber("Confirmed");
+		
+		//Tax History not attached to any building
+		PropertyTax unattachedRecord = new PropertyTax();
+		unattachedRecord.setTaxYear(2001);
+		unattachedRecord.setConfirmationNumber("unConfirmed");
+		
+		Set<PropertyTax> taxHistory = new HashSet<PropertyTax>();
+		taxHistory.add(multiYearHistoryBuildingTaxRecortd1);
+		taxHistory.add(multiYearHistoryBuildingTaxRecortd2);
+		taxHistory.add(oneYearBuildingHistoryRecord);
+		
+		propertyTaxRepository.saveAll(taxHistory);;
+		apartmentRepository.flush();
+		
+		//Get list of tax history with tax number
+		restRentMockMvc.perform(get("/api/reports/tax/property"))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(3)))
+			.andExpect(jsonPath("$[0].id", equalTo(multiYearHistoryBuildingTaxRecortd1.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(multiYearHistoryBuildingTaxRecortd2.getId().intValue())))
+			.andExpect(jsonPath("$[2].id", equalTo(oneYearBuildingHistoryRecord.getId().intValue())));
 	}
 }
