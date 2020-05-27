@@ -44,6 +44,10 @@ export class ReportComponent implements OnInit, OnDestroy {
         this.objectType = 'authorized vehicle';
         this.reportService.getAuthorizedVehicles(1).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
         break;
+      case '/report/contacts':
+        this.objectType = 'contact';
+        this.reportService.getContacts().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        break;
       default:
         this.objectType = 'test';
         this.reportService.getTestReport().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
