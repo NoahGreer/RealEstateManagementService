@@ -8,6 +8,7 @@
       "reports": {
         "main": "Reports",
         "availableApartments": "Current Available Apartments",
+        "contacts": "Contacts",
         "vehicle": "Current Registered Vehicles",
         "rentsPaid": "Current Paid Rents"
       },
