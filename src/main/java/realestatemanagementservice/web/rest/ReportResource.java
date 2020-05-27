@@ -86,9 +86,15 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of report fields in body.
      */
     @GetMapping("/reports/reportTest")
-    public ResponseEntity<String[]> getTestReport() {
-
-        return ResponseEntity.ok().body(new String[] {"Hey","Look","At","This"});
+    public ResponseEntity<HashMap<Integer, String>> getTestReport() {
+    	
+    	HashMap<Integer, String> testReport = new HashMap<>();
+    	testReport.put(0, "This");
+    	testReport.put(1, "is");
+    	testReport.put(2, "a");
+    	testReport.put(3, "Test");
+    	
+        return ResponseEntity.ok().body(testReport);
     }
     
 	/**

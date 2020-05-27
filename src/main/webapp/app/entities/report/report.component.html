@@ -1,50 +1,79 @@
 <div>
     <h2 id="page-heading">
-    <div> </div>
+        <div> </div>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
 
     <jhi-alert></jhi-alert>
 
-    <!-- <div *ngIf="data !== undefined">
-        {{ data }}
-    </div> -->
+    <h3 *ngIf="data !== undefined" class="text-center">
+        <div jhiTranslate="{{data}}">
+        </div>
+    </h3>
 
     <div class="alert alert-warning" id="no-result" *ngIf="report?.length === 0">
         <span jhiTranslate="realEstateManagementServiceApp.report.home.notFound">No report data found</span>
         <div>This is a test, hopefully this shows up.</div>
     </div>
 
-    <div class="table-responsive" id="entities">
+    <div id="entities">
 
-        <div *ngIf="report !== undefined">
-            <div *ngFor="let item of report | keyvalue;" class=" m-2 rounded w-25" style="display:inline-block">
+        <div *ngIf="report !== undefined" style="text-align:center;">
 
-                <div class="card rounded" >
-                    <h4 *ngIf="objectType; else objectNotDefined" 
-                    class="card-title" style="text-transform:capitalize; text-align:center">
-                        {{ objectType }} {{ item.key }}:
-                    </h4>
-                    <ng-template #objectNotDefined>
-                        {{ item.key }}
-                    </ng-template>
-                    
-
-                    <div *ngFor="let subItem of item.value | keyvalue" class="card-body ml-4">
-                        <div *ngIf="subItem.key === 'id'; else elseBlock" >
-                            
-                            <b><a [routerLink]="['/', objectType, subItem.value, 'view']">{{ subItem.key }}</a>
-                            : {{ subItem.value }}</b>
+            <div *ngFor="let item of report | keyvalue;" class="card w-40 m-2" style="display: inline-block; text-align:left;">
+                <div class="card-body">
+                    <div class="card-title bg-light">
+                        <div>
+                            <h4 *ngIf="objectType; else objectNotDefined"
+                                style="text-transform:capitalize; text-align:center">
+                                {{ objectType }} {{ item.key }}:
+                            </h4>
+                            <ng-template #objectNotDefined>
+                                {{ item.key }}
+                            </ng-template>
                         </div>
-                        <ng-template #elseBlock>
-                            {{ subItem.key}} : {{ subItem.value }} 
-                        </ng-template>
+                    </div>
+                    <div class="ml-5">
+                        <div *ngFor="let subItem of item.value | keyvalue" style="text-transform:capitalize;"
+                            [ngSwitch]="subItem.key">
+                            <div *ngSwitchCase="'id'">
+                                <div class="row">
+                                    <div class="w-50">
+                                        <a [routerLink]="['/', objectType, subItem.value, 'view']" class="link">
+                                            {{ subItem.key }} :
+                                        </a>
+                                    </div>
+                                    <div class="w-50">
+                                        {{ subItem.value }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'amount'">
+                                <div class="row">
+                                    <div class="w-50">
+                                        {{ subItem.key}} :
+                                    </div>
+                                    <div class="w-50">
+                                        {{ subItem.value | currency }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchDefault>
+                                <div class="row">
+                                    <div class="w-50">
+                                        {{ subItem.key}} :
+                                    </div>
+                                    <div class="w-50">
+                                        {{ subItem.value }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
         </div>
+    </div>
+</div>
+
