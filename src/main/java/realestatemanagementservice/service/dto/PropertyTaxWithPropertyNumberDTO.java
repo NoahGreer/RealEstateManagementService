@@ -8,12 +8,8 @@ import java.util.Optional;
 
 import javax.validation.constraints.Min;
 
-import realestatemanagementservice.service.BuildingService;
-
 public class PropertyTaxWithPropertyNumberDTO implements Serializable{
 	 private Long id;
-
-	 private PropertyTaxDTO propertyTaxDTO;
 	 
     @Min(value = 0)
     private Integer taxYear;
@@ -26,18 +22,17 @@ public class PropertyTaxWithPropertyNumberDTO implements Serializable{
     
     private String propertyNumber;
     
-    private BuildingService buildingService;
-	
-	Optional<BuildingDTO> aBuilding = buildingService.findOne(propertyTaxDTO.getBuildingId());
-    
-    public PropertyTaxWithPropertyNumberDTO(PropertyTaxDTO propertyTaxDTO) {
-		this.propertyTaxDTO = propertyTaxDTO;
+    public PropertyTaxWithPropertyNumberDTO(PropertyTaxDTO propertyTaxDTO, BuildingDTO buildingDTO) {
+    	
+    	Objects.requireNonNull(propertyTaxDTO, "propertyTaxDTO must not be null");
+		Objects.requireNonNull(buildingDTO, "buildingDTO must not be null");
+		
 		this.id = propertyTaxDTO.getId();
 		this.taxYear = propertyTaxDTO.getTaxYear();
 		this.amount = propertyTaxDTO.getAmount();
 		this.datePaid = propertyTaxDTO.getDatePaid();
 		this.confirmationNumber = propertyTaxDTO.getConfirmationNumber();
-		this.propertyNumber = aBuilding.get().getPropertyNumber();
+		this.propertyNumber = buildingDTO.getPropertyNumber();
 	}
     
     public Long getId() {

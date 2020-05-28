@@ -429,12 +429,27 @@ public class ReportResource {
     public ResponseEntity<List<PropertyTaxWithPropertyNumberDTO>> getTaxHistory() {
 		log.debug("REST request to get a list of the full property tax historyr");
 		
-		final List<PropertyTaxDTO> propertyTax = propertyTaxQueryService.findByCriteria(null);
+		final LongFilter hasIds = new LongFilter();
+		hasIds.setSpecified(true);
+
+    	final PropertyTaxCriteria propertyTaxCriteria = new PropertyTaxCriteria();
+    	propertyTaxCriteria.setId(hasIds);
+		
+		final List<PropertyTaxDTO> propertyTax = propertyTaxQueryService.findByCriteria(propertyTaxCriteria);
+		
+		final BuildingCriteria buildingCriteria = new BuildingCriteria();
+		buildingCriteria.setId(hasIds);
+		
+		final List<BuildingDTO> propertyTaxBuildings = buildingQueryService.findByCriteria(buildingCriteria);
 		
 		final List<PropertyTaxWithPropertyNumberDTO> taxHistory = new ArrayList<>();
 		for (final PropertyTaxDTO history : propertyTax) {
-			PropertyTaxWithPropertyNumberDTO fullTax = new PropertyTaxWithPropertyNumberDTO(history);
-			taxHistory.add(fullTax);
+			for(final BuildingDTO building : propertyTaxBuildings) {
+				if(building.getId()==history.getBuildingId()) {
+					PropertyTaxWithPropertyNumberDTO fullTax = new PropertyTaxWithPropertyNumberDTO(history, building);
+					taxHistory.add(fullTax);
+				}
+			}
         }
     	
     	return ResponseEntity.ok().body(taxHistory);
