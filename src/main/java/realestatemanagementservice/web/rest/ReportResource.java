@@ -523,7 +523,7 @@ public class ReportResource {
 		dateSignedFilter.setLessThanOrEqual(today);
 		
 		LocalDateFilter endDateFilter = new LocalDateFilter();
-		endDateFilter.setGreaterThan(today);
+		endDateFilter.setGreaterThanOrEqual(today);
     	
     	LeaseCriteria leaseCriteria = new LeaseCriteria();
     	leaseCriteria.setDateSigned(dateSignedFilter);
