@@ -509,11 +509,11 @@ public class ReportResource {
     }
     
     /**
-     * {@code GET  /reports/lease/:count/expire} : get all the infractions in a given year.
-     * @param year the year which the requested entities should match.
+     * {@code GET  /reports/lease/expire} : get the next number of leases to expire.
+     * @param year the count which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
      */
-	@GetMapping("/reports/lease/{count}/expire")
+	@GetMapping("/reports/lease/expire")
     public ResponseEntity<List<LeaseDTO>> getLeasesNextToExpire(@RequestParam("count") @Min(1) @Max(50) int count) {
 		log.debug("REST request to get the next leases to expire by criteria: {}", count);
     	
