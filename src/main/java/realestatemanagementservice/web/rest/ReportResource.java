@@ -543,12 +543,12 @@ public class ReportResource {
 	
 	/**
      * {@code GET  /reports/contractor/jobtype} : get the next number of leases to expire.
-     * @param year the count which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
+     * @param id in which the requested entities should contain.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of contractors that do a particular jobtype.
      */
 	@GetMapping("/reports/contractor/jobtype")
     public ResponseEntity<List<ContractorDTO>> getContractorByJobType(@RequestParam("id") Long id) {
-		log.debug("REST request to get the next leases to expire by criteria: {}", id);
+		log.debug("REST request to get the contractors that do a particular job type criteria: {}", id);
 		
 		LongFilter jobType = new LongFilter();
 		jobType.setEquals(id);
