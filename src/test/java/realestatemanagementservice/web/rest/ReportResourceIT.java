@@ -74,6 +74,9 @@ public class ReportResourceIT {
 	private PropertyTaxRepository propertyTaxRepository;
 	
 	@Autowired
+	private JobTypeRepository jobTypeRepository;
+	
+	@Autowired
 	private EntityManager em;
 
 	@Autowired
@@ -538,7 +541,6 @@ public class ReportResourceIT {
 		invalidInfractions.add(firstInvalidInfraction);
 		invalidInfractions.add(secondInvalidInfraction);
 		
-		
 		infractionRepository.saveAll(validInfractions);
 		infractionRepository.saveAll(invalidInfractions);
 		infractionRepository.flush();
@@ -697,8 +699,6 @@ public class ReportResourceIT {
 		excludedNoLeasePerson.setEmailAddress("NoLease@BadEmail");
 		excludedNoLeasePerson.setIsMinor(false);
 
-
-		
 		Set<Person> personEntities = new HashSet<>();
 		personEntities.add(excludedExpiredLeasePerson);
 		personEntities.add(includedCurrentLeasePerson1);
@@ -779,7 +779,6 @@ public class ReportResourceIT {
 		Person excludedNoLeasePerson = new Person();
 		excludedNoLeasePerson.setEmailAddress("NoLease@BadEmail");
 
-		
 		Set<Person> personEntities = new HashSet<>();
 		personEntities.add(excludedExpiredLeasePerson);
 		personEntities.add(includedCurrentLeasePerson1);
@@ -1016,7 +1015,6 @@ public class ReportResourceIT {
 		final LocalDate dayAfter = today.plusDays(2);
 		final LocalDate tooMany = today.plusDays(3);
 		
-		
 		/*Generated and inserted out of order should make the IDs 
 		be in this order to test the sorting
 		*/
@@ -1059,5 +1057,59 @@ public class ReportResourceIT {
 				.andExpect(jsonPath("$[0].id", equalTo(includedCurrentLease.getId().intValue())))
 				.andExpect(jsonPath("$[1].id", equalTo(includedSecondCurrentLease.getId().intValue())))
 				.andExpect(jsonPath("$[2].id", equalTo(includedthirdCurrentLease.getId().intValue())));
+	}
+	
+	@Test
+	@Transactional
+	public void getContractorByJobType() throws Exception {
+		
+		//searched for
+		JobType water = new JobType();
+		
+		//red hearing
+		JobType heating = new JobType();
+		
+		//not used
+		JobType flooring = new JobType();
+		
+		Set<JobType> jobs = new HashSet<JobType>();
+		jobs.add(water);
+		jobs.add(heating);
+		jobs.add(flooring);
+		
+		jobTypeRepository.saveAll(jobs);
+		jobTypeRepository.flush();
+		
+		//Create test Contractors to associate
+		Contractor includedContractorOneJobType = new Contractor();
+		includedContractorOneJobType.setCompanyName("IncludeOneJobType");
+		includedContractorOneJobType.addJobType(water);
+		
+		Contractor includedContractorMultiJobType = new Contractor();
+		includedContractorMultiJobType.setCompanyName("IncludeMultiJobType");
+		includedContractorMultiJobType.addJobType(water);
+		includedContractorMultiJobType.addJobType(heating);
+		
+		Contractor excludedContractorBadJobType = new Contractor();
+		excludedContractorBadJobType.setCompanyName("ExcludeBadJobType");
+		excludedContractorBadJobType.addJobType(heating);
+
+		Contractor excludedContractorNoJobType = new Contractor();
+		excludedContractorNoJobType.setCompanyName("ExcludeNoJobType");
+		
+		Set<Contractor> contractors = new HashSet<Contractor>();
+		contractors.add(includedContractorOneJobType);
+		contractors.add(includedContractorMultiJobType);
+		contractors.add(excludedContractorBadJobType);
+		contractors.add(excludedContractorNoJobType);
+		
+		contractorRepository.saveAll(contractors);
+		contractorRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/contractor/jobtype?id=" + water.getId()))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(2)))
+			.andExpect(jsonPath("$[0].id", equalTo(includedContractorOneJobType.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(includedContractorMultiJobType.getId().intValue())));
 	}
 }

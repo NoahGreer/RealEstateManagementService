@@ -53,6 +53,7 @@ public class ReportResource {
 	private final PropertyTaxQueryService propertyTaxQueryService;
 	private final RentQueryService rentQueryService;
 	private final VehicleQueryService vehicleQueryService;
+	private final ContractorQueryService contractorQueryService;;
 		
 	public ReportResource(ApartmentQueryService apartmentQueryService, 
 			ApartmentService apartmentService, 
@@ -65,7 +66,8 @@ public class ReportResource {
 			RentQueryService rentQueryService, 
 			LeaseQueryService leaseQueryService, 
 			MaintenanceQueryService maintenanceQueryService,
-			VehicleQueryService vehicleQueryService) {
+			VehicleQueryService vehicleQueryService,
+			ContractorQueryService contractorQueryService) {
 		this.apartmentQueryService = apartmentQueryService;
 		this.apartmentService = apartmentService;
 		this.buildingQueryService = buildingQueryService;
@@ -78,11 +80,11 @@ public class ReportResource {
 		this.maintenanceQueryService = maintenanceQueryService;
 		this.rentQueryService = rentQueryService;
 		this.vehicleQueryService = vehicleQueryService;
+		this.contractorQueryService = contractorQueryService;
 	}
 	
     /**
      * {@code GET  /reportTest} : get all the rents.
-     *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of report fields in body.
@@ -101,7 +103,6 @@ public class ReportResource {
     
 	/**
 	 * {@code GET  /reports/rents/paid} : get all the rents paid through the specified date for that month.
-     *
      * @param date the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
      */
@@ -126,7 +127,6 @@ public class ReportResource {
     
 	/**
      * {@code GET  /reports/buildings/:id/vehicles/authorized} : get the authorized vehicles for the "id" building.
-     *
      * @param id the id of the buildingDTO to retrieve authorized vehicles for.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with list of authorized vehicles in body.
      */
@@ -347,7 +347,7 @@ public class ReportResource {
 
 	/**
      * {@code GET  /reports/contractors/:id/maintenance/history} : get all work done by a particular contractor.
-     * @param criteria the criteria which the requested entities should match.
+     * @param the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all work done by a particular contractor.
      */
 	@GetMapping("/reports/contractors/{id}/maintenance/history")
@@ -457,6 +457,11 @@ public class ReportResource {
     	return ResponseEntity.ok().body(taxHistory);
     }
 	
+	/**
+     * {@code GET  /reports/apartments/:id/maintenance/history} : get the maintenance history in a particular apartment by apartmentID.
+     * @param the maintenance entities requested should match those related to the apartment.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the maintenance jobs in an apartment.
+     */
     @GetMapping("/reports/apartments/{id}/maintenance/history")
     public ResponseEntity<List<MaintenanceDTO>> getApartmentMaintenanceHistory(@PathVariable Long id) {
     	log.debug("REST request to get Apartment Maintenance history for id criteria: {}", id);
@@ -472,6 +477,11 @@ public class ReportResource {
     	return ResponseEntity.ok().body(repairs);
     }
     
+    /**
+     * {@code GET  /reports/apartments/:id/tenants} : get the tenants in a particular apartment by apartmentID.
+     * @param the person entities requested should match those in the apartment.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the tenants in an apartment.
+     */
     @GetMapping("/reports/apartments/{id}/tenants")
     public ResponseEntity<List<PersonDTO>> getApartmentTenants(@PathVariable Long id) {
     	log.debug("REST request to get Apartment tenants for id criteria: {}", id);
@@ -510,8 +520,8 @@ public class ReportResource {
     
     /**
      * {@code GET  /reports/lease/expire} : get the next number of leases to expire.
-     * @param year the count which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
+     * @param the count of the requested entities should match the param.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the next leases to expire.
      */
 	@GetMapping("/reports/lease/expire")
     public ResponseEntity<List<LeaseDTO>> getLeasesNextToExpire(@RequestParam("count") @Min(1) @Max(50) int count) {
@@ -536,5 +546,25 @@ public class ReportResource {
 		List<LeaseDTO> orderedLeases = new ArrayList<LeaseDTO>(leases.subList(0, count));
 
 		return ResponseEntity.ok().body(orderedLeases);
+    }
+	
+	/**
+     * {@code GET  /reports/contractor/jobtype} : get the next number of leases to expire.
+     * @param id in which the requested entities should contain.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of contractors that do a particular jobtype.
+     */
+	@GetMapping("/reports/contractor/jobtype")
+    public ResponseEntity<List<ContractorDTO>> getContractorByJobType(@RequestParam("id") Long id) {
+		log.debug("REST request to get the contractors that do a particular job type criteria: {}", id);
+		
+		LongFilter jobType = new LongFilter();
+		jobType.setEquals(id);
+    	
+    	ContractorCriteria contractorCriteria = new ContractorCriteria();
+    	contractorCriteria.setJobTypeId(jobType);
+	
+		List<ContractorDTO> contractors = contractorQueryService.findByCriteria(contractorCriteria);
+
+		return ResponseEntity.ok().body(contractors);
     }
 }
