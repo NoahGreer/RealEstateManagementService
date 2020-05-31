@@ -541,7 +541,6 @@ public class ReportResourceIT {
 		invalidInfractions.add(firstInvalidInfraction);
 		invalidInfractions.add(secondInvalidInfraction);
 		
-		
 		infractionRepository.saveAll(validInfractions);
 		infractionRepository.saveAll(invalidInfractions);
 		infractionRepository.flush();
@@ -700,8 +699,6 @@ public class ReportResourceIT {
 		excludedNoLeasePerson.setEmailAddress("NoLease@BadEmail");
 		excludedNoLeasePerson.setIsMinor(false);
 
-
-		
 		Set<Person> personEntities = new HashSet<>();
 		personEntities.add(excludedExpiredLeasePerson);
 		personEntities.add(includedCurrentLeasePerson1);
@@ -782,7 +779,6 @@ public class ReportResourceIT {
 		Person excludedNoLeasePerson = new Person();
 		excludedNoLeasePerson.setEmailAddress("NoLease@BadEmail");
 
-		
 		Set<Person> personEntities = new HashSet<>();
 		personEntities.add(excludedExpiredLeasePerson);
 		personEntities.add(includedCurrentLeasePerson1);
@@ -1018,7 +1014,6 @@ public class ReportResourceIT {
 		final LocalDate tomorrow = today.plusDays(1);
 		final LocalDate dayAfter = today.plusDays(2);
 		final LocalDate tooMany = today.plusDays(3);
-		
 		
 		/*Generated and inserted out of order should make the IDs 
 		be in this order to test the sorting
