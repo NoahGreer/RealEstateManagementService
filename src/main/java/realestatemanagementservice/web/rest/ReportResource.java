@@ -85,7 +85,6 @@ public class ReportResource {
 	
     /**
      * {@code GET  /reportTest} : get all the rents.
-     *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of report fields in body.
@@ -104,7 +103,6 @@ public class ReportResource {
     
 	/**
 	 * {@code GET  /reports/rents/paid} : get all the rents paid through the specified date for that month.
-     *
      * @param date the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rents paid in body.
      */
@@ -129,7 +127,6 @@ public class ReportResource {
     
 	/**
      * {@code GET  /reports/buildings/:id/vehicles/authorized} : get the authorized vehicles for the "id" building.
-     *
      * @param id the id of the buildingDTO to retrieve authorized vehicles for.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with list of authorized vehicles in body.
      */
