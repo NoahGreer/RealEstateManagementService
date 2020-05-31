@@ -2,6 +2,8 @@ package realestatemanagementservice.web.rest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -504,5 +506,35 @@ public class ReportResource {
     	List<PersonDTO> people = personQueryService.findByCriteria(personCriteria);
     	
     	return ResponseEntity.ok().body(people);
+    }
+    
+    /**
+     * {@code GET  /reports/lease/expire} : get the next number of leases to expire.
+     * @param year the count which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
+     */
+	@GetMapping("/reports/lease/expire")
+    public ResponseEntity<List<LeaseDTO>> getLeasesNextToExpire(@RequestParam("count") @Min(1) @Max(50) int count) {
+		log.debug("REST request to get the next leases to expire by criteria: {}", count);
+    	
+		final LocalDate today = LocalDate.now();
+		
+		LocalDateFilter dateSignedFilter = new LocalDateFilter();
+		dateSignedFilter.setLessThanOrEqual(today);
+		
+		LocalDateFilter endDateFilter = new LocalDateFilter();
+		endDateFilter.setGreaterThanOrEqual(today);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setDateSigned(dateSignedFilter);
+    	leaseCriteria.setEndDate(endDateFilter);
+	
+		List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+		
+		leases.sort(Comparator.comparing(LeaseDTO::getEndDate));
+		
+		List<LeaseDTO> orderedLeases = new ArrayList<LeaseDTO>(leases.subList(0, count));
+
+		return ResponseEntity.ok().body(orderedLeases);
     }
 }

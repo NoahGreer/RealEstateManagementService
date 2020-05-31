@@ -823,27 +823,27 @@ public class ReportResourceIT {
 
 		Lease excludedExpiredLease = new Lease();
 		excludedExpiredLease.dateSigned(oneYearBeforeYesterday);
-		excludedExpiredLease.endDate(yesterday);
+		excludedExpiredLease.setEndDate(yesterday);
 		
 		Lease excludedSecondExpiredLease = new Lease();
 		excludedSecondExpiredLease.dateSigned(oneYearBeforeYesterday);
-		excludedSecondExpiredLease.endDate(yesterday);
+		excludedSecondExpiredLease.setEndDate(yesterday);
 
 		Lease excludedCurrentLease = new Lease();
 		excludedCurrentLease.dateSigned(today);
-		excludedCurrentLease.endDate(oneYearAfterToday);
+		excludedCurrentLease.setEndDate(oneYearAfterToday);
 		
 		Lease includedCurrentLease = new Lease();
 		includedCurrentLease.dateSigned(yesterday);
-		includedCurrentLease.endDate(oneYearAfterYesterday);
+		includedCurrentLease.setEndDate(oneYearAfterYesterday);
 		
 		Lease includedSecondCurrentLease = new Lease();
 		includedSecondCurrentLease.dateSigned(yesterday);
-		includedSecondCurrentLease.endDate(oneYearAfterYesterday);
+		includedSecondCurrentLease.setEndDate(oneYearAfterYesterday);
 		
 		Lease includedThirdCurrentLease = new Lease();
 		includedThirdCurrentLease.dateSigned(yesterday);
-		includedThirdCurrentLease.endDate(oneYearAfterYesterday);
+		includedThirdCurrentLease.setEndDate(oneYearAfterYesterday);
 		
 		Set<Lease> leaseEntities = new HashSet<>();
 		leaseEntities.add(excludedExpiredLease);
@@ -1002,5 +1002,62 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$[0].id", equalTo(multiYearHistoryBuildingTaxRecortd1.getId().intValue())))
 			.andExpect(jsonPath("$[1].id", equalTo(multiYearHistoryBuildingTaxRecortd2.getId().intValue())))
 			.andExpect(jsonPath("$[2].id", equalTo(oneYearBuildingHistoryRecord.getId().intValue())));
+	}
+	@Test
+	@Transactional
+	public void getLeasesNextToExpire() throws Exception {
+		
+		int count = 3;
+		
+		// Create test leases
+		final LocalDate today = LocalDate.now();
+		final LocalDate yesterday = today.minusDays(1);
+		final LocalDate tomorrow = today.plusDays(1);
+		final LocalDate dayAfter = today.plusDays(2);
+		final LocalDate tooMany = today.plusDays(3);
+		
+		
+		/*Generated and inserted out of order should make the IDs 
+		be in this order to test the sorting
+		*/
+		
+		Lease excludeFourthCurrentLease = new Lease();
+		excludeFourthCurrentLease.setDateSigned(yesterday);
+		excludeFourthCurrentLease.setEndDate(tooMany);
+		
+		Lease includedthirdCurrentLease = new Lease();
+		includedthirdCurrentLease.setDateSigned(yesterday);
+		includedthirdCurrentLease.setEndDate(dayAfter);
+
+		Lease includedCurrentLease = new Lease();
+		includedCurrentLease.setDateSigned(yesterday);
+		includedCurrentLease.setEndDate(today);
+		
+		Lease excludedExpiredLease = new Lease();
+		excludedExpiredLease.setDateSigned(yesterday);
+		excludedExpiredLease.setEndDate(yesterday);
+		
+		Lease includedSecondCurrentLease = new Lease();
+		includedSecondCurrentLease.setDateSigned(yesterday);
+		includedSecondCurrentLease.setEndDate(tomorrow);
+		
+		Set<Lease> leaseEntities = new HashSet<>();
+		leaseEntities.add(excludeFourthCurrentLease);
+		leaseEntities.add(includedthirdCurrentLease);
+		leaseEntities.add(includedCurrentLease);
+		leaseEntities.add(excludedExpiredLease);
+		leaseEntities.add(includedSecondCurrentLease);
+		
+		// Initialize leases in the database
+		leaseRepository.saveAll(leaseEntities);
+		leaseRepository.flush();
+		
+		// Get list of Contact information
+		restRentMockMvc.perform(get("/api/reports/lease/expire?count=" + count))
+				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(jsonPath("$", hasSize(3)))
+				.andExpect(jsonPath("$[0].id", equalTo(includedCurrentLease.getId().intValue())))
+				.andExpect(jsonPath("$[1].id", equalTo(includedSecondCurrentLease.getId().intValue())))
+				.andExpect(jsonPath("$[2].id", equalTo(includedthirdCurrentLease.getId().intValue())));
 	}
 }
