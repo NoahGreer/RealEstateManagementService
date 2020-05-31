@@ -475,6 +475,11 @@ public class ReportResource {
     	return ResponseEntity.ok().body(repairs);
     }
     
+    /**
+     * {@code GET  /reports/apartments/:id/tenants} : get the in a particular apartment by apartmentID.
+     * @param year the count which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the tenants in an apartment.
+     */
     @GetMapping("/reports/apartments/{id}/tenants")
     public ResponseEntity<List<PersonDTO>> getApartmentTenants(@PathVariable Long id) {
     	log.debug("REST request to get Apartment tenants for id criteria: {}", id);
@@ -513,7 +518,7 @@ public class ReportResource {
     
     /**
      * {@code GET  /reports/lease/expire} : get the next number of leases to expire.
-     * @param year the count which the requested entities should match.
+     * @param the count of the requested entities should match the param.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the next leases to expire.
      */
 	@GetMapping("/reports/lease/expire")
