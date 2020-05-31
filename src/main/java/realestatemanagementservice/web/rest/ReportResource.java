@@ -53,6 +53,7 @@ public class ReportResource {
 	private final PropertyTaxQueryService propertyTaxQueryService;
 	private final RentQueryService rentQueryService;
 	private final VehicleQueryService vehicleQueryService;
+	private final ContractorQueryService contractorQueryService;;
 		
 	public ReportResource(ApartmentQueryService apartmentQueryService, 
 			ApartmentService apartmentService, 
@@ -65,7 +66,8 @@ public class ReportResource {
 			RentQueryService rentQueryService, 
 			LeaseQueryService leaseQueryService, 
 			MaintenanceQueryService maintenanceQueryService,
-			VehicleQueryService vehicleQueryService) {
+			VehicleQueryService vehicleQueryService,
+			ContractorQueryService contractorQueryService) {
 		this.apartmentQueryService = apartmentQueryService;
 		this.apartmentService = apartmentService;
 		this.buildingQueryService = buildingQueryService;
@@ -78,6 +80,7 @@ public class ReportResource {
 		this.maintenanceQueryService = maintenanceQueryService;
 		this.rentQueryService = rentQueryService;
 		this.vehicleQueryService = vehicleQueryService;
+		this.contractorQueryService = contractorQueryService;
 	}
 	
     /**
@@ -536,5 +539,25 @@ public class ReportResource {
 		List<LeaseDTO> orderedLeases = new ArrayList<LeaseDTO>(leases.subList(0, count));
 
 		return ResponseEntity.ok().body(orderedLeases);
+    }
+	
+	/**
+     * {@code GET  /reports/contractor/jobtype} : get the next number of leases to expire.
+     * @param year the count which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions in a given year.
+     */
+	@GetMapping("/reports/contractor/jobtype")
+    public ResponseEntity<List<ContractorDTO>> getContractorByJobType(@RequestParam("id") Long id) {
+		log.debug("REST request to get the next leases to expire by criteria: {}", id);
+		
+		LongFilter jobType = new LongFilter();
+		jobType.setEquals(id);
+    	
+    	ContractorCriteria contractorCriteria = new ContractorCriteria();
+    	contractorCriteria.setJobTypeId(jobType);
+	
+		List<ContractorDTO> contractors = contractorQueryService.findByCriteria(contractorCriteria);
+
+		return ResponseEntity.ok().body(contractors);
     }
 }
