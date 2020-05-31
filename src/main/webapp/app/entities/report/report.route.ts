@@ -11,6 +11,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access-service'
 // import { IRent, Rent } from 'app/shared/model/rent.model';
 import { ReportService } from './report.service';
 import { ReportComponent } from './report.component';
+import { ReportLandingComponent } from './report.landing.component';
 
 @Injectable({ providedIn: 'root' })
 export class ReportResolve implements Resolve<any> {
@@ -32,6 +33,24 @@ export class ReportResolve implements Resolve<any> {
 
 @Injectable({ providedIn: 'root' })
 export class RentsPaidReportResolve implements Resolve<any> {
+  constructor(private service: ReportService, private router: Router) {}
+
+  resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
+    return this.service.getRentsPaid('2020-05-01').pipe(
+      flatMap((report: HttpResponse<any[]>) => {
+        if (report.body) {
+          return of(report.body);
+        } else {
+          this.router.navigate(['404']);
+          return EMPTY;
+        }
+      })
+    );
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class ReportLandingResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
@@ -72,6 +91,18 @@ export const reportRoute: Routes = [
     component: ReportComponent,
     resolve: {
       report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.test-report'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'landing',
+    component: ReportLandingComponent,
+    resolve: {
+      report: ReportLandingResolve
     },
     data: {
       authorities: [Authority.USER],

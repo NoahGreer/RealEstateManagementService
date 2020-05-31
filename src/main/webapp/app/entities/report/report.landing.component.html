@@ -1,0 +1,54 @@
+<div>
+
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="submit()" [formGroup]="editForm">
+            <h2 id="jhi-rent-heading" jhiTranslate="realEstateManagementServiceApp.report.landing.header">
+                Choose a report type:
+            </h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <select class='select-option' #mySelect (change)='onOptionsSelected(mySelect.value)'>
+                    <option [ngValue]="null"></option>
+                    <option class='option' *ngFor='let option of reportTypes | keyvalue' [value]="option.key">
+                        {{option.key}}</option>
+                </select>
+
+                <div>
+                    <div *ngIf="reportValue !== undefined">
+
+                        <!-- Get report value by key: {{reportTypes[reportValue].paramType}} -->
+                        <div class="form-group" [ngSwitch]="reportTypes[reportValue].paramType">
+                            <div *ngSwitchCase="'text'">
+                                <label class="form-control-label" for="inputBox"> TEXT BOX </label>
+                                <input type="text" class="form-control" name="inputBox" id="inputBox"
+                                    formControlName="inputBox" />
+                            </div>
+                            <div *ngSwitchCase="'number'">
+                                <label class="form-control-label" for="inputBox"> NUMBER BOX </label>
+                                <input type="number" class="form-control" name="inputBox" id="inputBox"
+                                    formControlName="inputBox" />
+                            </div>
+                            <div *ngSwitchCase="'date'">
+                                <label class="form-control-label" for="inputBox"> DATE BOX </label>
+                                <input type="date" class="form-control" name="inputBox" id="inputBox"
+                                    formControlName="inputBox" />
+                            </div>
+                            <div *ngSwitchDefault>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" id="save-entity" [disabled]="" class="btn btn-primary">
+                        &nbsp;<span jhiTranslate="entity.action.submit">Submit</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>

@@ -17,11 +17,17 @@ type TestResponseType = HttpResponse<Object[]>;
 @Injectable({ providedIn: 'root' })
 export class ReportService {
   public resourceUrl = SERVER_API_URL + 'api/reports';
+  public reportType;
+  public passedParamValue;
 
   constructor(protected http: HttpClient) {}
 
   getRentsPaid(date: string): Observable<TestResponseType> {
-    return this.http.get<Object[]>(`${this.resourceUrl}/rents/paid?date=${date}`, { observe: 'response' });
+    if (this.passedParamValue == null) {
+      return this.getTestReport();
+    } else {
+      return this.http.get<Object[]>(`${this.resourceUrl}/rents/paid?date=${date}`, { observe: 'response' });
+    }
   }
 
   getAuthorizedVehicles(buildingId: number): Observable<TestResponseType> {

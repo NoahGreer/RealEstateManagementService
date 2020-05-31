@@ -20,6 +20,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   data?: Object;
   objectType?: string;
   eventSubscriber?: Subscription;
+  reportType: string;
+  reportParam: any;
 
   constructor(
     protected reportService: ReportService,
@@ -31,10 +33,27 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.data = this.activatedRoute.snapshot.data['pageTitle'];
+    this.reportType = this.reportService.reportType;
+    this.reportParam = this.reportService.passedParamValue;
+
+    // if (this.activatedRoute.snapshot.data['reportType'] == null){
+    //   this.reportType = "Default Report Type";
+    // }
+    // else{
+    //   this.reportType = this.activatedRoute.snapshot.data['reportType'];
+    // }
+
+    // if (this.activatedRoute.snapshot.data['reportParam'] == null){
+    //   this.reportParam = "Default Report Parameters";
+    // }
+    // else{
+    //   this.reportParam = this.activatedRoute.snapshot.data['reportParam'];
+    // }
+
     switch (this.router.url) {
       case '/report/rents-paid':
         this.objectType = 'paid rent';
-        this.reportService.getRentsPaid(this.getTodaysDate()).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        this.reportService.getRentsPaid(this.reportParam).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
         break;
       case '/report/available-apartments':
         this.objectType = 'available apartment';
@@ -42,7 +61,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         break;
       case '/report/authorized-vehicles':
         this.objectType = 'authorized vehicle';
-        this.reportService.getAuthorizedVehicles(1).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        this.reportService.getAuthorizedVehicles(this.reportParam).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
         break;
       case '/report/contacts':
         this.objectType = 'contact';
