@@ -350,7 +350,7 @@ public class ReportResource {
 
 	/**
      * {@code GET  /reports/contractors/:id/maintenance/history} : get all work done by a particular contractor.
-     * @param criteria the criteria which the requested entities should match.
+     * @param the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all work done by a particular contractor.
      */
 	@GetMapping("/reports/contractors/{id}/maintenance/history")
@@ -460,6 +460,11 @@ public class ReportResource {
     	return ResponseEntity.ok().body(taxHistory);
     }
 	
+	/**
+     * {@code GET  /reports/apartments/:id/maintenance/history} : get the maintenance history in a particular apartment by apartmentID.
+     * @param the maintenance entities requested should match those related to the apartment.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the maintenance jobs in an apartment.
+     */
     @GetMapping("/reports/apartments/{id}/maintenance/history")
     public ResponseEntity<List<MaintenanceDTO>> getApartmentMaintenanceHistory(@PathVariable Long id) {
     	log.debug("REST request to get Apartment Maintenance history for id criteria: {}", id);
@@ -476,8 +481,8 @@ public class ReportResource {
     }
     
     /**
-     * {@code GET  /reports/apartments/:id/tenants} : get the in a particular apartment by apartmentID.
-     * @param year the count which the requested entities should match.
+     * {@code GET  /reports/apartments/:id/tenants} : get the tenants in a particular apartment by apartmentID.
+     * @param the person entities requested should match those in the apartment.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the tenants in an apartment.
      */
     @GetMapping("/reports/apartments/{id}/tenants")
