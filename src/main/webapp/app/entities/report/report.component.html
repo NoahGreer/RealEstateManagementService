@@ -12,6 +12,10 @@
         </div>
     </h3>
 
+
+    <div>
+        TEST STUFF: Report type:  {{ reportType }}, report params:  {{ reportParam}}
+    </div>
     <div class="alert alert-warning" id="no-result" *ngIf="report?.length === 0">
         <span jhiTranslate="realEstateManagementServiceApp.report.home.notFound">No report data found</span>
         <div>This is a test, hopefully this shows up.</div>
@@ -21,7 +25,7 @@
 
         <div *ngIf="report !== undefined" style="text-align:center;">
 
-            <div *ngFor="let item of report | keyvalue;" class="card w-40 m-2" style="display: inline-block; text-align:left;">
+            <div *ngFor="let item of report | keyvalue;" class="card m-2" style="display: inline-block; text-align:left;">
                 <div class="card-body">
                     <div class="card-title bg-light">
                         <div>

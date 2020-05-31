@@ -13,6 +13,9 @@
       },
       "detail": {
         "title": "Report"
+      },
+      "landing": {
+        "header": "Choose a report type"
       }
     }
   }
