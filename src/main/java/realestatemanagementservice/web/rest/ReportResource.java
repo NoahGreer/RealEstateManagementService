@@ -567,6 +567,11 @@ public class ReportResource {
     public ResponseEntity<List<InfractionDTO>> getInfractionsByApartmentId(@RequestParam("id") Long id) {
 		log.debug("REST request to get Infraction for Apartment ID criteria: {}", id);
     	
+		/*Bit concerned that this is not specific enough, do some check against who is living there
+		* now compared to the past.  But an infractionDTO has a date and leaseID associated with it 
+		* that should narrow down any search, ie a group of people or looking up an old incident
+		*/
+		
 		LongFilter apartmentIdsFilter = new LongFilter();
 		apartmentIdsFilter.setEquals(id);
     	
