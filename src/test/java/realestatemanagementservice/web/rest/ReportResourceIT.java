@@ -1110,4 +1110,97 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$", hasSize(1)))
 			.andExpect(jsonPath("$[0].id", equalTo(validPerson.getId().intValue())));
 	}
+	
+	@Test
+	@Transactional
+	public void getInfractionsByApartmentId() throws Exception {
+		
+		Apartment searchForApartment = new Apartment();
+		
+		Apartment notSearchForApartment = new Apartment();
+
+		Apartment noLeasesApartment = new Apartment();
+
+		Set<Apartment> apartments = new HashSet<Apartment>();
+		apartments.add(searchForApartment);
+		apartments.add(notSearchForApartment);
+		apartments.add(noLeasesApartment);
+
+		apartmentRepository.saveAll(apartments);
+		apartmentRepository.flush();
+		
+		Lease searchApartLeaseNoInfractions = new Lease();
+		searchApartLeaseNoInfractions.setApartment(searchForApartment);
+		
+		Lease searchApartLeaseOneInfraction = new Lease();
+		searchApartLeaseOneInfraction.setApartment(searchForApartment);
+		
+		Lease searchApartLeaseMultiInfraction = new Lease();
+		searchApartLeaseMultiInfraction.setApartment(searchForApartment);
+		
+		Lease notSearchApartLeaseNoInfractions = new Lease();
+		notSearchApartLeaseNoInfractions.setApartment(notSearchForApartment);
+		
+		Lease notSearchApartLeaseOneInfraction = new Lease();
+		notSearchApartLeaseOneInfraction.setApartment(notSearchForApartment);
+		
+		Lease notSearchApartLeaseMultiInfraction = new Lease();
+		notSearchApartLeaseMultiInfraction.setApartment(notSearchForApartment);
+		
+		Lease noApartLeaseWithInfraction = new Lease();
+		
+		Set<Lease> leases = new HashSet<Lease>();
+		leases.add(searchApartLeaseNoInfractions);
+		leases.add(searchApartLeaseOneInfraction);
+		leases.add(searchApartLeaseMultiInfraction);
+		leases.add(notSearchApartLeaseNoInfractions);
+		leases.add(notSearchApartLeaseOneInfraction);
+		leases.add(notSearchApartLeaseMultiInfraction);
+		leases.add(noApartLeaseWithInfraction);
+
+		leaseRepository.saveAll(leases);
+		leaseRepository.flush();
+		
+		//Infractions that are tied to the searched for apartment
+		Infraction firstSearchApartLeaseOneInfraction = new Infraction();
+		firstSearchApartLeaseOneInfraction.setLease(searchApartLeaseOneInfraction);
+		
+		Infraction firstSearchApartLeaseMultiInfraction = new Infraction();
+		firstSearchApartLeaseMultiInfraction.setLease(searchApartLeaseMultiInfraction);
+		
+		Infraction secondSearchApartLeaseMultiInfraction = new Infraction();
+		secondSearchApartLeaseMultiInfraction.setLease(searchApartLeaseMultiInfraction);
+		
+		//Infractions on a leases that are not tied to the searched for apartment
+		Infraction firstNotSearchApartLeaseOneInfraction = new Infraction();
+		firstNotSearchApartLeaseOneInfraction.setLease(notSearchApartLeaseOneInfraction);
+		
+		Infraction firstNotSearchApartLeaseMultiInfraction = new Infraction();
+		firstNotSearchApartLeaseMultiInfraction.setLease(notSearchApartLeaseMultiInfraction);
+		
+		Infraction secondNotSearchApartLeaseMultiInfraction = new Infraction();
+		secondNotSearchApartLeaseMultiInfraction.setLease(notSearchApartLeaseMultiInfraction);
+		
+		Infraction noApartInfraction = new Infraction();
+		noApartInfraction.setLease(noApartLeaseWithInfraction);
+		
+		Set<Infraction> infractions = new HashSet<Infraction>();
+		infractions.add(firstSearchApartLeaseOneInfraction);
+		infractions.add(firstSearchApartLeaseMultiInfraction);
+		infractions.add(secondSearchApartLeaseMultiInfraction);
+		infractions.add(firstNotSearchApartLeaseOneInfraction);
+		infractions.add(firstNotSearchApartLeaseMultiInfraction);
+		infractions.add(secondNotSearchApartLeaseMultiInfraction);
+		infractions.add(noApartInfraction);
+		
+		infractionRepository.saveAll(infractions);
+		infractionRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/apartment/" + searchForApartment.getId() + "/infractions"))
+		.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$", hasSize(3)))
+			.andExpect(jsonPath("$[0].id", equalTo(firstSearchApartLeaseOneInfraction.getId().intValue())))
+			.andExpect(jsonPath("$[1].id", equalTo(firstSearchApartLeaseMultiInfraction.getId().intValue())))
+			.andExpect(jsonPath("$[2].id", equalTo(secondSearchApartLeaseMultiInfraction.getId().intValue())));
+	}
 }
