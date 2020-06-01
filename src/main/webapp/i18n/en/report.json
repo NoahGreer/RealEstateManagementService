@@ -8,6 +8,12 @@
         "authorized-vehicles": "Authorized Vehicles",
         "contacts": "Contacts Report",
         "emails": "Emails Report",
+        "infractions": "Infractions Reported",
+        "tenants-by-apartment": "Tenants in Apartment ",
+        "leases-by-expiration": "Next X Leases Expiring",
+        "pet-owners": "Pets and Owner Info",
+        "maintenance-by-apartment": "Maintenance Reports for Apartment X",
+        "contractor-by-jobtype": "Contractors For Service X",
         "test-report": "Test Report",
         "notFound": "No report data found"
       },
