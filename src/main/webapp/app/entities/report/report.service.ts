@@ -12,6 +12,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 
 // type ReportResponseType = HttpResponse<IReport>;
 type TestResponseType = HttpResponse<Object[]>;
+
 // type EntityArrayResponseType = HttpResponse<IReport[]>;
 
 @Injectable({ providedIn: 'root' })
@@ -22,13 +23,10 @@ export class ReportService {
 
   constructor(protected http: HttpClient) {}
 
-  getRentsPaid(date: Date): Observable<TestResponseType> {
-    if (this.passedParamValue == null) {
-      return this.getTestReport();
-    } else {
-      return this.http.get<Object[]>(`${this.resourceUrl}/rents/paid?date=${date}`, { observe: 'response' });
-    }
+  getRentsPaid(date: string): Observable<TestResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/rents/paid?date=${date}`, { observe: 'response' });
   }
+
   getAvailableApartments(): Observable<TestResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/apartments/available`, { observe: 'response' });
   }

@@ -26,7 +26,7 @@
                             </div>
                             <div *ngSwitchCase="'number'">
                                 <label class="form-control-label" for="inputBox"> NUMBER BOX </label>
-                                <input type="number" class="form-control" name="inputBox" id="inputBox" min="0" required
+                                <input type="number" class="form-control" name="inputBox" id="inputBox" min="1" required
                                     formControlName="inputBox" />
                             </div>
                             <div *ngSwitchCase="'date'">
@@ -35,13 +35,12 @@
                                     formControlName="inputBox" />
                             </div>
                             <div *ngSwitchDefault>
-
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button type="submit" id="save-entity" [disabled]="" class="btn btn-primary">
+                    <button type="submit" id="save-entity" [disabled]="!editForm.controls.inputBox" class="btn btn-primary">
                         &nbsp;<span jhiTranslate="entity.action.submit">Submit</span>
                     </button>
                 </div>

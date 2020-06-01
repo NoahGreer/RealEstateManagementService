@@ -21,7 +21,7 @@
             </li>
 
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
-                routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                routerLinkActive="dynamic" target="_parent" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link" routerLink="/report/landing" id="admin-menu">
                     <span>
                         <fa-icon icon="th-list"></fa-icon>

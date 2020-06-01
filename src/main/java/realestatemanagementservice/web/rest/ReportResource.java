@@ -542,8 +542,13 @@ public class ReportResource {
 		List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
 		
 		leases.sort(Comparator.comparing(LeaseDTO::getEndDate));
+		List<LeaseDTO> orderedLeases;
 		
-		List<LeaseDTO> orderedLeases = new ArrayList<LeaseDTO>(leases.subList(0, count));
+		if( leases.size() < count ) {
+		orderedLeases = new ArrayList<LeaseDTO>(leases);
+		}else {
+		orderedLeases = new ArrayList<LeaseDTO>(leases.subList(0, count));
+		}
 
 		return ResponseEntity.ok().body(orderedLeases);
     }
