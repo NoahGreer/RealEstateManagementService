@@ -50,12 +50,9 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
       ['Maintenance By Apartment']: { route: '/report/maintenance-by-apartment', paramType: ['number'] },
       ['Contractor By Job-Type']: { route: '/report/contractor-by-jobtype', paramType: ['number'] }
     };
-
-    this.updateForm();
   }
 
   onOptionsSelected(value: string): void {
-    // console.log(value);
     this.reportValue = value;
   }
 
@@ -69,16 +66,5 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
     if (this.eventSubscriber) {
       this.eventManager.destroy(this.eventSubscriber);
     }
-  }
-
-  getTodaysDate(): string {
-    return moment().format('YYYY-MM-DD');
-  }
-
-  updateForm(): void {
-    this.editForm.patchValue({
-      reportSelect: ['testType'],
-      inputBox: ['testParams']
-    });
   }
 }

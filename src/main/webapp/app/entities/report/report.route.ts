@@ -36,7 +36,7 @@ export class RentsPaidReportResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
-    return this.service.getRentsPaid(this.service.passedParamValue).pipe(
+    return this.service.getRentsPaid('2020-05-01').pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
           return of(report.body);
@@ -54,16 +54,7 @@ export class ReportLandingResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
-    return this.service.getRentsPaid(this.service.passedParamValue).pipe(
-      flatMap((report: HttpResponse<any[]>) => {
-        if (report.body) {
-          return of(report.body);
-        } else {
-          this.router.navigate(['404']);
-          return EMPTY;
-        }
-      })
-    );
+    return EMPTY;
   }
 }
 
@@ -88,13 +79,13 @@ export class AuthorizedVehicleReportResolve implements Resolve<any> {
 export const reportRoute: Routes = [
   {
     path: '',
-    component: ReportComponent,
+    component: ReportLandingComponent,
     resolve: {
-      report: ReportResolve
+      report: ReportLandingResolve
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.test-report'
+      pageTitle: 'realEstateManagementServiceApp.report.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -106,7 +97,7 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.test-report'
+      pageTitle: 'realEstateManagementServiceApp.report.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -138,7 +129,7 @@ export const reportRoute: Routes = [
     path: 'available-apartments',
     component: ReportComponent,
     resolve: {
-      report: AuthorizedVehicleReportResolve
+      report: ReportResolve
     },
     data: {
       authorities: [Authority.USER],
