@@ -20,8 +20,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   data?: Object;
   objectType?: string;
   eventSubscriber?: Subscription;
-  reportType: string;
-  reportParam: any;
+  reportType?: string;
+  reportParam?: any;
 
   constructor(
     protected reportService: ReportService,
@@ -55,22 +55,70 @@ export class ReportComponent implements OnInit, OnDestroy {
         this.objectType = 'paid rent';
         this.reportService.getRentsPaid(this.reportParam).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
         break;
+
       case '/report/available-apartments':
         this.objectType = 'available apartment';
         this.reportService.getAvailableApartments().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
         break;
+
       case '/report/authorized-vehicles':
         this.objectType = 'authorized vehicle';
         this.reportService.getAuthorizedVehicles(this.reportParam).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
         break;
+
       case '/report/contacts':
         this.objectType = 'contact';
         this.reportService.getContacts().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
         break;
+
       case '/report/emails':
         this.objectType = 'email';
         this.reportService.getEmails().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
         break;
+
+      case '/report/infractions':
+        this.objectType = 'email';
+        this.reportService.getInfractions().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        break;
+
+      case '/report/tenants-by-apartment':
+        this.objectType = 'tenant';
+        this.reportService.getTenantsByApartment(this.reportParam).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        break;
+
+      case '/report/leases-by-expiration':
+        this.objectType = 'lease';
+        if (typeof this.reportParam == 'number') {
+          this.reportService
+            .getNextExpiringLeases(this.reportParam)
+            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        } else {
+          this.reportService.getNextExpiringLeases(10).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        }
+        break;
+
+      case '/report/pet-owners':
+        this.objectType = 'pet owners';
+        this.reportService.getPetOwners().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        break;
+
+      case '/report/open-maintenance':
+        this.objectType = 'open maintenance';
+        this.reportService.getOpenMaintenance().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        break;
+
+      case '/report/maintenance-by-apartment':
+        this.objectType = 'maintenance';
+        this.reportService
+          .getApartmentMaintenanceHistory(this.reportParam)
+          .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        break;
+
+      case '/report/contractor-by-jobtype':
+        this.objectType = 'contractor';
+        this.reportService.getEmails().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+        break;
+
       default:
         this.objectType = 'test';
         this.reportService.getTestReport().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));

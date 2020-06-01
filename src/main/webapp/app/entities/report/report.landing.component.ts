@@ -40,24 +40,29 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
       ['Rents Paid']: { route: '/report/rents-paid', paramType: ['date'] },
       ['Available Apartments']: { route: '/report/available-apartments', paramType: [''] },
       ['Authorized Vehicles']: { route: '/report/authorized-vehicles', paramType: ['number'] },
-      ['Current Contacts']: { route: '/report/contacts', paramType: [''] },
-      ['Current Emails']: { route: '/report/emails', paramType: [''] }
+      ['Current Tenant Contacts']: { route: '/report/contacts', paramType: [''] },
+      ['Tenant Email List']: { route: '/report/emails', paramType: [''] },
+      ['Recent Infractions']: { route: '/report/infractions', paramType: [''] },
+      ['Tenants By Apartment']: { route: '/report/tenants-by-apartment', paramType: ['number'] },
+      ['Next Expiring Leases']: { route: '/report/leases-by-expiration', paramType: ['number'] },
+      ['Pets/Pet Owners']: { route: '/report/pet-owners', paramType: [''] },
+      ['Open Maintenance']: { route: '/report/open-maintenance', paramType: [''] },
+      ['Maintenance By Apartment']: { route: '/report/maintenance-by-apartment', paramType: ['number'] },
+      ['Contractor By Job-Type']: { route: '/report/contractor-by-jobtype', paramType: ['number'] }
     };
 
     this.updateForm();
   }
 
   onOptionsSelected(value: string): void {
-    console.log(value);
+    // console.log(value);
     this.reportValue = value;
   }
 
   submit(): void {
-    if (this.reportValue !== null && this.reportValue !== undefined) {
-      this.reportService.reportType = this.reportValue;
-      this.reportService.passedParamValue = this.editForm.get(['inputBox'])!.value;
-      this.router.navigate([this.reportTypes[this.reportValue].route]);
-    }
+    this.reportService.reportType = this.reportValue;
+    this.reportService.passedParamValue = this.editForm.get(['inputBox'])!.value;
+    this.router.navigate([this.reportTypes[this.reportValue].route]);
   }
 
   ngOnDestroy(): void {
@@ -75,9 +80,5 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
       reportSelect: ['testType'],
       inputBox: ['testParams']
     });
-  }
-
-  addSomething(): void {
-    console.log(this.fb.array.toString());
   }
 }

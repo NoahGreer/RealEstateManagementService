@@ -36,7 +36,7 @@ export class RentsPaidReportResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
-    return this.service.getRentsPaid('2020-05-01').pipe(
+    return this.service.getRentsPaid(this.service.passedParamValue).pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
           return of(report.body);
@@ -54,7 +54,7 @@ export class ReportLandingResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
-    return this.service.getRentsPaid('2020-05-01').pipe(
+    return this.service.getRentsPaid(this.service.passedParamValue).pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
           return of(report.body);
@@ -72,7 +72,7 @@ export class AuthorizedVehicleReportResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
-    return this.service.getAuthorizedVehicles(1).pipe(
+    return this.service.getAuthorizedVehicles(this.service.passedParamValue).pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
           return of(report.body);
@@ -150,7 +150,7 @@ export const reportRoute: Routes = [
     path: 'contacts',
     component: ReportComponent,
     resolve: {
-      report: AuthorizedVehicleReportResolve
+      report: ReportResolve
     },
     data: {
       authorities: [Authority.USER],
@@ -162,11 +162,83 @@ export const reportRoute: Routes = [
     path: 'emails',
     component: ReportComponent,
     resolve: {
-      report: AuthorizedVehicleReportResolve
+      report: ReportResolve
     },
     data: {
       authorities: [Authority.USER],
       pageTitle: 'realEstateManagementServiceApp.report.home.emails'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'infractions',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.infractions'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'tenants-by-apartment',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.tenants-by-apartment'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'leases-by-expiration',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.leases-by-expiration'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'pet-owners',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.pet-owners'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'maintenance-by-apartment',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.maintenance-by-apartment'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'contractor-by-jobtype',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.contractor-by-jobtype'
     },
     canActivate: [UserRouteAccessService]
   }

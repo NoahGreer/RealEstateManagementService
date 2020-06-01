@@ -18,21 +18,20 @@
                 <div>
                     <div *ngIf="reportValue !== undefined">
 
-                        <!-- Get report value by key: {{reportTypes[reportValue].paramType}} -->
                         <div class="form-group" [ngSwitch]="reportTypes[reportValue].paramType">
                             <div *ngSwitchCase="'text'">
                                 <label class="form-control-label" for="inputBox"> TEXT BOX </label>
-                                <input type="text" class="form-control" name="inputBox" id="inputBox"
+                                <input type="text" class="form-control" name="inputBox" id="inputBox" required
                                     formControlName="inputBox" />
                             </div>
                             <div *ngSwitchCase="'number'">
                                 <label class="form-control-label" for="inputBox"> NUMBER BOX </label>
-                                <input type="number" class="form-control" name="inputBox" id="inputBox"
+                                <input type="number" class="form-control" name="inputBox" id="inputBox" min="0" required
                                     formControlName="inputBox" />
                             </div>
                             <div *ngSwitchCase="'date'">
                                 <label class="form-control-label" for="inputBox"> DATE BOX </label>
-                                <input type="date" class="form-control" name="inputBox" id="inputBox"
+                                <input type="date" class="form-control" name="inputBox" id="inputBox" required
                                     formControlName="inputBox" />
                             </div>
                             <div *ngSwitchDefault>
