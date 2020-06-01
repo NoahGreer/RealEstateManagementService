@@ -598,4 +598,37 @@ public class ReportResource {
     	
     	return ResponseEntity.ok().body(infractions);
     }
+    
+    @GetMapping("/reports/rents/delinquencies")
+    public ResponseEntity<List<LeaseDTO>> getDelinquencies() {
+    	
+    	//Set a valid due date to a month ago and 5 days for grace period.
+    	LocalDate dueDate = LocalDate.now().minusMonths(1).minusDays(5);
+    	
+    	//If the received date is null or otherwise not present
+    	LocalDateFilter nullReceivedDate = new LocalDateFilter();
+    	nullReceivedDate.setEquals(null);
+    	LocalDateFilter validDueDate = new LocalDateFilter();
+    	validDueDate.setGreaterThanOrEqual(dueDate);
+    	
+    	RentCriteria rentCriteria = new RentCriteria();
+    	rentCriteria.setRecievedDate(nullReceivedDate);
+    	
+    	List<RentDTO> rents = rentQueryService.findByCriteria(rentCriteria);
+    	
+    	List<Long> leaseIds = new ArrayList<Long>();
+    	for (RentDTO rent : rents) {
+    		leaseIds.add(rent.getLeaseId());
+    	}
+    	
+    	LongFilter leaseFilter = new LongFilter();
+    	leaseFilter.setIn(leaseIds);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setId(leaseFilter);
+    	
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+    	return ResponseEntity.ok().body(leases);
+    }
 }
