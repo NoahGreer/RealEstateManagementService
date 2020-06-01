@@ -564,7 +564,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions from a particular apartment.
      */
 	@GetMapping("/reports/apartment/{id}/infractions")
-    public ResponseEntity<List<InfractionDTO>> getInfractionsByApartmentId(@RequestParam("id") Long id) {
+    public ResponseEntity<List<InfractionDTO>> getInfractionsByApartmentId(@PathVariable("id") Long id) {
 		log.debug("REST request to get Infraction for Apartment ID criteria: {}", id);
     	
 		/*Bit concerned that this is not specific enough, do some check against who is living there
