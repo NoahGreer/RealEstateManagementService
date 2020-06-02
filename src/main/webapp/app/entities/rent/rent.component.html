@@ -30,8 +30,8 @@
                             jhiTranslate="realEstateManagementServiceApp.rent.dueDate">Due Date</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
-                    <th scope="col" jhiSortBy="recievedDate"><span
-                            jhiTranslate="realEstateManagementServiceApp.rent.recievedDate">Recieved Date</span>
+                    <th scope="col" jhiSortBy="receivedDate"><span
+                            jhiTranslate="realEstateManagementServiceApp.rent.receivedDate">Received Date</span>
                         <fa-icon icon="sort"></fa-icon>
                     </th>
                     <th scope="col" jhiSortBy="amount"><span
@@ -49,7 +49,7 @@
                 <tr *ngFor="let rent of rents ;trackBy: trackId">
                     <td><a [routerLink]="['/rent', rent.id, 'view']">{{ rent.id }}</a></td>
                     <td>{{ rent.dueDate | date:'mediumDate' }}</td>
-                    <td>{{ rent.recievedDate | date:'mediumDate' }}</td>
+                    <td>{{ rent.receivedDate | date:'mediumDate' }}</td>
                     <td>{{ rent.amount }}</td>
                     <td>
                         <div *ngIf="rent.leaseId">

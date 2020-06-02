@@ -119,7 +119,7 @@ public class ReportResource {
         
         RentCriteria criteria = new RentCriteria();
         criteria.setDueDate(dueDateFilter);
-        criteria.setRecievedDate(receivedDateFilter);
+        criteria.setReceivedDate(receivedDateFilter);
         
         List<RentDTO> rents = rentQueryService.findByCriteria(criteria);
         return ResponseEntity.ok().body(rents);
@@ -332,7 +332,7 @@ public class ReportResource {
      */
 	@GetMapping("/reports/maintenance/open")
     public ResponseEntity<List<MaintenanceDTO>> getOpenMaintenace() {
-		log.debug("REST request to get a list of all maintenance entities that do not show the the contractor has recieved payment for work done");
+		log.debug("REST request to get a list of all maintenance entities that do not show the the contractor has received payment for work done");
   
     	final StringFilter receiptOfPayment = new StringFilter();
     	receiptOfPayment.setSpecified(true);

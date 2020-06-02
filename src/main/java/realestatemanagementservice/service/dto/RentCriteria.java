@@ -30,7 +30,7 @@ public class RentCriteria implements Serializable, Criteria {
 
     private LocalDateFilter dueDate;
 
-    private LocalDateFilter recievedDate;
+    private LocalDateFilter receivedDate;
 
     private BigDecimalFilter amount;
 
@@ -42,7 +42,7 @@ public class RentCriteria implements Serializable, Criteria {
     public RentCriteria(RentCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.dueDate = other.dueDate == null ? null : other.dueDate.copy();
-        this.recievedDate = other.recievedDate == null ? null : other.recievedDate.copy();
+        this.receivedDate = other.receivedDate == null ? null : other.receivedDate.copy();
         this.amount = other.amount == null ? null : other.amount.copy();
         this.leaseId = other.leaseId == null ? null : other.leaseId.copy();
     }
@@ -68,12 +68,12 @@ public class RentCriteria implements Serializable, Criteria {
         this.dueDate = dueDate;
     }
 
-    public LocalDateFilter getRecievedDate() {
-        return recievedDate;
+    public LocalDateFilter getReceivedDate() {
+        return receivedDate;
     }
 
-    public void setRecievedDate(LocalDateFilter recievedDate) {
-        this.recievedDate = recievedDate;
+    public void setReceivedDate(LocalDateFilter receivedDate) {
+        this.receivedDate = receivedDate;
     }
 
     public BigDecimalFilter getAmount() {
@@ -105,7 +105,7 @@ public class RentCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(dueDate, that.dueDate) &&
-            Objects.equals(recievedDate, that.recievedDate) &&
+            Objects.equals(receivedDate, that.receivedDate) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(leaseId, that.leaseId);
     }
@@ -115,7 +115,7 @@ public class RentCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         dueDate,
-        recievedDate,
+        receivedDate,
         amount,
         leaseId
         );
@@ -126,7 +126,7 @@ public class RentCriteria implements Serializable, Criteria {
         return "RentCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (dueDate != null ? "dueDate=" + dueDate + ", " : "") +
-                (recievedDate != null ? "recievedDate=" + recievedDate + ", " : "") +
+                (receivedDate != null ? "receivedDate=" + receivedDate + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (leaseId != null ? "leaseId=" + leaseId + ", " : "") +
             "}";

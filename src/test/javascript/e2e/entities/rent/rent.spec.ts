@@ -42,13 +42,13 @@ describe('Rent e2e test', () => {
 
     await promise.all([
       rentUpdatePage.setDueDateInput('2000-12-31'),
-      rentUpdatePage.setRecievedDateInput('2000-12-31'),
+      rentUpdatePage.setReceivedDateInput('2000-12-31'),
       rentUpdatePage.setAmountInput('5'),
       rentUpdatePage.leaseSelectLastOption()
     ]);
 
     expect(await rentUpdatePage.getDueDateInput()).to.eq('2000-12-31', 'Expected dueDate value to be equals to 2000-12-31');
-    expect(await rentUpdatePage.getRecievedDateInput()).to.eq('2000-12-31', 'Expected recievedDate value to be equals to 2000-12-31');
+    expect(await rentUpdatePage.getReceivedDateInput()).to.eq('2000-12-31', 'Expected receivedDate value to be equals to 2000-12-31');
     expect(await rentUpdatePage.getAmountInput()).to.eq('5', 'Expected amount value to be equals to 5');
 
     await rentUpdatePage.save();

@@ -18,12 +18,12 @@ export class RentUpdateComponent implements OnInit {
   isSaving = false;
   leases: ILease[] = [];
   dueDateDp: any;
-  recievedDateDp: any;
+  receivedDateDp: any;
 
   editForm = this.fb.group({
     id: [],
     dueDate: [],
-    recievedDate: [],
+    receivedDate: [],
     amount: [],
     leaseId: []
   });
@@ -47,7 +47,7 @@ export class RentUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: rent.id,
       dueDate: rent.dueDate,
-      recievedDate: rent.recievedDate,
+      receivedDate: rent.receivedDate,
       amount: rent.amount,
       leaseId: rent.leaseId
     });
@@ -72,7 +72,7 @@ export class RentUpdateComponent implements OnInit {
       ...new Rent(),
       id: this.editForm.get(['id'])!.value,
       dueDate: this.editForm.get(['dueDate'])!.value,
-      recievedDate: this.editForm.get(['recievedDate'])!.value,
+      receivedDate: this.editForm.get(['receivedDate'])!.value,
       amount: this.editForm.get(['amount'])!.value,
       leaseId: this.editForm.get(['leaseId'])!.value
     };

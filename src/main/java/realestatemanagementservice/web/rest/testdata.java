@@ -234,14 +234,14 @@ public class testdata {
 					redATwoRent1.setLease(redALeaseTwo);
 					redATwoRent1.setAmount(rents[1]);
 					redATwoRent1.setDueDate(date.minusMonths(longsList[1]));
-					redATwoRent1.setRecievedDate(date.minusMonths(longsList[1]));
+					redATwoRent1.setReceivedDate(date.minusMonths(longsList[1]));
 					
 					Rent redATwoRent2 = new Rent();
 					redATwoRent2.setId(longsList[2]);
 					redATwoRent2.setLease(redALeaseTwo);
 					redATwoRent2.setAmount(rents[1]);
 					redATwoRent2.setDueDate(date);
-					redATwoRent2.setRecievedDate(date);
+					redATwoRent2.setReceivedDate(date);
 					
 					//rent that is not yet due
 					Rent redATwoRent3 = new Rent();
@@ -256,7 +256,7 @@ public class testdata {
 					redAOneRent1.setLease(redALeaseOne);
 					redAOneRent1.setAmount(rents[1]);
 					redAOneRent1.setDueDate(date.minusMonths(longsList[1]));
-					redAOneRent1.setRecievedDate(date.minusMonths(longsList[1]));
+					redAOneRent1.setReceivedDate(date.minusMonths(longsList[1]));
 					
 					//multiple vehicles on multiple leases
 					//adding lease to rent
@@ -380,14 +380,14 @@ public class testdata {
 			blueATwoRent1.setLease(redALeaseTwo);
 			blueATwoRent1.setAmount(rents[1]);
 			blueATwoRent1.setDueDate(date.minusMonths(longsList[1]));
-			blueATwoRent1.setRecievedDate(date.minusMonths(longsList[1]));
+			blueATwoRent1.setReceivedDate(date.minusMonths(longsList[1]));
 			
 			Rent blueATwoRent2 = new Rent();
 			blueATwoRent2.setId(longsList[5]);
 			blueATwoRent2.setLease(redALeaseTwo);
 			blueATwoRent2.setAmount(rents[1]);
 			blueATwoRent2.setDueDate(date);
-			blueATwoRent2.setRecievedDate(date);
+			blueATwoRent2.setReceivedDate(date);
 			
 			Vehicle blueACar1 = new Vehicle();
 			blueACar1.setId(longsList[1]);

@@ -44,9 +44,9 @@ public class RentResourceIT {
     private static final LocalDate UPDATED_DUE_DATE = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_DUE_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final LocalDate DEFAULT_RECIEVED_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_RECIEVED_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_RECIEVED_DATE = LocalDate.ofEpochDay(-1L);
+    private static final LocalDate DEFAULT_RECEIVED_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_RECEIVED_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_RECEIVED_DATE = LocalDate.ofEpochDay(-1L);
 
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
@@ -81,7 +81,7 @@ public class RentResourceIT {
     public static Rent createEntity(EntityManager em) {
         Rent rent = new Rent()
             .dueDate(DEFAULT_DUE_DATE)
-            .recievedDate(DEFAULT_RECIEVED_DATE)
+            .receivedDate(DEFAULT_RECEIVED_DATE)
             .amount(DEFAULT_AMOUNT);
         return rent;
     }
@@ -94,7 +94,7 @@ public class RentResourceIT {
     public static Rent createUpdatedEntity(EntityManager em) {
         Rent rent = new Rent()
             .dueDate(UPDATED_DUE_DATE)
-            .recievedDate(UPDATED_RECIEVED_DATE)
+            .receivedDate(UPDATED_RECEIVED_DATE)
             .amount(UPDATED_AMOUNT);
         return rent;
     }
@@ -121,7 +121,7 @@ public class RentResourceIT {
         assertThat(rentList).hasSize(databaseSizeBeforeCreate + 1);
         Rent testRent = rentList.get(rentList.size() - 1);
         assertThat(testRent.getDueDate()).isEqualTo(DEFAULT_DUE_DATE);
-        assertThat(testRent.getRecievedDate()).isEqualTo(DEFAULT_RECIEVED_DATE);
+        assertThat(testRent.getReceivedDate()).isEqualTo(DEFAULT_RECEIVED_DATE);
         assertThat(testRent.getAmount()).isEqualTo(DEFAULT_AMOUNT);
     }
 
@@ -158,7 +158,7 @@ public class RentResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(rent.getId().intValue())))
             .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].recievedDate").value(hasItem(DEFAULT_RECIEVED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].receivedDate").value(hasItem(DEFAULT_RECEIVED_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())));
     }
     
@@ -174,7 +174,7 @@ public class RentResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(rent.getId().intValue()))
             .andExpect(jsonPath("$.dueDate").value(DEFAULT_DUE_DATE.toString()))
-            .andExpect(jsonPath("$.recievedDate").value(DEFAULT_RECIEVED_DATE.toString()))
+            .andExpect(jsonPath("$.receivedDate").value(DEFAULT_RECEIVED_DATE.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()));
     }
 
@@ -305,106 +305,106 @@ public class RentResourceIT {
 
     @Test
     @Transactional
-    public void getAllRentsByRecievedDateIsEqualToSomething() throws Exception {
+    public void getAllRentsByReceivedDateIsEqualToSomething() throws Exception {
         // Initialize the database
         rentRepository.saveAndFlush(rent);
 
-        // Get all the rentList where recievedDate equals to DEFAULT_RECIEVED_DATE
-        defaultRentShouldBeFound("recievedDate.equals=" + DEFAULT_RECIEVED_DATE);
+        // Get all the rentList where receivedDate equals to DEFAULT_RECEIVED_DATE
+        defaultRentShouldBeFound("receivedDate.equals=" + DEFAULT_RECEIVED_DATE);
 
-        // Get all the rentList where recievedDate equals to UPDATED_RECIEVED_DATE
-        defaultRentShouldNotBeFound("recievedDate.equals=" + UPDATED_RECIEVED_DATE);
+        // Get all the rentList where receivedDate equals to UPDATED_RECEIVED_DATE
+        defaultRentShouldNotBeFound("receivedDate.equals=" + UPDATED_RECEIVED_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllRentsByRecievedDateIsNotEqualToSomething() throws Exception {
+    public void getAllRentsByReceivedDateIsNotEqualToSomething() throws Exception {
         // Initialize the database
         rentRepository.saveAndFlush(rent);
 
-        // Get all the rentList where recievedDate not equals to DEFAULT_RECIEVED_DATE
-        defaultRentShouldNotBeFound("recievedDate.notEquals=" + DEFAULT_RECIEVED_DATE);
+        // Get all the rentList where receivedDate not equals to DEFAULT_RECEIVED_DATE
+        defaultRentShouldNotBeFound("receivedDate.notEquals=" + DEFAULT_RECEIVED_DATE);
 
-        // Get all the rentList where recievedDate not equals to UPDATED_RECIEVED_DATE
-        defaultRentShouldBeFound("recievedDate.notEquals=" + UPDATED_RECIEVED_DATE);
+        // Get all the rentList where receivedDate not equals to UPDATED_RECEIVED_DATE
+        defaultRentShouldBeFound("receivedDate.notEquals=" + UPDATED_RECEIVED_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllRentsByRecievedDateIsInShouldWork() throws Exception {
+    public void getAllRentsByReceivedDateIsInShouldWork() throws Exception {
         // Initialize the database
         rentRepository.saveAndFlush(rent);
 
-        // Get all the rentList where recievedDate in DEFAULT_RECIEVED_DATE or UPDATED_RECIEVED_DATE
-        defaultRentShouldBeFound("recievedDate.in=" + DEFAULT_RECIEVED_DATE + "," + UPDATED_RECIEVED_DATE);
+        // Get all the rentList where receivedDate in DEFAULT_RECEIVED_DATE or UPDATED_RECEIVED_DATE
+        defaultRentShouldBeFound("receivedDate.in=" + DEFAULT_RECEIVED_DATE + "," + UPDATED_RECEIVED_DATE);
 
-        // Get all the rentList where recievedDate equals to UPDATED_RECIEVED_DATE
-        defaultRentShouldNotBeFound("recievedDate.in=" + UPDATED_RECIEVED_DATE);
+        // Get all the rentList where receivedDate equals to UPDATED_RECEIVED_DATE
+        defaultRentShouldNotBeFound("receivedDate.in=" + UPDATED_RECEIVED_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllRentsByRecievedDateIsNullOrNotNull() throws Exception {
+    public void getAllRentsByReceivedDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         rentRepository.saveAndFlush(rent);
 
-        // Get all the rentList where recievedDate is not null
-        defaultRentShouldBeFound("recievedDate.specified=true");
+        // Get all the rentList where receivedDate is not null
+        defaultRentShouldBeFound("receivedDate.specified=true");
 
-        // Get all the rentList where recievedDate is null
-        defaultRentShouldNotBeFound("recievedDate.specified=false");
+        // Get all the rentList where receivedDate is null
+        defaultRentShouldNotBeFound("receivedDate.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllRentsByRecievedDateIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllRentsByReceivedDateIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         rentRepository.saveAndFlush(rent);
 
-        // Get all the rentList where recievedDate is greater than or equal to DEFAULT_RECIEVED_DATE
-        defaultRentShouldBeFound("recievedDate.greaterThanOrEqual=" + DEFAULT_RECIEVED_DATE);
+        // Get all the rentList where receivedDate is greater than or equal to DEFAULT_RECEIVED_DATE
+        defaultRentShouldBeFound("receivedDate.greaterThanOrEqual=" + DEFAULT_RECEIVED_DATE);
 
-        // Get all the rentList where recievedDate is greater than or equal to UPDATED_RECIEVED_DATE
-        defaultRentShouldNotBeFound("recievedDate.greaterThanOrEqual=" + UPDATED_RECIEVED_DATE);
+        // Get all the rentList where receivedDate is greater than or equal to UPDATED_RECEIVED_DATE
+        defaultRentShouldNotBeFound("receivedDate.greaterThanOrEqual=" + UPDATED_RECEIVED_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllRentsByRecievedDateIsLessThanOrEqualToSomething() throws Exception {
+    public void getAllRentsByReceivedDateIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         rentRepository.saveAndFlush(rent);
 
-        // Get all the rentList where recievedDate is less than or equal to DEFAULT_RECIEVED_DATE
-        defaultRentShouldBeFound("recievedDate.lessThanOrEqual=" + DEFAULT_RECIEVED_DATE);
+        // Get all the rentList where receivedDate is less than or equal to DEFAULT_RECEIVED_DATE
+        defaultRentShouldBeFound("receivedDate.lessThanOrEqual=" + DEFAULT_RECEIVED_DATE);
 
-        // Get all the rentList where recievedDate is less than or equal to SMALLER_RECIEVED_DATE
-        defaultRentShouldNotBeFound("recievedDate.lessThanOrEqual=" + SMALLER_RECIEVED_DATE);
+        // Get all the rentList where receivedDate is less than or equal to SMALLER_RECEIVED_DATE
+        defaultRentShouldNotBeFound("receivedDate.lessThanOrEqual=" + SMALLER_RECEIVED_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllRentsByRecievedDateIsLessThanSomething() throws Exception {
+    public void getAllRentsByReceivedDateIsLessThanSomething() throws Exception {
         // Initialize the database
         rentRepository.saveAndFlush(rent);
 
-        // Get all the rentList where recievedDate is less than DEFAULT_RECIEVED_DATE
-        defaultRentShouldNotBeFound("recievedDate.lessThan=" + DEFAULT_RECIEVED_DATE);
+        // Get all the rentList where receivedDate is less than DEFAULT_RECEIVED_DATE
+        defaultRentShouldNotBeFound("receivedDate.lessThan=" + DEFAULT_RECEIVED_DATE);
 
-        // Get all the rentList where recievedDate is less than UPDATED_RECIEVED_DATE
-        defaultRentShouldBeFound("recievedDate.lessThan=" + UPDATED_RECIEVED_DATE);
+        // Get all the rentList where receivedDate is less than UPDATED_RECEIVED_DATE
+        defaultRentShouldBeFound("receivedDate.lessThan=" + UPDATED_RECEIVED_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllRentsByRecievedDateIsGreaterThanSomething() throws Exception {
+    public void getAllRentsByReceivedDateIsGreaterThanSomething() throws Exception {
         // Initialize the database
         rentRepository.saveAndFlush(rent);
 
-        // Get all the rentList where recievedDate is greater than DEFAULT_RECIEVED_DATE
-        defaultRentShouldNotBeFound("recievedDate.greaterThan=" + DEFAULT_RECIEVED_DATE);
+        // Get all the rentList where receivedDate is greater than DEFAULT_RECEIVED_DATE
+        defaultRentShouldNotBeFound("receivedDate.greaterThan=" + DEFAULT_RECEIVED_DATE);
 
-        // Get all the rentList where recievedDate is greater than SMALLER_RECIEVED_DATE
-        defaultRentShouldBeFound("recievedDate.greaterThan=" + SMALLER_RECIEVED_DATE);
+        // Get all the rentList where receivedDate is greater than SMALLER_RECEIVED_DATE
+        defaultRentShouldBeFound("receivedDate.greaterThan=" + SMALLER_RECEIVED_DATE);
     }
 
 
@@ -541,7 +541,7 @@ public class RentResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(rent.getId().intValue())))
             .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].recievedDate").value(hasItem(DEFAULT_RECIEVED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].receivedDate").value(hasItem(DEFAULT_RECEIVED_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())));
 
         // Check, that the count call also returns 1
@@ -591,7 +591,7 @@ public class RentResourceIT {
         em.detach(updatedRent);
         updatedRent
             .dueDate(UPDATED_DUE_DATE)
-            .recievedDate(UPDATED_RECIEVED_DATE)
+            .receivedDate(UPDATED_RECEIVED_DATE)
             .amount(UPDATED_AMOUNT);
         RentDTO rentDTO = rentMapper.toDto(updatedRent);
 
@@ -605,7 +605,7 @@ public class RentResourceIT {
         assertThat(rentList).hasSize(databaseSizeBeforeUpdate);
         Rent testRent = rentList.get(rentList.size() - 1);
         assertThat(testRent.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
-        assertThat(testRent.getRecievedDate()).isEqualTo(UPDATED_RECIEVED_DATE);
+        assertThat(testRent.getReceivedDate()).isEqualTo(UPDATED_RECEIVED_DATE);
         assertThat(testRent.getAmount()).isEqualTo(UPDATED_AMOUNT);
     }
 

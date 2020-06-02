@@ -14,7 +14,7 @@ public class RentDTO implements Serializable {
 
     private LocalDate dueDate;
 
-    private LocalDate recievedDate;
+    private LocalDate receivedDate;
 
     private BigDecimal amount;
 
@@ -37,12 +37,12 @@ public class RentDTO implements Serializable {
         this.dueDate = dueDate;
     }
 
-    public LocalDate getRecievedDate() {
-        return recievedDate;
+    public LocalDate getReceivedDate() {
+        return receivedDate;
     }
 
-    public void setRecievedDate(LocalDate recievedDate) {
-        this.recievedDate = recievedDate;
+    public void setReceivedDate(LocalDate receivedDate) {
+        this.receivedDate = receivedDate;
     }
 
     public BigDecimal getAmount() {
@@ -87,7 +87,7 @@ public class RentDTO implements Serializable {
         return "RentDTO{" +
             "id=" + getId() +
             ", dueDate='" + getDueDate() + "'" +
-            ", recievedDate='" + getRecievedDate() + "'" +
+            ", receivedDate='" + getReceivedDate() + "'" +
             ", amount=" + getAmount() +
             ", leaseId=" + getLeaseId() +
             "}";
