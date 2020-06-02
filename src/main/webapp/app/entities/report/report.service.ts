@@ -1,16 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-// import { map } from 'rxjs/operators';
-// import * as moment from 'moment';
-
-// import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
-// import { createRequestOption } from 'app/shared/util/request-util';
-// import { IReport } from 'app/shared/model/report.model';
-// import { IRent } from 'app/shared/model/rent.model';
 
-// type ReportResponseType = HttpResponse<IReport>;
 type TestResponseType = HttpResponse<Object[]>;
 
 // type EntityArrayResponseType = HttpResponse<IReport[]>;
@@ -60,7 +52,11 @@ export class ReportService {
   }
 
   getApartmentMaintenanceHistory(apartmentId: number): Observable<TestResponseType> {
-    return this.http.get<Object[]>(`${this.resourceUrl}/apartments/` + apartmentId + `maintenance/history`, { observe: 'response' });
+    return this.http.get<Object[]>(`${this.resourceUrl}/apartments/` + apartmentId + `/maintenance/history`, { observe: 'response' });
+  }
+
+  getContractorMaintenanceHistory(contractorId: number): Observable<TestResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/contractors/` + contractorId + `/maintenance/history`, { observe: 'response' });
   }
 
   getPropertyTaxHistory(): Observable<TestResponseType> {
