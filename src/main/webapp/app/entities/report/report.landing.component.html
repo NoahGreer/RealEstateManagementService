@@ -17,7 +17,7 @@
 
                 <div>
                     <div *ngIf="entityPopulation != undefined;">
-                        <div #entitiesFound class="form-group" > Please select {{ displayField }}<br><br>
+                        <div #entitiesFound class="form-group" style="text-transform:capitalize;"> Please select {{ displayField }}<br><br>
                             <select class='select-option' #mySelect name="inputBox" id="inputBox" required
                             formControlName="inputBox">
                                 <option class='option' *ngFor='let option of entityPopulation' 
@@ -26,12 +26,12 @@
                             </select>
                         </div>
                     </div>
-
+ 
                     <div *ngIf="reportValue !== undefined">
 
                         <div class="form-group" [ngSwitch]="reportTypes[reportValue].paramType">
                             <div *ngSwitchCase="'date'">
-                                <label class="form-control-label" for="inputBox"> Please Enter Date </label>
+                                <label class="form-control-label" for="inputBox" > Please Enter Date </label>
                                 <input type="date" class="form-control" name="inputBox" id="inputBox" required
                                     formControlName="inputBox" />
                             </div>
