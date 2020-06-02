@@ -26,8 +26,8 @@ public class Rent implements Serializable {
     @Column(name = "due_date")
     private LocalDate dueDate;
 
-    @Column(name = "recieved_date")
-    private LocalDate recievedDate;
+    @Column(name = "received_date")
+    private LocalDate receivedDate;
 
     @Column(name = "amount", precision = 21, scale = 2)
     private BigDecimal amount;
@@ -58,17 +58,17 @@ public class Rent implements Serializable {
         this.dueDate = dueDate;
     }
 
-    public LocalDate getRecievedDate() {
-        return recievedDate;
+    public LocalDate getReceivedDate() {
+        return receivedDate;
     }
 
-    public Rent recievedDate(LocalDate recievedDate) {
-        this.recievedDate = recievedDate;
+    public Rent receivedDate(LocalDate receivedDate) {
+        this.receivedDate = receivedDate;
         return this;
     }
 
-    public void setRecievedDate(LocalDate recievedDate) {
-        this.recievedDate = recievedDate;
+    public void setReceivedDate(LocalDate receivedDate) {
+        this.receivedDate = receivedDate;
     }
 
     public BigDecimal getAmount() {
@@ -119,7 +119,7 @@ public class Rent implements Serializable {
         return "Rent{" +
             "id=" + getId() +
             ", dueDate='" + getDueDate() + "'" +
-            ", recievedDate='" + getRecievedDate() + "'" +
+            ", receivedDate='" + getReceivedDate() + "'" +
             ", amount=" + getAmount() +
             "}";
     }

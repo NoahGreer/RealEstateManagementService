@@ -17,7 +17,7 @@
         "title": "Rent"
       },
       "dueDate": "Due Date",
-      "recievedDate": "Recieved Date",
+      "receivedDate": "Received Date",
       "amount": "Amount",
       "lease": "Lease"
     }

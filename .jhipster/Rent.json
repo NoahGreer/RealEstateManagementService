@@ -6,7 +6,7 @@
             "fieldType": "LocalDate"
         },
         {
-            "fieldName": "recievedDate",
+            "fieldName": "receivedDate",
             "fieldType": "LocalDate"
         },
         {

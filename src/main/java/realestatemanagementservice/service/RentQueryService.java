@@ -94,8 +94,8 @@ public class RentQueryService extends QueryService<Rent> {
             if (criteria.getDueDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDueDate(), Rent_.dueDate));
             }
-            if (criteria.getRecievedDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getRecievedDate(), Rent_.recievedDate));
+            if (criteria.getReceivedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getReceivedDate(), Rent_.receivedDate));
             }
             if (criteria.getAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAmount(), Rent_.amount));

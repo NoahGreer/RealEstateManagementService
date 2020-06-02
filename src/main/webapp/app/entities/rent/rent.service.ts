@@ -57,7 +57,7 @@ export class RentService {
   protected convertDateFromClient(rent: IRent): IRent {
     const copy: IRent = Object.assign({}, rent, {
       dueDate: rent.dueDate && rent.dueDate.isValid() ? rent.dueDate.format(DATE_FORMAT) : undefined,
-      recievedDate: rent.recievedDate && rent.recievedDate.isValid() ? rent.recievedDate.format(DATE_FORMAT) : undefined
+      receivedDate: rent.receivedDate && rent.receivedDate.isValid() ? rent.receivedDate.format(DATE_FORMAT) : undefined
     });
     return copy;
   }
@@ -65,7 +65,7 @@ export class RentService {
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.dueDate = res.body.dueDate ? moment(res.body.dueDate) : undefined;
-      res.body.recievedDate = res.body.recievedDate ? moment(res.body.recievedDate) : undefined;
+      res.body.receivedDate = res.body.receivedDate ? moment(res.body.receivedDate) : undefined;
     }
     return res;
   }
@@ -74,7 +74,7 @@ export class RentService {
     if (res.body) {
       res.body.forEach((rent: IRent) => {
         rent.dueDate = rent.dueDate ? moment(rent.dueDate) : undefined;
-        rent.recievedDate = rent.recievedDate ? moment(rent.recievedDate) : undefined;
+        rent.receivedDate = rent.receivedDate ? moment(rent.receivedDate) : undefined;
       });
     }
     return res;

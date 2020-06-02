@@ -30,7 +30,7 @@ export class RentUpdatePage {
   cancelButton = element(by.id('cancel-save'));
 
   dueDateInput = element(by.id('field_dueDate'));
-  recievedDateInput = element(by.id('field_recievedDate'));
+  receivedDateInput = element(by.id('field_receivedDate'));
   amountInput = element(by.id('field_amount'));
 
   leaseSelect = element(by.id('field_lease'));
@@ -47,12 +47,12 @@ export class RentUpdatePage {
     return await this.dueDateInput.getAttribute('value');
   }
 
-  async setRecievedDateInput(recievedDate: string): Promise<void> {
-    await this.recievedDateInput.sendKeys(recievedDate);
+  async setReceivedDateInput(receivedDate: string): Promise<void> {
+    await this.receivedDateInput.sendKeys(receivedDate);
   }
 
-  async getRecievedDateInput(): Promise<string> {
-    return await this.recievedDateInput.getAttribute('value');
+  async getReceivedDateInput(): Promise<string> {
+    return await this.receivedDateInput.getAttribute('value');
   }
 
   async setAmountInput(amount: string): Promise<void> {

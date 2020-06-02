@@ -32,7 +32,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             dueDate: currentDate.format(DATE_FORMAT),
-            recievedDate: currentDate.format(DATE_FORMAT)
+            receivedDate: currentDate.format(DATE_FORMAT)
           },
           elemDefault
         );
@@ -49,7 +49,7 @@ describe('Service Tests', () => {
           {
             id: 0,
             dueDate: currentDate.format(DATE_FORMAT),
-            recievedDate: currentDate.format(DATE_FORMAT)
+            receivedDate: currentDate.format(DATE_FORMAT)
           },
           elemDefault
         );
@@ -57,7 +57,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             dueDate: currentDate,
-            recievedDate: currentDate
+            receivedDate: currentDate
           },
           returnedFromService
         );
@@ -73,7 +73,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             dueDate: currentDate.format(DATE_FORMAT),
-            recievedDate: currentDate.format(DATE_FORMAT),
+            receivedDate: currentDate.format(DATE_FORMAT),
             amount: 1
           },
           elemDefault
@@ -82,7 +82,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             dueDate: currentDate,
-            recievedDate: currentDate
+            receivedDate: currentDate
           },
           returnedFromService
         );
@@ -98,7 +98,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             dueDate: currentDate.format(DATE_FORMAT),
-            recievedDate: currentDate.format(DATE_FORMAT),
+            receivedDate: currentDate.format(DATE_FORMAT),
             amount: 1
           },
           elemDefault
@@ -107,7 +107,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             dueDate: currentDate,
-            recievedDate: currentDate
+            receivedDate: currentDate
           },
           returnedFromService
         );
