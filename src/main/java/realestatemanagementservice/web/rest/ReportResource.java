@@ -600,16 +600,17 @@ public class ReportResource {
     }
     
     @GetMapping("/reports/rents/delinquencies")
-    public ResponseEntity<List<LeaseDTO>> getDelinquencies() {
+    public ResponseEntity<List<LeaseDTO>> getDelinquencies(@RequestParam("date") 
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
     	
-    	//Set a valid due date to a month ago and 5 days for grace period.
-    	LocalDate dueDate = LocalDate.now().minusMonths(1).minusDays(5);
+    	//If due date was five or more days ago
+    	LocalDate dueDate = date.minusDays(5);
     	
     	//If the received date is null or otherwise not present
     	LocalDateFilter nullReceivedDate = new LocalDateFilter();
     	nullReceivedDate.setEquals(null);
     	LocalDateFilter validDueDate = new LocalDateFilter();
-    	validDueDate.setGreaterThanOrEqual(dueDate);
+    	validDueDate.setGreaterThan(dueDate);
     	
     	RentCriteria rentCriteria = new RentCriteria();
     	rentCriteria.setRecievedDate(nullReceivedDate);

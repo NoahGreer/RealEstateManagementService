@@ -1203,4 +1203,58 @@ public class ReportResourceIT {
 			.andExpect(jsonPath("$[1].id", equalTo(firstSearchApartLeaseMultiInfraction.getId().intValue())))
 			.andExpect(jsonPath("$[2].id", equalTo(secondSearchApartLeaseMultiInfraction.getId().intValue())));
 	}
+	
+	@Test
+	@Transactional
+	public void getDelinquencies() throws Exception {
+		
+		Lease includedLease = new Lease();
+		includedLease.setLeaseType("Included Lease");
+		Lease excludedLease = new Lease();
+		excludedLease.setLeaseType("Excluded Lease");
+		
+		Set<Lease> leases = new HashSet<Lease>();
+		leases.add(includedLease);
+		leases.add(excludedLease);
+		
+		leaseRepository.saveAll(leases);
+		leaseRepository.flush();
+		
+		
+		final LocalDate today = LocalDate.now(); 
+		
+		//Put just outside of grace period
+		Rent delinquentRentIncludedLease = new Rent();
+		delinquentRentIncludedLease.setRecievedDate(null);
+		delinquentRentIncludedLease.setDueDate(today.minusDays(6));
+		delinquentRentIncludedLease.setLease(includedLease);
+		
+		//Same lease but a valid paid rent of the previous month
+		Rent onTimeRentIncludedLease = new Rent();
+		onTimeRentIncludedLease.setRecievedDate(today.minusMonths(1));
+		onTimeRentIncludedLease.setDueDate(today.minusMonths(1));
+		onTimeRentIncludedLease.setLease(includedLease);
+		
+		//
+		Rent delinquentRentExcludedLease = new Rent();
+		delinquentRentExcludedLease.setRecievedDate(null);
+		delinquentRentExcludedLease.setDueDate(today.minusDays(6));
+		delinquentRentExcludedLease.setLease(excludedLease);
+		
+		Set<Rent> rents = new HashSet<Rent>();
+		rents.add(delinquentRentIncludedLease);
+		rents.add(onTimeRentIncludedLease);
+		rents.add(delinquentRentExcludedLease);
+		
+		rentRepository.saveAll(rents);
+		rentRepository.flush();
+		
+		restRentMockMvc.perform(get("/api/reports/rents/paid?date=" + today.format(DateTimeFormatter.ISO_LOCAL_DATE)))
+		.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+		.andExpect(jsonPath("$", hasSize(1)))
+		.andExpect(jsonPath("$[0].id", equalTo(delinquentRentIncludedLease.getId().intValue())))
+		.andExpect(jsonPath("$[0].dueDate", is("2020-05-01")))
+		.andExpect(jsonPath("$[0].recievedDate", is("2020-05-01")))
+		.andExpect(jsonPath("$[0].amount", is(975.00))).andExpect(jsonPath("$[0].leaseId", nullValue()));
+	}
 }
