@@ -16,32 +16,33 @@
                 </select>
 
                 <div>
+                    <div *ngIf="entityPopulation != undefined;">
+                        <div #entitiesFound class="form-group" > Please select {{ displayField }}<br><br>
+                            <select class='select-option' #mySelect name="inputBox" id="inputBox" required
+                            formControlName="inputBox">
+                                <option class='option' *ngFor='let option of entityPopulation' 
+                                [value]="option.id">
+                                    {{option[displayField]}}</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div *ngIf="reportValue !== undefined">
 
                         <div class="form-group" [ngSwitch]="reportTypes[reportValue].paramType">
-                            <div *ngSwitchCase="'text'">
-                                <label class="form-control-label" for="inputBox"> TEXT BOX </label>
-                                <input type="text" class="form-control" name="inputBox" id="inputBox" required
-                                    formControlName="inputBox" />
-                            </div>
-                            <div *ngSwitchCase="'number'">
-                                <label class="form-control-label" for="inputBox"> NUMBER BOX </label>
-                                <input type="number" class="form-control" name="inputBox" id="inputBox" min="1" required
-                                    formControlName="inputBox" />
-                            </div>
                             <div *ngSwitchCase="'date'">
-                                <label class="form-control-label" for="inputBox"> DATE BOX </label>
+                                <label class="form-control-label" for="inputBox"> Please Enter Date </label>
                                 <input type="date" class="form-control" name="inputBox" id="inputBox" required
                                     formControlName="inputBox" />
                             </div>
                             <div *ngSwitchDefault>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
                 <div>
-                    <button type="submit" id="save-entity" [disabled]="!editForm.controls.inputBox" class="btn btn-primary">
-                        &nbsp;<span jhiTranslate="entity.action.submit">Submit</span>
+                    <button type="submit" id="save-entity" [disabled]="!editForm.controls.inputBox" class="btn btn-primary mt-4">
+                       &nbsp;<span jhiTranslate="entity.action.submit">Submit</span>
                     </button>
                 </div>
             </div>

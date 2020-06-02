@@ -5,10 +5,6 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-// import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
-
-// import { IReport } from 'app/shared/model/report.model';
-
 import { ReportService } from './report.service';
 
 @Component({
@@ -35,6 +31,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.data = this.activatedRoute.snapshot.data['pageTitle'];
     this.reportType = this.reportService.reportType;
     this.reportParam = this.reportService.passedParamValue;
+
     if (this.reportParam !== undefined) {
       switch (this.router.url) {
         case '/report/rents-paid':

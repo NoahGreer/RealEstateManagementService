@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Resolve, Routes, Router } from '@angular/router';
 // import { JhiResolvePagingParams } from 'ng-jhipster';
 import { Observable, of, EMPTY } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { ReportLandingComponent } from './report.landing.component';
 export class ReportResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
+  resolve(): Observable<any[]> | Observable<never> {
     return this.service.getTestReport().pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
@@ -35,7 +35,7 @@ export class ReportResolve implements Resolve<any> {
 export class RentsPaidReportResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
+  resolve(): Observable<any[]> | Observable<never> {
     return this.service.getRentsPaid('2020-05-01').pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
@@ -53,7 +53,7 @@ export class RentsPaidReportResolve implements Resolve<any> {
 export class ReportLandingResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
+  resolve(): Observable<any[]> | Observable<never> {
     return EMPTY;
   }
 }
@@ -62,7 +62,7 @@ export class ReportLandingResolve implements Resolve<any> {
 export class AuthorizedVehicleReportResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
+  resolve(): Observable<any[]> | Observable<never> {
     return this.service.getAuthorizedVehicles(this.service.passedParamValue).pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
@@ -210,6 +210,18 @@ export const reportRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
+    path: 'open-maintenance',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.open-maintenance'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
     path: 'maintenance-by-apartment',
     component: ReportComponent,
     resolve: {
@@ -218,6 +230,18 @@ export const reportRoute: Routes = [
     data: {
       authorities: [Authority.USER],
       pageTitle: 'realEstateManagementServiceApp.report.home.maintenance-by-apartment'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'maintenance-by-contractor',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.maintenance-by-contractor'
     },
     canActivate: [UserRouteAccessService]
   },
