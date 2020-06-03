@@ -21,13 +21,57 @@
             </li>
 
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
-                routerLinkActive="dynamic"  [routerLinkActiveOptions]="{ exact: true }">
-                <a class="nav-link" href="/report/landing/" id="admin-menu">
+                routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                     <span>
                         <fa-icon icon="th-list"></fa-icon>
                         <span jhiTranslate="global.menu.reports.main">Reports</span>
                     </span>
                 </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
+                    <li>
+                        <a class="dropdown-item" routerLink="report/rents-paid" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact : true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.reports.rentsPaid">Rent Report</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="report/authorized-vehicles" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact : true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.reports.vehicle">Vehicle Report</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="report/available-apartments" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact : true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.reports.availableApartments">Available Apartments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="report/contacts" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact : true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.reports.contacts">Contacts Report</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="report/emails" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact : true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.reports.emails">Emails Report</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="report" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact : true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>TEST</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
