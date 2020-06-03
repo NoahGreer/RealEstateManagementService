@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { RealEstateManagementServiceSharedModule } from 'app/shared/shared.module';
+
 import { ReportComponent } from './report.component';
-import { ReportLandingComponent } from './report.landing.component';
 import { reportRoute } from './report.route';
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -16,6 +16,6 @@ export class TypeofPipe implements PipeTransform {
 }
 @NgModule({
   imports: [RealEstateManagementServiceSharedModule, RouterModule.forChild(reportRoute)],
-  declarations: [ReportComponent, ReportLandingComponent]
+  declarations: [ReportComponent]
 })
 export class RealEstateManagementServiceReportModule {}
