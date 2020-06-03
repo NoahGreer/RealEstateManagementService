@@ -557,4 +557,41 @@ public class ReportResource {
     	
     	return ResponseEntity.ok().body(people);
     }
+	
+	 /**
+     * {@code GET  /reports/apartment/:Id/infractions} : get all the infractions from a particular apartment.
+     * @param apartment id which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infractions from a particular apartment.
+     */
+	@GetMapping("/reports/apartment/{id}/infractions")
+    public ResponseEntity<List<InfractionDTO>> getInfractionsByApartmentId(@PathVariable("id") Long id) {
+		log.debug("REST request to get Infraction for Apartment ID criteria: {}", id);
+    	
+		/*Bit concerned that this is not specific enough, do some check against who is living there
+		* now compared to the past.  But an infractionDTO has a date and leaseID associated with it 
+		* that should narrow down any search, ie a group of people or looking up an old incident
+		*/
+		
+		LongFilter apartmentIdsFilter = new LongFilter();
+		apartmentIdsFilter.setEquals(id);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setApartmentId(apartmentIdsFilter);
+
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+		List<Long> leaseIds = new ArrayList<>();
+    	for (LeaseDTO lease : leases) {
+    		leaseIds.add(lease.getId());
+    	}
+    	
+		LongFilter leaseIdsFilter = new LongFilter();
+		leaseIdsFilter.setIn(leaseIds);
+    	
+    	InfractionCriteria infractionCriteria = new InfractionCriteria();
+    	infractionCriteria.setLeaseId(leaseIdsFilter);
+    	List<InfractionDTO> infractions = infractionQueryService.findByCriteria(infractionCriteria);
+    	
+    	return ResponseEntity.ok().body(infractions);
+    }
 }
