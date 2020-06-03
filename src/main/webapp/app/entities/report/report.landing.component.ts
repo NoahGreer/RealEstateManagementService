@@ -10,7 +10,6 @@ import { ApartmentService } from '../apartment/apartment.service';
 import { JobTypeService } from '../job-type/job-type.service';
 import { ContractorService } from '../contractor/contractor.service';
 import { BuildingService } from '../building/building.service';
-// import { reduce } from 'rxjs/operators';
 
 import { HttpResponse } from '@angular/common/http';
 
@@ -19,15 +18,13 @@ import { HttpResponse } from '@angular/common/http';
   templateUrl: './report.landing.component.html'
 })
 export class ReportLandingComponent implements OnInit, OnDestroy {
-  report?: any[];
-  data?: Object;
-  objectType?: string;
+  objectType: string;
   eventSubscriber?: Subscription;
-  reportValue?: string;
+  reportValue: string;
   reportTypes: { [key: string]: { route: string; paramType: [string] } };
   displayField: string;
 
-  entityPopulation: any[];
+  entityPopulation?: any[] | null;
 
   editForm = this.fb.group({
     reportSelect: [],
@@ -46,9 +43,11 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected fb: FormBuilder
-  ) {}
-
-  ngOnInit(): void {
+  ) {
+    this.displayField = '';
+    this.reportValue = '';
+    this.objectType = '';
+    this.entityPopulation = null;
     this.reportTypes = {
       ['Rents Paid']: { route: '/report/rents-paid', paramType: ['date'] },
       ['Available Apartments']: { route: '/report/available-apartments', paramType: [''] },
@@ -64,6 +63,8 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
       ['Contractor By Job-Type']: { route: '/report/contractor-by-jobtype', paramType: ['jobtype'] }
     };
   }
+
+  ngOnInit(): void {}
 
   onOptionsSelected(value: string): void {
     this.reportValue = value;
@@ -97,7 +98,7 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
   submit(): void {
     this.reportService.reportType = this.reportValue;
     this.reportService.passedParamValue = this.editForm.get(['inputBox'])!.value;
-    // console.log("reportValue: " + this.reportValue + " Passed Param: " + this.reportService.passedParamValue);
+
     this.router.navigate([this.reportTypes[this.reportValue].route]);
   }
 
