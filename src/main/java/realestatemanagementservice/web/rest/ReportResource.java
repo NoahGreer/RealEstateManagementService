@@ -331,8 +331,8 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of open maintenance orders.
      */
 	@GetMapping("/reports/maintenance/open")
-    public ResponseEntity<List<MaintenanceDTO>> getOpenMaintenace() {
-		log.debug("REST request to get a list of all maintenance entities that do not show the the contractor has received payment for work done");
+    public ResponseEntity<List<MaintenanceDTO>> getOpenMaintenance() {
+		log.debug("REST request to get a list of all maintenance entities that do not show the the contractor has recieved payment for work done");
   
     	final StringFilter receiptOfPayment = new StringFilter();
     	receiptOfPayment.setSpecified(true);
@@ -351,7 +351,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all work done by a particular contractor.
      */
 	@GetMapping("/reports/contractors/{id}/maintenance/history")
-    public ResponseEntity<List<MaintenanceDTO>> getMaintenaceByContractor(@PathVariable("id") Long id) {
+    public ResponseEntity<List<MaintenanceDTO>> getMaintenanceByContractor(@PathVariable("id") Long id) {
 		log.debug("REST request to get a list of all work done by one contractor for id criteria: {}", id);
   
     	final LongFilter idFilter = new LongFilter();
@@ -542,8 +542,13 @@ public class ReportResource {
 		List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
 		
 		leases.sort(Comparator.comparing(LeaseDTO::getEndDate));
+		List<LeaseDTO> orderedLeases;
 		
-		List<LeaseDTO> orderedLeases = new ArrayList<LeaseDTO>(leases.subList(0, count));
+		if( leases.size() < count ) {
+		orderedLeases = new ArrayList<LeaseDTO>(leases);
+		}else {
+		orderedLeases = new ArrayList<LeaseDTO>(leases.subList(0, count));
+		}
 
 		return ResponseEntity.ok().body(orderedLeases);
     }
