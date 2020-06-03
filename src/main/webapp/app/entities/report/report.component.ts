@@ -16,8 +16,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   data?: Object;
   objectType?: string;
   eventSubscriber?: Subscription;
-  reportType?: string;
-  reportParam?: any;
+  reportType: string;
+  reportParam: any;
 
   constructor(
     protected reportService: ReportService,
@@ -25,7 +25,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     protected modalService: NgbModal,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
-  ) {}
+  ) {
+    this.reportType = '';
+    this.reportParam = '';
+  }
 
   ngOnInit(): void {
     this.data = this.activatedRoute.snapshot.data['pageTitle'];
@@ -93,7 +96,12 @@ export class ReportComponent implements OnInit, OnDestroy {
           this.objectType = 'open maintenance';
           this.reportService.getOpenMaintenance().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
           break;
-
+        case '/report/maintenance-by-contractor':
+          this.objectType = 'maintenance';
+          this.reportService
+            .getContractorMaintenanceHistory(this.reportParam)
+            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+          break;
         case '/report/maintenance-by-apartment':
           this.objectType = 'maintenance';
           this.reportService

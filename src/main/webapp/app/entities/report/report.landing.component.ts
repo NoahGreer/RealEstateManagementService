@@ -24,7 +24,7 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
   reportTypes: { [key: string]: { route: string; paramType: [string] } };
   displayField: string;
 
-  entityPopulation?: any[] | null;
+  entityPopulation: any[] | null;
 
   editForm = this.fb.group({
     reportSelect: [],
@@ -59,7 +59,7 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
       ['Next Expiring Leases']: { route: '/report/leases-by-expiration', paramType: ['number'] },
       ['Pets/Pet Owners']: { route: '/report/pet-owners', paramType: [''] },
       ['Open Maintenance']: { route: '/report/open-maintenance', paramType: [''] },
-      ['Maintenance By Apartment']: { route: '/report/maintenance-by-contractor', paramType: ['contractor'] },
+      ['Maintenance By Contractor']: { route: '/report/maintenance-by-contractor', paramType: ['contractor'] },
       ['Contractor By Job-Type']: { route: '/report/contractor-by-jobtype', paramType: ['jobtype'] }
     };
   }
