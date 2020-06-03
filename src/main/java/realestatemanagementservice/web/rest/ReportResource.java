@@ -457,67 +457,6 @@ public class ReportResource {
     	return ResponseEntity.ok().body(taxHistory);
     }
 	
-	/**
-     * {@code GET  /reports/apartments/:id/maintenance/history} : get the maintenance history in a particular apartment by apartmentID.
-     * @param the maintenance entities requested should match those related to the apartment.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the maintenance jobs in an apartment.
-     */
-    @GetMapping("/reports/apartments/{id}/maintenance/history")
-    public ResponseEntity<List<MaintenanceDTO>> getApartmentMaintenanceHistory(@PathVariable Long id) {
-    	log.debug("REST request to get Apartment Maintenance history for id criteria: {}", id);
-    	
-    	LongFilter apartmentIdFilter = new LongFilter();
-    	apartmentIdFilter.setEquals(id);
-    	
-    	MaintenanceCriteria maintenanceCriteria = new MaintenanceCriteria();
-    	maintenanceCriteria.setApartmentId(apartmentIdFilter);
-    	
-    	List<MaintenanceDTO> repairs = maintenanceQueryService.findByCriteria(maintenanceCriteria);
-    	
-    	return ResponseEntity.ok().body(repairs);
-    }
-    
-    /**
-     * {@code GET  /reports/apartments/:id/tenants} : get the tenants in a particular apartment by apartmentID.
-     * @param the person entities requested should match those in the apartment.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of the tenants in an apartment.
-     */
-    @GetMapping("/reports/apartments/{id}/tenants")
-    public ResponseEntity<List<PersonDTO>> getApartmentTenants(@PathVariable Long id) {
-    	log.debug("REST request to get Apartment tenants for id criteria: {}", id);
-    	
-    	LongFilter apartmentIdFilter = new LongFilter();
-    	apartmentIdFilter.setEquals(id);
-    	
-    	final LocalDate today = LocalDate.now();
-    	
-    	LocalDateFilter dateSignedFilter = new LocalDateFilter();
-    	dateSignedFilter.setLessThanOrEqual(today);
-    	
-    	LocalDateFilter endDateFilter = new LocalDateFilter();
-    	endDateFilter.setGreaterThanOrEqual(today);
-    	
-    	LeaseCriteria leaseCriteria = new LeaseCriteria();
-    	leaseCriteria.setApartmentId(apartmentIdFilter);
-    	leaseCriteria.setDateSigned(dateSignedFilter);
-    	leaseCriteria.setEndDate(endDateFilter);
-    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
-    	
-    	List<Long> leaseIds = new ArrayList<>();
-    	for (LeaseDTO lease : leases) {
-    		leaseIds.add(lease.getId());
-    	}
-    	
-		LongFilter leaseIdsFilter = new LongFilter();
-		leaseIdsFilter.setIn(leaseIds);
-		
-    	PersonCriteria personCriteria = new PersonCriteria();
-    	personCriteria.setLeaseId(leaseIdsFilter);
-    	List<PersonDTO> people = personQueryService.findByCriteria(personCriteria);
-    	
-    	return ResponseEntity.ok().body(people);
-    }
-    
     /**
      * {@code GET  /reports/lease/expire} : get the next number of leases to expire.
      * @param the count of the requested entities should match the param.
