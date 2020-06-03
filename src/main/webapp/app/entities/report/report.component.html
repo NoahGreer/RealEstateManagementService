@@ -12,18 +12,21 @@
         </div>
     </h3>
 
+
+    <!-- <div>
+        TEST STUFF: Report type:  {{ reportType }}, report params:  {{ reportParam}}
+    </div> -->
     <div class="alert alert-warning" id="no-result" *ngIf="report?.length === 0">
         <span jhiTranslate="realEstateManagementServiceApp.report.home.notFound">No report data found</span>
-        <div>This is a test, hopefully this shows up.</div>
     </div>
 
     <div id="entities">
 
         <div *ngIf="report !== undefined" style="text-align:center;">
 
-            <div *ngFor="let item of report | keyvalue;" class="card w-40 m-2" style="display: inline-block; text-align:left;">
+            <div *ngFor="let item of report | keyvalue;" class="card m-2" style="display: inline-block; text-align:left;">
                 <div class="card-body">
-                    <div class="card-title bg-light">
+                    <h3 class="bg-light">
                         <div>
                             <h4 *ngIf="objectType; else objectNotDefined"
                                 style="text-transform:capitalize; text-align:center">
@@ -33,8 +36,8 @@
                                 {{ item.key }}
                             </ng-template>
                         </div>
-                    </div>
-                    <div class="ml-5">
+                    </h3>
+                    <div>
                         <div *ngFor="let subItem of item.value | keyvalue" style="text-transform:capitalize;"
                             [ngSwitch]="subItem.key">
                             <div *ngSwitchCase="'id'">

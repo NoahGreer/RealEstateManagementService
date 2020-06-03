@@ -1,0 +1,53 @@
+<div>
+
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="submit()" [formGroup]="editForm">
+            <h2 id="jhi-rent-heading" jhiTranslate="realEstateManagementServiceApp.report.landing.header">
+                Choose a report type:
+            </h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <select class='select-option' #mySelect (change)='onOptionsSelected(mySelect.value)'>
+                    <option [ngValue]="null"></option>
+                    <option class='option' *ngFor='let option of reportTypes | keyvalue' [value]="option.key">
+                        {{option.key}}</option>
+                </select>
+
+                <div>
+                    <div *ngIf="entityPopulation != undefined;">
+                        <div #entitiesFound class="form-group" style="text-transform:capitalize;"> Please select {{ displayField }}<br><br>
+                            <select class='select-option' #mySelect name="inputBox" id="inputBox" required
+                            formControlName="inputBox">
+                                <option class='option' *ngFor='let option of entityPopulation' 
+                                [value]="option.id">
+                                    {{option[displayField]}}</option>
+                            </select>
+                        </div>
+                    </div>
+ 
+                    <div *ngIf="reportValue !== undefined">
+
+                        <div class="form-group" [ngSwitch]="reportTypes[reportValue].paramType">
+                            <div *ngSwitchCase="'date'">
+                                <label class="form-control-label" for="inputBox" > Please Enter Date </label>
+                                <input type="date" class="form-control" name="inputBox" id="inputBox" required
+                                    formControlName="inputBox" />
+                            </div>
+                            <div *ngSwitchDefault>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div>
+                    <button type="submit" id="save-entity" [disabled]="!editForm.controls.inputBox" class="btn btn-primary mt-4">
+                       &nbsp;<span jhiTranslate="entity.action.submit">Submit</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
