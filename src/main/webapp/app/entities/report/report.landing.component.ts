@@ -23,7 +23,6 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
   reportValue: string;
   reportTypes: { [key: string]: { route: string; paramType: [string] } };
   displayField: string;
-
   entityPopulation: any[] | null;
 
   editForm = this.fb.group({
@@ -54,10 +53,13 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
       ['Authorized Vehicles']: { route: '/report/authorized-vehicles', paramType: ['building'] },
       ['Current Tenant Contacts']: { route: '/report/contacts', paramType: [''] },
       ['Tenant Email List']: { route: '/report/emails', paramType: [''] },
-      ['Recent Infractions']: { route: '/report/infractions', paramType: [''] },
+      ['Rent Delinquencies']: { route: '/report/rent-delinquencies', paramType: ['date'] },
+      ['Infractions By Year']: { route: '/report/infractions-by-year', paramType: ['date'] },
+      ['Infractions By Apartment']: { route: '/report/infractions-by-apartment', paramType: ['apartment'] },
       ['Tenants By Apartment']: { route: '/report/tenants-by-apartment', paramType: ['apartment'] },
       ['Next Expiring Leases']: { route: '/report/leases-by-expiration', paramType: ['number'] },
       ['Pets/Pet Owners']: { route: '/report/pet-owners', paramType: [''] },
+      ['Tax History']: { route: '/report/tax-history', paramType: [''] },
       ['Open Maintenance']: { route: '/report/open-maintenance', paramType: [''] },
       ['Maintenance By Contractor']: { route: '/report/maintenance-by-contractor', paramType: ['contractor'] },
       ['Contractor By Job-Type']: { route: '/report/contractor-by-jobtype', paramType: ['jobtype'] }
@@ -87,6 +89,9 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
         case 'building':
           this.displayField = 'name';
           this.buildingService.query({}).subscribe((res: HttpResponse<any[]>) => (this.entityPopulation = res.body));
+          break;
+        case 'date':
+          this.editForm.controls['inputBox'].setValue(this.reportService.getTodaysDate());
           break;
         default:
       }

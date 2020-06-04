@@ -162,14 +162,26 @@ export const reportRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
-    path: 'infractions',
+    path: 'infractions-by-year',
     component: ReportComponent,
     resolve: {
       report: ReportResolve
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.infractions'
+      pageTitle: 'realEstateManagementServiceApp.report.home.infractions-by-year'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'infractions-by-apartment',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.infractions-by-apartment'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -210,6 +222,18 @@ export const reportRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
+    path: 'tax-history',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.tax-history'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
     path: 'open-maintenance',
     component: ReportComponent,
     resolve: {
@@ -218,6 +242,18 @@ export const reportRoute: Routes = [
     data: {
       authorities: [Authority.USER],
       pageTitle: 'realEstateManagementServiceApp.report.home.open-maintenance'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'rent-delinquencies',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.rent-delinquencies'
     },
     canActivate: [UserRouteAccessService]
   },
