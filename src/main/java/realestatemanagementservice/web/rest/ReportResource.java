@@ -611,7 +611,7 @@ public class ReportResource {
     	validDueDate.setLessThanOrEqual(date);
     	
     	RentCriteria rentCriteria = new RentCriteria();
-    	rentCriteria.setRecievedDate(nullReceivedDate);
+    	rentCriteria.setReceivedDate(nullReceivedDate);
     	rentCriteria.setDueDate(validDueDate);
     	
     	List<RentDTO> rents = rentQueryService.findByCriteria(rentCriteria);

@@ -1229,19 +1229,19 @@ public class ReportResourceIT {
 		
 		//Make it 5 days overdue
 		Rent delinquentRentIncludedLease = new Rent();
-		delinquentRentIncludedLease.setRecievedDate(null);
+		delinquentRentIncludedLease.setReceivedDate(null);
 		delinquentRentIncludedLease.setDueDate(criteriaDate.minusDays(5));
 		delinquentRentIncludedLease.setLease(includedLease);
 		
 		//Same lease but a valid paid rent of the previous month
 		Rent onTimeRentIncludedLease = new Rent();
-		onTimeRentIncludedLease.setRecievedDate(criteriaDate.minusMonths(1));
+		onTimeRentIncludedLease.setReceivedDate(criteriaDate.minusMonths(1));
 		onTimeRentIncludedLease.setDueDate(criteriaDate.minusMonths(1));
 		onTimeRentIncludedLease.setLease(includedLease);
 		
 		//Delinquent rent on the excluded rent to cover bases
 		Rent delinquentRentExcludedLease = new Rent();
-		delinquentRentExcludedLease.setRecievedDate(null);
+		delinquentRentExcludedLease.setReceivedDate(null);
 		delinquentRentExcludedLease.setDueDate(criteriaDate.minusDays(6));
 		delinquentRentExcludedLease.setLease(excludedLease);
 		
