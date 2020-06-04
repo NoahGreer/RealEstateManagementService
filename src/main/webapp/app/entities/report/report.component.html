@@ -25,13 +25,13 @@
 
         <div *ngIf="report !== undefined">
 
-            <div *ngFor="let item of report | keyvalue;">
+            <div *ngFor="let item of report | keyvalue; let i = index">
                 <div class="container w-60 bordered">
                     <h3 class="bg-light">
                         <div>
                             <h4 *ngIf="objectType; else objectNotDefined"
                                 style="text-transform:capitalize; text-align:center">
-                                {{ objectType }} {{ item.key }}:
+                                {{ objectType }} {{ 1 + i }}:
                             </h4>
                             <ng-template #objectNotDefined>
                                 {{ item.key }}
