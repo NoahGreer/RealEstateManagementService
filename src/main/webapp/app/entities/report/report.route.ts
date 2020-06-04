@@ -222,6 +222,18 @@ export const reportRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
+    path: 'tax-history',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.tax-history'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
     path: 'open-maintenance',
     component: ReportComponent,
     resolve: {

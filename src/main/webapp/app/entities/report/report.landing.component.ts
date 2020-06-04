@@ -59,6 +59,7 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
       ['Tenants By Apartment']: { route: '/report/tenants-by-apartment', paramType: ['apartment'] },
       ['Next Expiring Leases']: { route: '/report/leases-by-expiration', paramType: ['number'] },
       ['Pets/Pet Owners']: { route: '/report/pet-owners', paramType: [''] },
+      ['Tax History']: { route: '/report/tax-history', paramType: [''] },
       ['Open Maintenance']: { route: '/report/open-maintenance', paramType: [''] },
       ['Maintenance By Contractor']: { route: '/report/maintenance-by-contractor', paramType: ['contractor'] },
       ['Contractor By Job-Type']: { route: '/report/contractor-by-jobtype', paramType: ['jobtype'] }

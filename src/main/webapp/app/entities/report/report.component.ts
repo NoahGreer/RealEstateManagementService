@@ -96,7 +96,7 @@ export class ReportComponent implements OnInit, OnDestroy {
           break;
 
         case '/report/pet-owners':
-          this.objectType = 'pet owners';
+          this.objectType = 'pet owner';
           this.reportService.getPetOwners().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
           break;
 
