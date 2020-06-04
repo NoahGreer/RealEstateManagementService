@@ -598,4 +598,43 @@ public class ReportResource {
     	
     	return ResponseEntity.ok().body(infractions);
     }
+    
+    @GetMapping("/reports/rents/delinquencies")
+    public ResponseEntity<List<LeaseDTO>> getDelinquencies(@RequestParam("date") 
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    	log.debug("REST request to get Rent delinquencies for given date: {}", date);
+    	
+    	//If the received date is null or otherwise not present
+    	LocalDateFilter nullReceivedDate = new LocalDateFilter();
+    	nullReceivedDate.setEquals(null);
+    	LocalDateFilter validDueDate = new LocalDateFilter();
+    	validDueDate.setLessThanOrEqual(date);
+    	
+    	RentCriteria rentCriteria = new RentCriteria();
+    	rentCriteria.setReceivedDate(nullReceivedDate);
+    	rentCriteria.setDueDate(validDueDate);
+    	
+    	List<RentDTO> rents = rentQueryService.findByCriteria(rentCriteria);
+    	
+    	List<Long> leaseIds = new ArrayList<Long>();
+    	for (RentDTO rent : rents) {
+    		leaseIds.add(rent.getLeaseId());
+    	}
+    	
+    	LongFilter leaseIdsFilter = new LongFilter();
+    	leaseIdsFilter.setIn(leaseIds);
+    	
+    	//Only look for valid leases
+    	//TODO: check with Shine on when rents for soon to be expired leases are due
+    	LocalDateFilter validLeaseFilter = new LocalDateFilter();
+    	validLeaseFilter.setGreaterThanOrEqual(date);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setId(leaseIdsFilter);
+    	leaseCriteria.setEndDate(validLeaseFilter);
+    	
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+    	return ResponseEntity.ok().body(leases);
+    }
 }
