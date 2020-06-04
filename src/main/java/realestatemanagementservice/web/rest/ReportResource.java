@@ -429,7 +429,7 @@ public class ReportResource {
      */
 	@GetMapping("/reports/tax/property")
     public ResponseEntity<List<PropertyTaxWithPropertyNumberDTO>> getTaxHistory() {
-		log.debug("REST request to get a list of the full property tax historyr");
+		log.debug("REST request to get a list of the full property tax history");
 		
 		final LongFilter hasIds = new LongFilter();
 		hasIds.setSpecified(true);

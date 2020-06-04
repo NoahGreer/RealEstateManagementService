@@ -8,7 +8,8 @@
         "authorized-vehicles": "Authorized Vehicles",
         "contacts": "Contacts Report",
         "emails": "Emails Report",
-        "infractions": "Infractions Reported",
+        "infractions-by-year": "Infractions For Year {{ titleParam }}",
+        "infractions-by-apartment": "Infractions For Apartment {{ titleParam }}",
         "tenants-by-apartment": "Tenants in Apartment ",
         "leases-by-expiration": "Next {{ titleParam }} Leases Expiring",
         "pet-owners": "Pets and Owner Info",
@@ -16,6 +17,7 @@
         "maintenance-by-apartment": "Maintenance Reports for Apartment {{ titleParam }}",
         "maintenance-by-contractor": "Maintenance Reports by Contractor {{ titleParam }}",
         "contractor-by-jobtype": "Contractors For Service {{ titleParam }}",
+        "tax-history": "Tax History",
         "test-report": "Test Report",
         "notFound": "No report data found"
       },

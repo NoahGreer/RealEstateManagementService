@@ -38,8 +38,12 @@ export class ReportService {
     return this.http.get<Object[]>(`${this.resourceUrl}/people/email`, { observe: 'response' });
   }
 
-  getInfractions(): Observable<TestResponseType> {
-    return this.http.get<Object[]>(`${this.resourceUrl}/reportTest`, { observe: 'response' });
+  getInfractionsByYear(year: string): Observable<TestResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/infractions?year=` + year, { observe: 'response' });
+  }
+
+  getInfractionsByApartment(apartmentId: number): Observable<TestResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/apartment/` + apartmentId + `/infractions`, { observe: 'response' });
   }
 
   getTenantsByApartment(apartmentId: number): Observable<TestResponseType> {

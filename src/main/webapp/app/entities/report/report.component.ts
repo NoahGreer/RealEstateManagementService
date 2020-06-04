@@ -64,11 +64,19 @@ export class ReportComponent implements OnInit, OnDestroy {
           this.reportService.getEmails().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
           break;
 
-        case '/report/infractions':
+        case '/report/infractions-by-year':
           this.objectType = 'infraction';
-          this.reportService.getInfractions().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+          this.reportService
+            .getInfractionsByYear(this.getYearByDate(this.reportParam))
+            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
           break;
 
+        case '/report/infractions-by-apartment':
+          this.objectType = 'infraction';
+          this.reportService
+            .getInfractionsByApartment(this.reportParam)
+            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+          break;
         case '/report/tenants-by-apartment':
           this.objectType = 'tenant';
           this.reportService
@@ -111,7 +119,13 @@ export class ReportComponent implements OnInit, OnDestroy {
 
         case '/report/contractor-by-jobtype':
           this.objectType = 'contractor';
-          this.reportService.getEmails().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+          this.reportService
+            .getContractorByJobType(this.reportParam)
+            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+          break;
+        case '/report/tax-history':
+          this.objectType = 'tax entry';
+          this.reportService.getPropertyTaxHistory().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
           break;
 
         default:
@@ -137,5 +151,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     return moment()
       .format('YYYY-MM-DD')
       .toString();
+  }
+
+  getYearByDate(date: Date): string {
+    return moment(date).format('YYYY');
   }
 }

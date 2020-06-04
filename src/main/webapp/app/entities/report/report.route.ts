@@ -162,14 +162,26 @@ export const reportRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
-    path: 'infractions',
+    path: 'infractions-by-year',
     component: ReportComponent,
     resolve: {
       report: ReportResolve
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.infractions'
+      pageTitle: 'realEstateManagementServiceApp.report.home.infractions-by-year'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'infractions-by-apartment',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.infractions-by-apartment'
     },
     canActivate: [UserRouteAccessService]
   },
