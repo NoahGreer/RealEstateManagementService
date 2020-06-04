@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
-
+import * as moment from 'moment';
 type TestResponseType = HttpResponse<Object[]>;
 
 // type EntityArrayResponseType = HttpResponse<IReport[]>;
@@ -30,6 +30,10 @@ export class ReportService {
     return this.http.get<Object[]>(`${this.resourceUrl}/buildings/${buildingId}/vehicles/authorized`, { observe: 'response' });
   }
 
+  getRentDelinquencies(date: string): Observable<TestResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/rents/delinquencies?date=` + date, { observe: 'response' });
+  }
+
   getContacts(): Observable<TestResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/people/contact`, { observe: 'response' });
   }
@@ -43,11 +47,11 @@ export class ReportService {
   }
 
   getInfractionsByApartment(apartmentId: number): Observable<TestResponseType> {
-    return this.http.get<Object[]>(`${this.resourceUrl}/apartment/` + apartmentId + `/infractions`, { observe: 'response' });
+    return this.http.get<Object[]>(`${this.resourceUrl}/apartment/${apartmentId}/infractions`, { observe: 'response' });
   }
 
   getTenantsByApartment(apartmentId: number): Observable<TestResponseType> {
-    return this.http.get<Object[]>(`${this.resourceUrl}/apartments/` + apartmentId + `/tenants`, { observe: 'response' });
+    return this.http.get<Object[]>(`${this.resourceUrl}/apartments/${apartmentId}/tenants`, { observe: 'response' });
   }
 
   getNextExpiringLeases(count: number): Observable<TestResponseType> {
@@ -80,5 +84,23 @@ export class ReportService {
 
   getTestReport(): Observable<TestResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/reportTest`, { observe: 'response' });
+  }
+
+  formatDate(date: Date): string {
+    return moment(date)
+      .format('YYYY-MM-DD')
+      .toString();
+  }
+
+  getTodaysDate(): string {
+    return moment()
+      .format('YYYY-MM-DD')
+      .toString();
+  }
+
+  getYearByDate(date: Date): string {
+    return moment(date)
+      .format('YYYY')
+      .toString();
   }
 }

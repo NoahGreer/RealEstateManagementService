@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
 import { ReportService } from './report.service';
 
 @Component({
@@ -67,7 +66,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         case '/report/infractions-by-year':
           this.objectType = 'infraction';
           this.reportService
-            .getInfractionsByYear(this.getYearByDate(this.reportParam))
+            .getInfractionsByYear(this.reportService.getYearByDate(this.reportParam))
             .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
           break;
 
@@ -95,6 +94,12 @@ export class ReportComponent implements OnInit, OnDestroy {
           }
           break;
 
+        case '/report/rent-delinquencies':
+          this.objectType = 'delinquency';
+          this.reportService
+            .getRentDelinquencies(this.reportService.formatDate(this.reportParam))
+            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
+          break;
         case '/report/pet-owners':
           this.objectType = 'pet owner';
           this.reportService.getPetOwners().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
@@ -139,21 +144,5 @@ export class ReportComponent implements OnInit, OnDestroy {
     if (this.eventSubscriber) {
       this.eventManager.destroy(this.eventSubscriber);
     }
-  }
-
-  formatDate(date: Date): string {
-    return moment(date)
-      .format('YYYY-MM-DD')
-      .toString();
-  }
-
-  getTodaysDate(): string {
-    return moment()
-      .format('YYYY-MM-DD')
-      .toString();
-  }
-
-  getYearByDate(date: Date): string {
-    return moment(date).format('YYYY');
   }
 }

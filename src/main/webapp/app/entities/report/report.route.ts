@@ -246,6 +246,18 @@ export const reportRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
+    path: 'rent-delinquencies',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.rent-delinquencies'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
     path: 'maintenance-by-apartment',
     component: ReportComponent,
     resolve: {

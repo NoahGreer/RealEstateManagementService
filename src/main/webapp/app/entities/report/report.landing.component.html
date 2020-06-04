@@ -31,7 +31,7 @@
                         <div class="form-group" [ngSwitch]="reportTypes[reportValue].paramType">
                             <div *ngSwitchCase="'date'">
                                 <label class="form-control-label" for="inputBox"> Please Enter Date </label>
-                                <input type="date" class="form-control" name="inputBox" id="inputBox" required
+                                <input type="date"  class="form-control" name="inputBox" id="inputBox" required
                                     formControlName="inputBox" />
                             </div>
                             <div *ngSwitchCase="'number'">

@@ -18,6 +18,7 @@
         "maintenance-by-contractor": "Maintenance Reports by Contractor {{ titleParam }}",
         "contractor-by-jobtype": "Contractors For Service {{ titleParam }}",
         "tax-history": "Tax History",
+        "rent-delinquencies": "Rent Delinquencies",
         "test-report": "Test Report",
         "notFound": "No report data found"
       },
