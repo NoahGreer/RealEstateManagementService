@@ -8,7 +8,7 @@
     <jhi-alert></jhi-alert>
 
     <h3 *ngIf="data !== undefined" class="text-center">
-        <div jhiTranslate="{{data}}">
+        <div jhiTranslate="{{data}}" [translateValues]="{titleParam: reportService.passedParamValue}">
         </div>
     </h3>
 
@@ -18,7 +18,7 @@
     </div> -->
     <div class="alert alert-warning" id="no-result" *ngIf="report?.length === 0">
         <span id="report.title" jhiTranslate="realEstateManagementServiceApp.report.home.notFound">
-        No report data found</span>
+            No report data found</span>
     </div>
 
     <div id="entities">
@@ -64,48 +64,60 @@
                                 </div>
                             </div>
                             <div *ngSwitchCase="'people'">
-                                <div class="row"> People: </div>
-                                <div *ngFor="let person of subItem.value">
+                                <div *ngIf="subItem.value.length > 0; else noTenants">
+                                    <div class="row"> People: </div>
+                                    <div *ngFor="let person of subItem.value">
 
-                                    <div class="row">
-                                        &emsp;<b>Name:&nbsp;</b> {{ person['firstName']}} {{ person['lastName']}}
-                                    </div>
-                                    <div class="row">
-                                        &emsp;<b>Phone:&nbsp; </b> {{ person['phoneNumber']}} &emsp; <b>Email:</b>&nbsp; {{person['emailAddress']}}
+                                        <div class="row">
+                                            &emsp;<b>Name:&nbsp;</b> {{ person['firstName']}} {{ person['lastName']}}
+                                        </div>
+                                        <div class="row">
+                                            &emsp;<b>Phone:&nbsp; </b> {{ person['phoneNumber']}} &emsp;
+                                            <b>Email:</b>&nbsp; {{person['emailAddress']}}
+                                        </div>
                                     </div>
                                 </div>
+                                <ng-template #noTenants>
+                                    <div>
+                                        <b>No Tenants on {{objectType}}</b>
+                                    </div>
+                                </ng-template>
                             </div>
                             <div *ngSwitchCase="'pets'">
                                 <div *ngIf="subItem.value.length > 0; else noPets">
                                     <div class="row"> Pets: </div>
-                                <div *ngFor="let pet of subItem.value">
-                                    <div class="row">
-                                        &emsp;<b>Name:</b>&nbsp; {{ pet['name']}} 
-                                        &emsp;<b>Type: </b>&nbsp; {{ pet['type']}} 
+                                    <div *ngFor="let pet of subItem.value">
+                                        <div class="row">
+                                            &emsp;<b>Name:</b>&nbsp; {{ pet['name']}}
+                                            &emsp;<b>Type: </b>&nbsp; {{ pet['type']}}
+                                        </div>
                                     </div>
+
                                 </div>
-                                
-                                </div>
-                                <ng-template #noPets><div>
-                                    No Pets on {{objectType}}
-                                </div></ng-template>
+                                <ng-template #noPets>
+                                    <div>
+                                       <b>No Pets on {{objectType}}</b> 
+                                    </div>
+                                </ng-template>
                             </div>
                             <div *ngSwitchCase="'vehicles'">
                                 <div *ngIf="subItem.value.length > 0; else noVehicles">
                                     <div class="row"> Vehicles: </div>
-                                        <div *ngFor="let vehicle of subItem.value">
-                                            <div class="row">
-                                                &emsp;<b>Make:</b> &nbsp; {{ vehicle['make']}} 
-                                                &emsp;<b>Model: </b> &nbsp; {{ vehicle['model']}} 
-                                                &emsp;<b>License Plate: </b> &nbsp;{{ vehicle['licensePlateNumber']}}
-                                            </div>
+                                    <div *ngFor="let vehicle of subItem.value">
+                                        <div class="row">
+                                            &emsp;<b>Make:</b> &nbsp; {{ vehicle['make']}}
+                                            &emsp;<b>Model: </b> &nbsp; {{ vehicle['model']}}
+                                            &emsp;<b>License Plate: </b> &nbsp;{{ vehicle['licensePlateNumber']}}
                                         </div>
                                     </div>
-                                <ng-template #noVehicles><div>
-                                    No Vehicles on {{objectType}}
-                                </div></ng-template>
+                                </div>
+                                <ng-template #noVehicles>
+                                    <div>
+                                        <b>No Vehicles on {{objectType}}</b>
+                                    </div>
+                                </ng-template>
                             </div>
-                            
+
                             <div *ngSwitchDefault>
                                 <div class="row">
                                     <div class="w-50">

@@ -3,14 +3,14 @@
     "report": {
       "home": {
         "title": "Reports",
-        "rents-paid": "Rents Paid",
+        "rents-paid": "Rents Paid Before {{ titleParam }}",
         "available-apartments": "Available Apartments",
-        "authorized-vehicles": "Authorized Vehicles",
+        "authorized-vehicles": "Authorized Vehicles for Building {{ titleParam }} ",
         "contacts": "Contacts Report",
         "emails": "Emails Report",
         "infractions-by-year": "Infractions For Year {{ titleParam }}",
         "infractions-by-apartment": "Infractions For Apartment {{ titleParam }}",
-        "tenants-by-apartment": "Tenants in Apartment ",
+        "tenants-by-apartment": "Tenants in Apartment {{ titleParam }}",
         "leases-by-expiration": "Next {{ titleParam }} Leases Expiring",
         "pet-owners": "Pets and Owner Info",
         "open-maintenance": "Open Maintenance Requests",
