@@ -184,7 +184,7 @@ public class ReportResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with list of authorized vehicles in body.
      */
     @GetMapping("/reports/apartments/{id}/vehicles")
-    public ResponseEntity<List<VehicleDTO>> getApartmentVehicles(@PathVariable Long id) {
+    public ResponseEntity<List<VehicleDTO>> getApartmentVehicle(@PathVariable Long id) {
 		log.debug("REST request to get Vehicles registerd for Apartment : {}", id);
     	
     	LongFilter apartmentIdFilter = new LongFilter();
