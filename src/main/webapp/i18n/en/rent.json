@@ -9,7 +9,7 @@
       },
       "payment": {
         "title": "Confirm payment",
-        "question": "Are you sure you want mark rent as paid {{ id }}?"
+        "question": "Are you sure you want mark rent {{ id }} as paid ?"
       },
       "created": "A new Rent is created with identifier {{ param }}",
       "updated": "A Rent is updated with identifier {{ param }}",
