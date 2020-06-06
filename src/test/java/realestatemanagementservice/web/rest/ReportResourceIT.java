@@ -355,7 +355,7 @@ public class ReportResourceIT {
 		vehicleRepository.flush();
 		
 		// Get list of authorized vehicles
-		restRentMockMvc.perform(get("/reports/apartments/" + includedApartment.getId() + "/vehicles"))
+		restRentMockMvc.perform(get("/api/reports/apartments/" + includedApartment.getId() + "/vehicles"))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$", hasSize(1)))
 				.andExpect(jsonPath("$[0].id", equalTo(includedApartmentCurrentLeaseVehicle.getId().intValue())));
