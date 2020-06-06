@@ -33,7 +33,8 @@ import {
   faAsterisk,
   faTasks,
   faHome,
-  faDollarSign
+  faDollarSign,
+  faCheck
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -72,6 +73,7 @@ export const fontAwesomeIcons = [
   faSearch,
   faTrashAlt,
   faAsterisk,
-  faDollarSign
+  faDollarSign,
+  faCheck
   // jhipster-needle-add-icon-import
 ];

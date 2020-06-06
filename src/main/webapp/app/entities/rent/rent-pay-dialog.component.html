@@ -1,4 +1,4 @@
-<form *ngIf="rent" name="payForm" (ngSubmit)="confirmPayment(rent?.id!)">
+<form *ngIf="rent" name="payForm" (ngSubmit)="confirmPayment(rent)">
     <div class="modal-header">
         <h4 class="modal-title" jhiTranslate="realEstateManagementServiceApp.rent.payment.title">Confirm payment</h4>
 
