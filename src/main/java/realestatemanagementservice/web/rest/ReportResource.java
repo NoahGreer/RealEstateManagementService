@@ -178,6 +178,60 @@ public class ReportResource {
     	return ResponseEntity.ok().body(vehicles);
     }
     
+    /**
+     * {@code GET  /reports/buildings/:id/vehicles/authorized} : get the authorized vehicles for the "id" building.
+     * @param id the id of the buildingDTO to retrieve authorized vehicles for.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with list of authorized vehicles in body.
+     */
+    @GetMapping("/reports/apartments/{id}/vehicles")
+    public ResponseEntity<List<VehicleDTO>> getApartmentVehicles(@PathVariable Long id) {
+		log.debug("REST request to get Vehicles registerd for Apartment : {}", id);
+    	
+    	LongFilter apartmentIdFilter = new LongFilter();
+    	apartmentIdFilter.setEquals(id);
+    	
+    	ApartmentCriteria apartmentCriteria = new ApartmentCriteria();
+    	apartmentCriteria.setId(apartmentIdFilter);
+    	List<ApartmentDTO> apartments = apartmentQueryService.findByCriteria(apartmentCriteria);
+    	
+    	List<Long> apartmentIds = new ArrayList<>();
+    	for (ApartmentDTO apartment : apartments) {
+    		apartmentIds.add(apartment.getId());
+    	}
+    	
+		LongFilter apartmentIdsFilter = new LongFilter();
+		apartmentIdsFilter.setIn(apartmentIds);
+		
+		final LocalDate today = LocalDate.now();
+		
+		//Filtering for valid leases
+		LocalDateFilter dateSignedFilter = new LocalDateFilter();
+		dateSignedFilter.setLessThanOrEqual(today);
+		
+		LocalDateFilter endDateFilter = new LocalDateFilter();
+		endDateFilter.setGreaterThan(today);
+    	
+    	LeaseCriteria leaseCriteria = new LeaseCriteria();
+    	leaseCriteria.setApartmentId(apartmentIdsFilter);
+    	leaseCriteria.setDateSigned(dateSignedFilter);
+    	leaseCriteria.setEndDate(endDateFilter);
+    	List<LeaseDTO> leases = leaseQueryService.findByCriteria(leaseCriteria);
+    	
+		List<Long> leaseIds = new ArrayList<>();
+    	for (LeaseDTO lease : leases) {
+    		leaseIds.add(lease.getId());
+    	}
+    	
+		LongFilter leaseIdsFilter = new LongFilter();
+		leaseIdsFilter.setIn(leaseIds);
+    	
+    	VehicleCriteria vehicleCriteria = new VehicleCriteria();
+    	vehicleCriteria.setLeaseId(leaseIdsFilter);
+    	List<VehicleDTO> vehicles = vehicleQueryService.findByCriteria(vehicleCriteria);
+    	
+    	return ResponseEntity.ok().body(vehicles);
+    }
+    
 	/**
      * {@code GET  /reports/people/email} : get all the email for all people with active leases.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of all the email addresses of active residents.
