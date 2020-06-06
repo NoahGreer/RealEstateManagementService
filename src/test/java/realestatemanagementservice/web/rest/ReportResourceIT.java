@@ -280,6 +280,89 @@ public class ReportResourceIT {
 	
 	@Test
 	@Transactional
+	public void getApartmentVehicles() throws Exception {
+
+		// Create test apartments to associate test leases with
+		Apartment includedApartment = new Apartment();
+		includedApartment.setUnitNumber("I1");
+
+		Apartment excludedApartment = new Apartment();
+		excludedApartment.setUnitNumber("E1");
+
+		Set<Apartment> apartmentEntities = new HashSet<>();
+		apartmentEntities.add(includedApartment);
+		apartmentEntities.add(excludedApartment);
+
+		// Initialize apartments in the database
+		apartmentRepository.saveAll(apartmentEntities);
+		apartmentRepository.flush();
+		
+		// Create test leases to associate test vehicles with
+		final LocalDate today = LocalDate.now();
+		final LocalDate yesterday = today.minusDays(1);
+		
+		final LocalDate oneYearAfterToday = today.plusYears(1);
+		
+		final LocalDate oneYearBeforeYesterday = yesterday.minusYears(1);
+		final LocalDate oneYearAfterYesterday = yesterday.plusYears(1);
+
+		Lease includedApartmentExpiredLease = new Lease();
+		includedApartmentExpiredLease.setApartment(includedApartment);
+		includedApartmentExpiredLease.dateSigned(oneYearBeforeYesterday);
+		includedApartmentExpiredLease.endDate(yesterday);
+
+		Lease includedApartmentCurrentLease = new Lease();
+		includedApartmentCurrentLease.setApartment(includedApartment);
+		includedApartmentCurrentLease.dateSigned(today);
+		includedApartmentCurrentLease.endDate(oneYearAfterToday);
+		
+		Lease excludedApartmentCurrentLease = new Lease();
+		excludedApartmentCurrentLease.setApartment(excludedApartment);
+		excludedApartmentCurrentLease.dateSigned(yesterday);
+		excludedApartmentCurrentLease.endDate(oneYearAfterYesterday);
+		
+		Set<Lease> leaseEntities = new HashSet<>();
+		leaseEntities.add(includedApartmentExpiredLease);
+		leaseEntities.add(includedApartmentCurrentLease);
+		leaseEntities.add(excludedApartmentCurrentLease);
+
+		// Initialize leases in the database
+		leaseRepository.saveAll(leaseEntities);
+		leaseRepository.flush();
+
+		// Vehicle associated with an expired lease for the included building should be excluded from the report
+		Vehicle includedApartmentExpiredLeaseVehicle = new Vehicle();
+		includedApartmentExpiredLeaseVehicle.addLease(includedApartmentExpiredLease);
+		includedApartmentExpiredLeaseVehicle.setLicensePlateNumber("includedApartmentExpiredLeaseVehicle");
+
+		// Vehicle associated with a current lease for the included building should be included in the report
+		Vehicle includedApartmentCurrentLeaseVehicle = new Vehicle();
+		includedApartmentCurrentLeaseVehicle.addLease(includedApartmentCurrentLease);
+		includedApartmentCurrentLeaseVehicle.setLicensePlateNumber("includedApartmentCurrentLeaseVehicle");
+		
+		// Vehicle associated with a current lease for an excluded building should be excluded from the report
+		Vehicle excludedApartmentCurrentLeaseVehicle = new Vehicle();
+		excludedApartmentCurrentLeaseVehicle.addLease(excludedApartmentCurrentLease);
+		excludedApartmentCurrentLeaseVehicle.setLicensePlateNumber("excludedApartmentCurrentLeaseVehicle");
+		
+		Set<Vehicle> vehicleEntities = new HashSet<>();
+		vehicleEntities.add(includedApartmentExpiredLeaseVehicle);
+		vehicleEntities.add(includedApartmentCurrentLeaseVehicle);
+		vehicleEntities.add(excludedApartmentCurrentLeaseVehicle);
+
+		// Initialize vehicles in the database
+		vehicleRepository.saveAll(vehicleEntities);
+		vehicleRepository.flush();
+		
+		// Get list of authorized vehicles
+		restRentMockMvc.perform(get("/reports/apartments/" + includedApartment.getId() + "/vehicles"))
+				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(jsonPath("$", hasSize(1)))
+				.andExpect(jsonPath("$[0].id", equalTo(includedApartmentCurrentLeaseVehicle.getId().intValue())));
+	}
+	
+	@Test
+	@Transactional
 	public void getApartmentMaintenanceHistory() throws Exception {
 		
 		//Create test Apartments to associate repairs with
@@ -474,7 +557,7 @@ public class ReportResourceIT {
 		infractionRepository.flush();
 		
 		restRentMockMvc.perform(get("/api/reports/infractions?year=" + thisYear))
-		.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(jsonPath("$", hasSize(2)))
 			.andExpect(jsonPath("$[0].id", equalTo(firstValidInfraction.getId().intValue())))
 			.andExpect(jsonPath("$[1].id", equalTo(secondValidInfraction.getId().intValue())));
