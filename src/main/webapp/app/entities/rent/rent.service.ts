@@ -50,8 +50,12 @@ export class RentService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  pay(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  pay(rent: IRent): Observable<HttpResponse<{}>> {
+    const copy = this.convertDateFromClient(rent);
+    copy.receivedDate = moment();
+    return this.http
+      .put<IRent>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   protected convertDateFromClient(rent: IRent): IRent {

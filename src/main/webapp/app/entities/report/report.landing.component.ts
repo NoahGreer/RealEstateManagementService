@@ -50,7 +50,8 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
     this.reportTypes = {
       ['Rents Paid']: { route: '/report/rents-paid', paramType: ['date'] },
       ['Available Apartments']: { route: '/report/available-apartments', paramType: [''] },
-      ['Authorized Vehicles']: { route: '/report/authorized-vehicles', paramType: ['building'] },
+      ['Authorized Vehicles by Building']: { route: '/report/vehicles-by-building', paramType: ['building'] },
+      ['Authorized Vehicles by Apartment']: { route: '/report/vehicles-by-apartment', paramType: ['apartment'] },
       ['Current Tenant Contacts']: { route: '/report/contacts', paramType: [''] },
       ['Tenant Email List']: { route: '/report/emails', paramType: [''] },
       ['Rent Delinquencies']: { route: '/report/rent-delinquencies', paramType: ['date'] },

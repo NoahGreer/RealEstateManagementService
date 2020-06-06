@@ -25,7 +25,7 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
                         <fa-icon icon="sort"></fa-icon>
-                    </th>
+                    </th> 
                     <th scope="col" jhiSortBy="dueDate"><span
                             jhiTranslate="realEstateManagementServiceApp.rent.dueDate">Due Date</span>
                         <fa-icon icon="sort"></fa-icon>
@@ -59,7 +59,7 @@
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit" (click)="pay(rent)" class="btn btn-light btn-sm">
-                                <!-- <fa-icon></fa-icon> -->
+                                <fa-icon icon="dollar-sign"></fa-icon>
                                 <span class="d-none d-md-inline" jhiTranslate="entity.action.pay">Pay</span>
                             </button>
 

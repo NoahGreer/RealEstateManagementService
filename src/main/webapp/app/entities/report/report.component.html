@@ -12,10 +12,6 @@
         </div>
     </h3>
 
-
-    <!-- <div>
-        TEST STUFF: Report type:  {{ reportType }}, report params:  {{ reportParam}}
-    </div> -->
     <div class="alert alert-warning" id="no-result" *ngIf="report?.length === 0">
         <span id="report.title" jhiTranslate="realEstateManagementServiceApp.report.home.notFound">
             No report data found</span>
@@ -27,7 +23,7 @@
 
             <div *ngFor="let item of report | keyvalue; let i = index">
                 <div class="container w-60 bordered">
-                    <h3 class="bg-light">
+                    <h3>
                         <div>
                             <h4 *ngIf="objectType; else objectNotDefined"
                                 style="text-transform:capitalize; text-align:center">
