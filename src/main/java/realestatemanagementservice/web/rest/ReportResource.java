@@ -179,8 +179,8 @@ public class ReportResource {
     }
     
     /**
-     * {@code GET  /reports/buildings/:id/vehicles/authorized} : get the authorized vehicles for the "id" building.
-     * @param id the id of the buildingDTO to retrieve authorized vehicles for.
+     * {@code GET  /reports/apartments/{id}/vehicles} : get the authorized vehicles for the "id" apartment.
+     * @param id the id of the apartmentDTO to retrieve authorized vehicles for.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with list of authorized vehicles in body.
      */
     @GetMapping("/reports/apartments/{id}/vehicles")
