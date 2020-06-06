@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import * as moment from 'moment';
 
-type TestResponseType = HttpResponse<Object[]>;
+type ObjectResponseType = HttpResponse<Object[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
@@ -17,71 +17,75 @@ export class ReportService {
     this.passedParamValue = '';
   }
 
-  getRentsPaid(date: string): Observable<TestResponseType> {
+  getRentsPaid(date: string): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/rents/paid?date=${date}`, { observe: 'response' });
   }
 
-  getAvailableApartments(): Observable<TestResponseType> {
+  getAvailableApartments(): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/apartments/available`, { observe: 'response' });
   }
 
-  getAuthorizedVehicles(buildingId: number): Observable<TestResponseType> {
+  getVehiclesByBuilding(buildingId: number): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/buildings/${buildingId}/vehicles/authorized`, { observe: 'response' });
   }
 
-  getRentDelinquencies(date: string): Observable<TestResponseType> {
+  getVehiclesByApartment(apartmentId: number): Observable<ObjectResponseType> {
+    return this.http.get<Object[]>(`${this.resourceUrl}/apartments/${apartmentId}/vehicles`, { observe: 'response' });
+  }
+
+  getRentDelinquencies(date: string): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/rents/delinquencies?date=` + date, { observe: 'response' });
   }
 
-  getContacts(): Observable<TestResponseType> {
+  getContacts(): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/people/contact`, { observe: 'response' });
   }
 
-  getEmails(): Observable<TestResponseType> {
+  getEmails(): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/people/email`, { observe: 'response' });
   }
 
-  getInfractionsByYear(year: string): Observable<TestResponseType> {
+  getInfractionsByYear(year: string): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/infractions?year=` + year, { observe: 'response' });
   }
 
-  getInfractionsByApartment(apartmentId: number): Observable<TestResponseType> {
+  getInfractionsByApartment(apartmentId: number): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/apartment/${apartmentId}/infractions`, { observe: 'response' });
   }
 
-  getTenantsByApartment(apartmentId: number): Observable<TestResponseType> {
+  getTenantsByApartment(apartmentId: number): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/apartments/${apartmentId}/tenants`, { observe: 'response' });
   }
 
-  getNextExpiringLeases(count: number): Observable<TestResponseType> {
+  getNextExpiringLeases(count: number): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/lease/expire?count=` + count, { observe: 'response' });
   }
 
-  getContractorByJobType(jobTypeId: number): Observable<TestResponseType> {
+  getContractorByJobType(jobTypeId: number): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/contractor/jobtype?id=` + jobTypeId, { observe: 'response' });
   }
 
-  getApartmentMaintenanceHistory(apartmentId: number): Observable<TestResponseType> {
+  getApartmentMaintenanceHistory(apartmentId: number): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/apartments/` + apartmentId + `/maintenance/history`, { observe: 'response' });
   }
 
-  getContractorMaintenanceHistory(contractorId: number): Observable<TestResponseType> {
+  getContractorMaintenanceHistory(contractorId: number): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/contractors/` + contractorId + `/maintenance/history`, { observe: 'response' });
   }
 
-  getPropertyTaxHistory(): Observable<TestResponseType> {
+  getPropertyTaxHistory(): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/tax/property`, { observe: 'response' });
   }
 
-  getOpenMaintenance(): Observable<TestResponseType> {
+  getOpenMaintenance(): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/maintenance/open`, { observe: 'response' });
   }
 
-  getPetOwners(): Observable<TestResponseType> {
+  getPetOwners(): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/pet/owner`, { observe: 'response' });
   }
 
-  getTestReport(): Observable<TestResponseType> {
+  getTestReport(): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/reportTest`, { observe: 'response' });
   }
 

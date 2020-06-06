@@ -63,7 +63,7 @@ export class AuthorizedVehicleReportResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
 
   resolve(): Observable<any[]> | Observable<never> {
-    return this.service.getAuthorizedVehicles(this.service.passedParamValue).pipe(
+    return this.service.getVehiclesByApartment(this.service.passedParamValue).pipe(
       flatMap((report: HttpResponse<any[]>) => {
         if (report.body) {
           return of(report.body);
@@ -114,14 +114,26 @@ export const reportRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
-    path: 'authorized-vehicles',
+    path: 'vehicles-by-building',
     component: ReportComponent,
     resolve: {
-      report: AuthorizedVehicleReportResolve
+      report: ReportResolve
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.authorized-vehicles'
+      pageTitle: 'realEstateManagementServiceApp.report.home.vehicles-by-building'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'vehicles-by-apartment',
+    component: ReportComponent,
+    resolve: {
+      report: ReportResolve
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'realEstateManagementServiceApp.report.home.vehicles-by-apartment'
     },
     canActivate: [UserRouteAccessService]
   },
