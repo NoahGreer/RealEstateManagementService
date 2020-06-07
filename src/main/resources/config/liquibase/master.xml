@@ -27,6 +27,7 @@
     <include file="config/liquibase/changelog/20200510072600_added_entity_Pet.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200510072700_added_entity_Infraction.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200602050326_rename_Rent_recieved_date_to_received_date.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200606040200_added_manager_user_role.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20200510071700_added_entity_constraints_PropertyTax.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200510071800_added_entity_constraints_Apartment.xml" relativeToChangelogFile="false"/>
