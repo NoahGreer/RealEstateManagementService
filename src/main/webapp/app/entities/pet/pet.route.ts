@@ -68,7 +68,7 @@ export const petRoute: Routes = [
       pet: PetResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.pet.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const petRoute: Routes = [
       pet: PetResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.pet.home.title'
     },
     canActivate: [UserRouteAccessService]

@@ -68,7 +68,7 @@ export const propertyTaxRoute: Routes = [
       propertyTax: PropertyTaxResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.propertyTax.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const propertyTaxRoute: Routes = [
       propertyTax: PropertyTaxResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.propertyTax.home.title'
     },
     canActivate: [UserRouteAccessService]

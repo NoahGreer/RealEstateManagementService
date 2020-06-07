@@ -63,7 +63,7 @@ export const jobTypeRoute: Routes = [
       jobType: JobTypeResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.jobType.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -75,7 +75,7 @@ export const jobTypeRoute: Routes = [
       jobType: JobTypeResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.jobType.home.title'
     },
     canActivate: [UserRouteAccessService]

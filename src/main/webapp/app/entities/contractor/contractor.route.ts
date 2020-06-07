@@ -68,7 +68,7 @@ export const contractorRoute: Routes = [
       contractor: ContractorResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.contractor.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const contractorRoute: Routes = [
       contractor: ContractorResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.contractor.home.title'
     },
     canActivate: [UserRouteAccessService]

@@ -81,7 +81,7 @@ export const vehicleRoute: Routes = [
       vehicle: VehicleResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.vehicle.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -93,7 +93,7 @@ export const vehicleRoute: Routes = [
       vehicle: VehicleResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.vehicle.home.title'
     },
     canActivate: [UserRouteAccessService]
