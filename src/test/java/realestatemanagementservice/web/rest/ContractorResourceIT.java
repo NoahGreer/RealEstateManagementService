@@ -5,6 +5,7 @@ import realestatemanagementservice.domain.Contractor;
 import realestatemanagementservice.domain.Maintenance;
 import realestatemanagementservice.domain.JobType;
 import realestatemanagementservice.repository.ContractorRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.ContractorService;
 import realestatemanagementservice.service.dto.ContractorDTO;
 import realestatemanagementservice.service.mapper.ContractorMapper;
@@ -41,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class ContractorResourceIT {
 
     private static final String DEFAULT_COMPANY_NAME = "AAAAAAAAAA";

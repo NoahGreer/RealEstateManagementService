@@ -10,6 +10,7 @@ import realestatemanagementservice.domain.Vehicle;
 import realestatemanagementservice.domain.Pet;
 import realestatemanagementservice.domain.Apartment;
 import realestatemanagementservice.repository.LeaseRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.LeaseService;
 import realestatemanagementservice.service.dto.LeaseDTO;
 import realestatemanagementservice.service.mapper.LeaseMapper;
@@ -49,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class LeaseResourceIT {
 
     private static final LocalDate DEFAULT_DATE_SIGNED = LocalDate.ofEpochDay(0L);

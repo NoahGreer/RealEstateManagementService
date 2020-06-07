@@ -4,6 +4,7 @@ import realestatemanagementservice.RealEstateManagementServiceApp;
 import realestatemanagementservice.domain.Pet;
 import realestatemanagementservice.domain.Lease;
 import realestatemanagementservice.repository.PetRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.PetService;
 import realestatemanagementservice.service.dto.PetDTO;
 import realestatemanagementservice.service.mapper.PetMapper;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class PetResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";

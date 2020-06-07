@@ -4,6 +4,7 @@ import realestatemanagementservice.RealEstateManagementServiceApp;
 import realestatemanagementservice.domain.Vehicle;
 import realestatemanagementservice.domain.Lease;
 import realestatemanagementservice.repository.VehicleRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.VehicleService;
 import realestatemanagementservice.service.dto.VehicleDTO;
 import realestatemanagementservice.service.mapper.VehicleMapper;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class VehicleResourceIT {
 
     private static final String DEFAULT_MAKE = "AAAAAAAAAA";

@@ -5,6 +5,7 @@ import realestatemanagementservice.domain.Building;
 import realestatemanagementservice.domain.PropertyTax;
 import realestatemanagementservice.domain.Apartment;
 import realestatemanagementservice.repository.BuildingRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.BuildingService;
 import realestatemanagementservice.service.dto.BuildingDTO;
 import realestatemanagementservice.service.mapper.BuildingMapper;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class BuildingResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";

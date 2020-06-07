@@ -6,6 +6,7 @@ import realestatemanagementservice.domain.Maintenance;
 import realestatemanagementservice.domain.Lease;
 import realestatemanagementservice.domain.Building;
 import realestatemanagementservice.repository.ApartmentRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.ApartmentService;
 import realestatemanagementservice.service.dto.ApartmentDTO;
 import realestatemanagementservice.service.mapper.ApartmentMapper;
@@ -35,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class ApartmentResourceIT {
 
     private static final String DEFAULT_UNIT_NUMBER = "AAAAAAAAAA";

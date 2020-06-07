@@ -4,6 +4,7 @@ import realestatemanagementservice.RealEstateManagementServiceApp;
 import realestatemanagementservice.domain.Infraction;
 import realestatemanagementservice.domain.Lease;
 import realestatemanagementservice.repository.InfractionRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.InfractionService;
 import realestatemanagementservice.service.dto.InfractionDTO;
 import realestatemanagementservice.service.mapper.InfractionMapper;
@@ -35,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class InfractionResourceIT {
 
     private static final LocalDate DEFAULT_DATE_OCCURRED = LocalDate.ofEpochDay(0L);
