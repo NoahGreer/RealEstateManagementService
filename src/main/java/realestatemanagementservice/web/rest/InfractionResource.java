@@ -4,6 +4,7 @@ import realestatemanagementservice.service.InfractionService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.InfractionDTO;
 import realestatemanagementservice.service.dto.InfractionCriteria;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.InfractionQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -56,6 +58,7 @@ public class InfractionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/infractions")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<InfractionDTO> createInfraction(@RequestBody InfractionDTO infractionDTO) throws URISyntaxException {
         log.debug("REST request to save Infraction : {}", infractionDTO);
         if (infractionDTO.getId() != null) {
@@ -77,6 +80,7 @@ public class InfractionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/infractions")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<InfractionDTO> updateInfraction(@RequestBody InfractionDTO infractionDTO) throws URISyntaxException {
         log.debug("REST request to update Infraction : {}", infractionDTO);
         if (infractionDTO.getId() == null) {
@@ -135,6 +139,7 @@ public class InfractionResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/infractions/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deleteInfraction(@PathVariable Long id) {
         log.debug("REST request to delete Infraction : {}", id);
         infractionService.delete(id);

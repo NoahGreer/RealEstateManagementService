@@ -68,7 +68,7 @@ export const infractionRoute: Routes = [
       infraction: InfractionResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.infraction.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const infractionRoute: Routes = [
       infraction: InfractionResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.infraction.home.title'
     },
     canActivate: [UserRouteAccessService]

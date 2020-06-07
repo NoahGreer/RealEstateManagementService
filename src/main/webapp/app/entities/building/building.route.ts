@@ -68,7 +68,7 @@ export const buildingRoute: Routes = [
       building: BuildingResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.building.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const buildingRoute: Routes = [
       building: BuildingResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.building.home.title'
     },
     canActivate: [UserRouteAccessService]

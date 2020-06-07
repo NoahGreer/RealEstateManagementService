@@ -4,6 +4,7 @@ import realestatemanagementservice.service.RentService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.RentDTO;
 import realestatemanagementservice.service.dto.RentCriteria;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.RentQueryService;
 
 import io.github.jhipster.service.filter.LocalDateFilter;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -59,6 +61,7 @@ public class RentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/rents")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<RentDTO> createRent(@RequestBody RentDTO rentDTO) throws URISyntaxException {
         log.debug("REST request to save Rent : {}", rentDTO);
         if (rentDTO.getId() != null) {
@@ -80,6 +83,7 @@ public class RentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/rents")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<RentDTO> updateRent(@RequestBody RentDTO rentDTO) throws URISyntaxException {
         log.debug("REST request to update Rent : {}", rentDTO);
         if (rentDTO.getId() == null) {
@@ -153,6 +157,7 @@ public class RentResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/rents/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deleteRent(@PathVariable Long id) {
         log.debug("REST request to delete Rent : {}", id);
         rentService.delete(id);

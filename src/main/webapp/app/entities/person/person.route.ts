@@ -68,7 +68,7 @@ export const personRoute: Routes = [
       person: PersonResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.person.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const personRoute: Routes = [
       person: PersonResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.person.home.title'
     },
     canActivate: [UserRouteAccessService]

@@ -69,7 +69,7 @@ export const rentRoute: Routes = [
       rent: RentResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.rent.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const rentRoute: Routes = [
       rent: RentResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.rent.home.title'
     },
     canActivate: [UserRouteAccessService]

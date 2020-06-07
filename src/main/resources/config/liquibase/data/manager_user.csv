@@ -1,0 +1,2 @@
+id;login;password_hash;first_name;last_name;email;image_url;activated;lang_key;created_by;last_modified_by
+5;manager;$2a$10$PNJbeo/Yw2Xze8TMxGCcLeUXMvFvi8dpOvp6ydylcty0jKQOIMwbS;Manager;Manager;manager@localhost;;true;en;system;system
