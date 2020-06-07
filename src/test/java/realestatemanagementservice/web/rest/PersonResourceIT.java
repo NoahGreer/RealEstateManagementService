@@ -4,6 +4,7 @@ import realestatemanagementservice.RealEstateManagementServiceApp;
 import realestatemanagementservice.domain.Person;
 import realestatemanagementservice.domain.Lease;
 import realestatemanagementservice.repository.PersonRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.PersonService;
 import realestatemanagementservice.service.dto.PersonDTO;
 import realestatemanagementservice.service.mapper.PersonMapper;
@@ -35,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class PersonResourceIT {
 
     private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";

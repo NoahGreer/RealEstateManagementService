@@ -5,6 +5,7 @@ import realestatemanagementservice.domain.Maintenance;
 import realestatemanagementservice.domain.Apartment;
 import realestatemanagementservice.domain.Contractor;
 import realestatemanagementservice.repository.MaintenanceRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.MaintenanceService;
 import realestatemanagementservice.service.dto.MaintenanceDTO;
 import realestatemanagementservice.service.mapper.MaintenanceMapper;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class MaintenanceResourceIT {
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";

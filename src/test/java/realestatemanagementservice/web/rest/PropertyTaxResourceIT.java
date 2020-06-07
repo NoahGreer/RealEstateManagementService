@@ -4,6 +4,7 @@ import realestatemanagementservice.RealEstateManagementServiceApp;
 import realestatemanagementservice.domain.PropertyTax;
 import realestatemanagementservice.domain.Building;
 import realestatemanagementservice.repository.PropertyTaxRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.PropertyTaxService;
 import realestatemanagementservice.service.dto.PropertyTaxDTO;
 import realestatemanagementservice.service.mapper.PropertyTaxMapper;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class PropertyTaxResourceIT {
 
     private static final Integer DEFAULT_TAX_YEAR = 0;

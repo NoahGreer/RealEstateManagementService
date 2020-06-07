@@ -4,6 +4,7 @@ import realestatemanagementservice.RealEstateManagementServiceApp;
 import realestatemanagementservice.domain.Rent;
 import realestatemanagementservice.domain.Lease;
 import realestatemanagementservice.repository.RentRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.RentService;
 import realestatemanagementservice.service.dto.RentDTO;
 import realestatemanagementservice.service.mapper.RentMapper;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class RentResourceIT {
 
     private static final LocalDate DEFAULT_DUE_DATE = LocalDate.ofEpochDay(0L);

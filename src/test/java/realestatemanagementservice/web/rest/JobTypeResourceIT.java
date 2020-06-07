@@ -3,6 +3,7 @@ package realestatemanagementservice.web.rest;
 import realestatemanagementservice.RealEstateManagementServiceApp;
 import realestatemanagementservice.domain.JobType;
 import realestatemanagementservice.repository.JobTypeRepository;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.JobTypeService;
 import realestatemanagementservice.service.dto.JobTypeDTO;
 import realestatemanagementservice.service.mapper.JobTypeMapper;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RealEstateManagementServiceApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.MANAGER)
 public class JobTypeResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
