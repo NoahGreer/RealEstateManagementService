@@ -4,6 +4,7 @@ import realestatemanagementservice.service.ContractorService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.ContractorDTO;
 import realestatemanagementservice.service.dto.ContractorCriteria;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.ContractorQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -57,6 +59,7 @@ public class ContractorResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/contractors")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<ContractorDTO> createContractor(@Valid @RequestBody ContractorDTO contractorDTO) throws URISyntaxException {
         log.debug("REST request to save Contractor : {}", contractorDTO);
         if (contractorDTO.getId() != null) {
@@ -78,6 +81,7 @@ public class ContractorResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/contractors")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<ContractorDTO> updateContractor(@Valid @RequestBody ContractorDTO contractorDTO) throws URISyntaxException {
         log.debug("REST request to update Contractor : {}", contractorDTO);
         if (contractorDTO.getId() == null) {
@@ -136,6 +140,7 @@ public class ContractorResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/contractors/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deleteContractor(@PathVariable Long id) {
         log.debug("REST request to delete Contractor : {}", id);
         contractorService.delete(id);

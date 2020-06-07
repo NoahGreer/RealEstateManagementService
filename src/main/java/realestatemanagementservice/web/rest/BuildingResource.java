@@ -4,6 +4,7 @@ import realestatemanagementservice.service.BuildingService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.BuildingDTO;
 import realestatemanagementservice.service.dto.BuildingCriteria;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.BuildingQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -57,6 +59,7 @@ public class BuildingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/buildings")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<BuildingDTO> createBuilding(@Valid @RequestBody BuildingDTO buildingDTO) throws URISyntaxException {
         log.debug("REST request to save Building : {}", buildingDTO);
         if (buildingDTO.getId() != null) {
@@ -78,6 +81,7 @@ public class BuildingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/buildings")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<BuildingDTO> updateBuilding(@Valid @RequestBody BuildingDTO buildingDTO) throws URISyntaxException {
         log.debug("REST request to update Building : {}", buildingDTO);
         if (buildingDTO.getId() == null) {
@@ -136,6 +140,7 @@ public class BuildingResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/buildings/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deleteBuilding(@PathVariable Long id) {
         log.debug("REST request to delete Building : {}", id);
         buildingService.delete(id);

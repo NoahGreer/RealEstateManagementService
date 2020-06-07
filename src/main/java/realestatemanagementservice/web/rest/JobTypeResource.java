@@ -1,5 +1,6 @@
 package realestatemanagementservice.web.rest;
 
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.JobTypeService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.JobTypeDTO;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -45,6 +47,7 @@ public class JobTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/job-types")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<JobTypeDTO> createJobType(@RequestBody JobTypeDTO jobTypeDTO) throws URISyntaxException {
         log.debug("REST request to save JobType : {}", jobTypeDTO);
         if (jobTypeDTO.getId() != null) {
@@ -66,6 +69,7 @@ public class JobTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/job-types")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<JobTypeDTO> updateJobType(@RequestBody JobTypeDTO jobTypeDTO) throws URISyntaxException {
         log.debug("REST request to update JobType : {}", jobTypeDTO);
         if (jobTypeDTO.getId() == null) {
@@ -108,6 +112,7 @@ public class JobTypeResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/job-types/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deleteJobType(@PathVariable Long id) {
         log.debug("REST request to delete JobType : {}", id);
         jobTypeService.delete(id);

@@ -4,6 +4,7 @@ import realestatemanagementservice.service.MaintenanceService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.MaintenanceDTO;
 import realestatemanagementservice.service.dto.MaintenanceCriteria;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.MaintenanceQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -56,6 +58,7 @@ public class MaintenanceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/maintenances")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<MaintenanceDTO> createMaintenance(@RequestBody MaintenanceDTO maintenanceDTO) throws URISyntaxException {
         log.debug("REST request to save Maintenance : {}", maintenanceDTO);
         if (maintenanceDTO.getId() != null) {
@@ -77,6 +80,7 @@ public class MaintenanceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/maintenances")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<MaintenanceDTO> updateMaintenance(@RequestBody MaintenanceDTO maintenanceDTO) throws URISyntaxException {
         log.debug("REST request to update Maintenance : {}", maintenanceDTO);
         if (maintenanceDTO.getId() == null) {
@@ -135,6 +139,7 @@ public class MaintenanceResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/maintenances/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deleteMaintenance(@PathVariable Long id) {
         log.debug("REST request to delete Maintenance : {}", id);
         maintenanceService.delete(id);
