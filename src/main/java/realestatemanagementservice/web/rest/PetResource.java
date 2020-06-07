@@ -4,6 +4,7 @@ import realestatemanagementservice.service.PetService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.PetDTO;
 import realestatemanagementservice.service.dto.PetCriteria;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.PetQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -56,6 +58,7 @@ public class PetResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/pets")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<PetDTO> createPet(@RequestBody PetDTO petDTO) throws URISyntaxException {
         log.debug("REST request to save Pet : {}", petDTO);
         if (petDTO.getId() != null) {
@@ -77,6 +80,7 @@ public class PetResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/pets")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<PetDTO> updatePet(@RequestBody PetDTO petDTO) throws URISyntaxException {
         log.debug("REST request to update Pet : {}", petDTO);
         if (petDTO.getId() == null) {
@@ -135,6 +139,7 @@ public class PetResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/pets/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deletePet(@PathVariable Long id) {
         log.debug("REST request to delete Pet : {}", id);
         petService.delete(id);

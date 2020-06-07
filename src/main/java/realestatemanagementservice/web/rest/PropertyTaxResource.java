@@ -4,6 +4,7 @@ import realestatemanagementservice.service.PropertyTaxService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.PropertyTaxDTO;
 import realestatemanagementservice.service.dto.PropertyTaxCriteria;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.PropertyTaxQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -57,6 +59,7 @@ public class PropertyTaxResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/property-taxes")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<PropertyTaxDTO> createPropertyTax(@Valid @RequestBody PropertyTaxDTO propertyTaxDTO) throws URISyntaxException {
         log.debug("REST request to save PropertyTax : {}", propertyTaxDTO);
         if (propertyTaxDTO.getId() != null) {
@@ -78,6 +81,7 @@ public class PropertyTaxResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/property-taxes")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<PropertyTaxDTO> updatePropertyTax(@Valid @RequestBody PropertyTaxDTO propertyTaxDTO) throws URISyntaxException {
         log.debug("REST request to update PropertyTax : {}", propertyTaxDTO);
         if (propertyTaxDTO.getId() == null) {
@@ -136,6 +140,7 @@ public class PropertyTaxResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/property-taxes/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deletePropertyTax(@PathVariable Long id) {
         log.debug("REST request to delete PropertyTax : {}", id);
         propertyTaxService.delete(id);

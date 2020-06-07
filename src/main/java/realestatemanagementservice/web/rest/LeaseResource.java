@@ -4,6 +4,7 @@ import realestatemanagementservice.service.LeaseService;
 import realestatemanagementservice.web.rest.errors.BadRequestAlertException;
 import realestatemanagementservice.service.dto.LeaseDTO;
 import realestatemanagementservice.service.dto.LeaseCriteria;
+import realestatemanagementservice.security.AuthoritiesConstants;
 import realestatemanagementservice.service.LeaseQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -56,6 +58,7 @@ public class LeaseResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/leases")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<LeaseDTO> createLease(@RequestBody LeaseDTO leaseDTO) throws URISyntaxException {
         log.debug("REST request to save Lease : {}", leaseDTO);
         if (leaseDTO.getId() != null) {
@@ -77,6 +80,7 @@ public class LeaseResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/leases")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<LeaseDTO> updateLease(@RequestBody LeaseDTO leaseDTO) throws URISyntaxException {
         log.debug("REST request to update Lease : {}", leaseDTO);
         if (leaseDTO.getId() == null) {
@@ -135,6 +139,7 @@ public class LeaseResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/leases/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.MANAGER + "\")")
     public ResponseEntity<Void> deleteLease(@PathVariable Long id) {
         log.debug("REST request to delete Lease : {}", id);
         leaseService.delete(id);
