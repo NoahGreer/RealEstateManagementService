@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
@@ -35,115 +34,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.reportParam = this.reportService.passedParamValue;
 
     if (this.reportParam !== undefined) {
-      switch (this.router.url) {
-        case '/report/rents-paid':
-          this.objectType = 'paid rent';
-          this.reportService.getRentsPaid(this.reportParam).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/available-apartments':
-          this.objectType = 'apartment';
-          this.reportService.getAvailableApartments().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/vehicles-by-apartment':
-          this.objectType = 'authorized vehicle';
-          this.reportService
-            .getVehiclesByApartment(this.reportParam)
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/vehicles-by-building':
-          this.objectType = 'authorized vehicle';
-          this.reportService
-            .getVehiclesByBuilding(this.reportParam)
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/contacts':
-          this.objectType = 'contact';
-          this.reportService.getContacts().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/emails':
-          this.objectType = 'email';
-          this.reportService.getEmails().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/infractions-by-year':
-          this.objectType = 'infraction';
-          this.reportService
-            .getInfractionsByYear(this.reportService.getYearByDate(this.reportParam))
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/infractions-by-apartment':
-          this.objectType = 'infraction';
-          this.reportService
-            .getInfractionsByApartment(this.reportParam)
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-        case '/report/tenants-by-apartment':
-          this.objectType = 'tenant';
-          this.reportService
-            .getTenantsByApartment(this.reportParam)
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/leases-by-expiration':
-          this.objectType = 'lease';
-          if (typeof this.reportParam === 'number') {
-            this.reportService
-              .getNextExpiringLeases(this.reportParam)
-              .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          } else {
-            this.reportService.getNextExpiringLeases(5).subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          }
-          break;
-
-        case '/report/rent-delinquencies':
-          this.objectType = 'delinquency';
-          this.reportService
-            .getRentDelinquencies(this.reportService.formatDate(this.reportParam))
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-        case '/report/pet-owners':
-          this.objectType = 'pet owner';
-          this.reportService.getPetOwners().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/open-maintenance':
-          this.objectType = 'open maintenance';
-          this.reportService.getOpenMaintenance().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-        case '/report/maintenance-by-contractor':
-          this.objectType = 'maintenance';
-          this.reportService
-            .getContractorMaintenanceHistory(this.reportParam)
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-        case '/report/maintenance-by-apartment':
-          this.objectType = 'maintenance';
-          this.reportService
-            .getApartmentMaintenanceHistory(this.reportParam)
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        case '/report/contractor-by-jobtype':
-          this.objectType = 'contractor';
-          this.reportService
-            .getContractorByJobType(this.reportParam)
-            .subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-        case '/report/tax-history':
-          this.objectType = 'tax entry';
-          this.reportService.getPropertyTaxHistory().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-          break;
-
-        default:
-          this.objectType = 'test';
-          this.reportService.getTestReport().subscribe((res: HttpResponse<any[]>) => (this.report = res.body || []));
-      }
+      this.activatedRoute.data.subscribe(({ report }) => (this.report = report));
+      this.activatedRoute.data.subscribe(({ objectType }) => (this.objectType = objectType));
     }
   }
 
