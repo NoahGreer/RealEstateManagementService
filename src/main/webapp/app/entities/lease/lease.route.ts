@@ -68,7 +68,7 @@ export const leaseRoute: Routes = [
       lease: LeaseResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.lease.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const leaseRoute: Routes = [
       lease: LeaseResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.lease.home.title'
     },
     canActivate: [UserRouteAccessService]

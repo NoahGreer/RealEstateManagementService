@@ -68,7 +68,7 @@ export const maintenanceRoute: Routes = [
       maintenance: MaintenanceResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.maintenance.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const maintenanceRoute: Routes = [
       maintenance: MaintenanceResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.MANAGER],
       pageTitle: 'realEstateManagementServiceApp.maintenance.home.title'
     },
     canActivate: [UserRouteAccessService]
