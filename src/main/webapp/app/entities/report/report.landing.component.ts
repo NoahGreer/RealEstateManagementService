@@ -18,7 +18,6 @@ import { HttpResponse } from '@angular/common/http';
   templateUrl: './report.landing.component.html'
 })
 export class ReportLandingComponent implements OnInit, OnDestroy {
-  objectType: string;
   eventSubscriber?: Subscription;
   reportValue: string;
   reportTypes: { [key: string]: { route: string; paramType: string } };
@@ -43,11 +42,6 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected fb: FormBuilder
   ) {
-    // if (!this.displayField) {this.displayField = '';}
-    // if (!this.reportValue) {this.reportValue = '';}
-    // if (!this.objectType) {this.objectType = '';}
-    // if (!this.entityPopulation) {this.entityPopulation = null;}
-
     this.displayField = '';
     this.reportValue = '';
     this.entityPopulation = null;
