@@ -9,13 +9,8 @@ type ObjectResponseType = HttpResponse<Object[]>;
 @Injectable({ providedIn: 'root' })
 export class ReportService {
   public resourceUrl = SERVER_API_URL + 'api/reports';
-  public reportType: string;
-  public passedParamValue: any;
 
-  constructor(protected http: HttpClient) {
-    this.reportType = '';
-    this.passedParamValue = '';
-  }
+  constructor(protected http: HttpClient) {}
 
   getRentsPaid(date: string): Observable<ObjectResponseType> {
     return this.http.get<Object[]>(`${this.resourceUrl}/rents/paid?date=${date}`, { observe: 'response' });

@@ -1,78 +1,202 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, Routes, Router } from '@angular/router';
-// import { JhiResolvePagingParams } from 'ng-jhipster';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
 import { Observable, of, EMPTY } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-
 import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-// import { IReport, Report } from 'app/shared/model/report.model';
-// import { IRent, Rent } from 'app/shared/model/rent.model';
 import { ReportService } from './report.service';
 import { ReportComponent } from './report.component';
 import { ReportLandingComponent } from './report.landing.component';
 
 @Injectable({ providedIn: 'root' })
 export class ReportResolve implements Resolve<any> {
-  constructor(private service: ReportService, private router: Router) {}
+  constructor(private service: ReportService) {}
 
-  resolve(): Observable<any[]> | Observable<never> {
-    return this.service.getTestReport().pipe(
-      flatMap((report: HttpResponse<any[]>) => {
-        if (report.body) {
-          return of(report.body);
-        } else {
-          this.router.navigate(['404']);
-          return EMPTY;
-        }
-      })
-    );
-  }
-}
+  resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
+    switch (route.url.toString()) {
+      case 'available-apartments':
+        return this.service.getAvailableApartments().pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'contacts':
+        return this.service.getContacts().pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'emails':
+        return this.service.getEmails().pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
 
-@Injectable({ providedIn: 'root' })
-export class RentsPaidReportResolve implements Resolve<any> {
-  constructor(private service: ReportService, private router: Router) {}
-
-  resolve(): Observable<any[]> | Observable<never> {
-    return this.service.getRentsPaid('2020-05-01').pipe(
-      flatMap((report: HttpResponse<any[]>) => {
-        if (report.body) {
-          return of(report.body);
-        } else {
-          this.router.navigate(['404']);
-          return EMPTY;
-        }
-      })
-    );
+      case 'pet-owners':
+        return this.service.getPetOwners().pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'open-maintenance':
+        return this.service.getOpenMaintenance().pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'tax-history':
+        return this.service.getPropertyTaxHistory().pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'vehicles-by-apartment':
+        return this.service.getVehiclesByApartment(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'vehicles-by-building':
+        return this.service.getVehiclesByBuilding(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'infractions-by-year':
+        return this.service.getInfractionsByYear(route.queryParams['passedParam'].substring(0, 4)).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'infractions-by-apartment':
+        return this.service.getInfractionsByApartment(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'leases-by-expiration':
+        return this.service.getNextExpiringLeases(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'rent-delinquencies':
+        return this.service.getRentDelinquencies(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'maintenance-by-contractor':
+        return this.service.getContractorMaintenanceHistory(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'maintenance-by-apartment':
+        return this.service.getApartmentMaintenanceHistory(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'contractor-by-jobtype':
+        return this.service.getContractorByJobType(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'tenants-by-apartment':
+        return this.service.getTenantsByApartment(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'rents-paid':
+        return this.service.getRentsPaid(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      default:
+        return EMPTY;
+    }
   }
 }
 
 @Injectable({ providedIn: 'root' })
 export class ReportLandingResolve implements Resolve<any> {
   constructor(private service: ReportService, private router: Router) {}
-
   resolve(): Observable<any[]> | Observable<never> {
     return EMPTY;
-  }
-}
-
-@Injectable({ providedIn: 'root' })
-export class AuthorizedVehicleReportResolve implements Resolve<any> {
-  constructor(private service: ReportService, private router: Router) {}
-
-  resolve(): Observable<any[]> | Observable<never> {
-    return this.service.getVehiclesByApartment(this.service.passedParamValue).pipe(
-      flatMap((report: HttpResponse<any[]>) => {
-        if (report.body) {
-          return of(report.body);
-        } else {
-          this.router.navigate(['404']);
-          return EMPTY;
-        }
-      })
-    );
   }
 }
 
@@ -85,7 +209,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.title'
+      pageTitle: 'realEstateManagementServiceApp.report.home.title',
+      objectType: ''
     },
     canActivate: [UserRouteAccessService]
   },
@@ -105,11 +230,12 @@ export const reportRoute: Routes = [
     path: 'rents-paid',
     component: ReportComponent,
     resolve: {
-      report: RentsPaidReportResolve
+      report: ReportResolve
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.rents-paid'
+      pageTitle: 'realEstateManagementServiceApp.report.home.rents-paid',
+      objectType: 'paid rent'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -121,7 +247,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.vehicles-by-building'
+      pageTitle: 'realEstateManagementServiceApp.report.home.vehicles-by-building',
+      objectType: 'authorized vehicle'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -133,7 +260,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.vehicles-by-apartment'
+      pageTitle: 'realEstateManagementServiceApp.report.home.vehicles-by-apartment',
+      objectType: 'authorized vehicle'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -145,7 +273,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.available-apartments'
+      pageTitle: 'realEstateManagementServiceApp.report.home.available-apartments',
+      objectType: 'available apartment'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -157,7 +286,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.contacts'
+      pageTitle: 'realEstateManagementServiceApp.report.home.contacts',
+      objectType: 'tenant contact'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -169,7 +299,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.emails'
+      pageTitle: 'realEstateManagementServiceApp.report.home.emails',
+      objectType: 'tenant email'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -181,7 +312,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.infractions-by-year'
+      pageTitle: 'realEstateManagementServiceApp.report.home.infractions-by-year',
+      objectType: 'infraction'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -193,7 +325,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.infractions-by-apartment'
+      pageTitle: 'realEstateManagementServiceApp.report.home.infractions-by-apartment',
+      objectType: 'infraction'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -205,7 +338,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.tenants-by-apartment'
+      pageTitle: 'realEstateManagementServiceApp.report.home.tenants-by-apartment',
+      objectType: 'tenant'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -217,7 +351,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.leases-by-expiration'
+      pageTitle: 'realEstateManagementServiceApp.report.home.leases-by-expiration',
+      objectType: 'lease'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -229,7 +364,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.pet-owners'
+      pageTitle: 'realEstateManagementServiceApp.report.home.pet-owners',
+      objectType: 'pet/pet owner'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -241,7 +377,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.tax-history'
+      pageTitle: 'realEstateManagementServiceApp.report.home.tax-history',
+      objectType: 'tax report'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -253,7 +390,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.open-maintenance'
+      pageTitle: 'realEstateManagementServiceApp.report.home.open-maintenance',
+      objectType: 'maintenance request'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -265,7 +403,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.rent-delinquencies'
+      pageTitle: 'realEstateManagementServiceApp.report.home.rent-delinquencies',
+      objectType: 'rent delinquency'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -277,7 +416,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.maintenance-by-apartment'
+      pageTitle: 'realEstateManagementServiceApp.report.home.maintenance-by-apartment',
+      objectType: 'maintenance'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -289,7 +429,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.maintenance-by-contractor'
+      pageTitle: 'realEstateManagementServiceApp.report.home.maintenance-by-contractor',
+      objectType: 'maintenance'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -301,7 +442,8 @@ export const reportRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'realEstateManagementServiceApp.report.home.contractor-by-jobtype'
+      pageTitle: 'realEstateManagementServiceApp.report.home.contractor-by-jobtype',
+      objectType: 'contractor'
     },
     canActivate: [UserRouteAccessService]
   }

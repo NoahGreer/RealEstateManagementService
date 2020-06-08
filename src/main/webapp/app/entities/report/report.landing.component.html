@@ -1,7 +1,7 @@
 <div>
 
     <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="submit()" [formGroup]="editForm">
+        <form name="editForm" role="form" novalidate  [formGroup]="editForm">
             <h2 id="jhi-rent-heading" jhiTranslate="realEstateManagementServiceApp.report.landing.header">
                 Choose a report type:
             </h2>
@@ -36,7 +36,7 @@
                             </div>
                             <div *ngSwitchCase="'number'">
                                 <label class="form-control-label" for="inputBox"> Please Enter Value </label>
-                                <input type="number" min="1" class="form-control" name="inputBox" id="inputBox" required
+                                <input type="number" class="form-control" name="inputBox" id="inputBox" required
                                     formControlName="inputBox" />
                             </div>
                             <div *ngSwitchDefault>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="submit" id="save-entity" [disabled]="!editForm.controls.inputBox"
+                    <button type="button" (click)="formValidate()" id="submit-report-query" [disabled]=""
                         class="btn btn-primary mt-4">
                         &nbsp;<span jhiTranslate="entity.action.submit">Submit</span>
                     </button>
