@@ -197,7 +197,7 @@ ui bootstrap tweaks
 Dark theme
 */
 .jh-card {
-  background-color: #444;
+  background-color: #222;
   color: white;
 }
 
@@ -224,4 +224,27 @@ td {
 .swaggerFrame {
   background-color: black;
   color: white;
+}
+
+ngb-datepicker.dropdown-menu {
+  background-color: white;
+}
+
+.reportContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reportBody {
+  background-color: #444;
+  border: solid #666 4px;
+  display: inline-block;
+  vertical-align: top;
+  min-width: 600px;
+}
+
+.reportBody h4 {
+  margin: 10px;
+  font-weight: 600;
 }

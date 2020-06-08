@@ -7,22 +7,22 @@
 
     <jhi-alert></jhi-alert>
 
-    <h3 *ngIf="data !== undefined" class="text-center">
-        <div jhiTranslate="{{data}}" [translateValues]="{titleParam: reportParam}">
+    <h3 *ngIf="reportTitle !== undefined" class="text-center">
+        <div jhiTranslate="{{reportTitle}}" [translateValues]="{titleParam: passedParam}">
         </div>
     </h3>
 
-    <div class="alert alert-warning" id="no-result" *ngIf="report?.length === 0">
-        <span id="report.title" jhiTranslate="realEstateManagementServiceApp.report.home.notFound">
+    <div class="alert alert-warning text-center h6" id="no-result" *ngIf="report?.length === 0">
+        <span id="report.title" jhiTranslate="realEstateManagementServiceApp.report.home.notFound"
+            [translateValues]="{titleParam: objectType}">
             No report data found</span>
     </div>
 
-    <div id="entities">
+    <div id="entities" class="reportContainer">
 
-        <div *ngIf="report !== undefined">
-
-            <div *ngFor="let item of report | keyvalue; let i = index">
-                <div class="container w-60 bordered">
+        <div *ngIf="report !== undefined" >
+            <div *ngFor="let item of report | keyvalue; let i = index" class="col-5 rounded m-2 reportBody">
+                <div>
                     <h3>
                         <div>
                             <h4 *ngIf="objectType; else objectNotDefined"
@@ -39,76 +39,106 @@
                             [ngSwitch]="subItem.key">
                             <div *ngSwitchCase="'id'">
                                 <div class="row">
-                                    <div class="w-50">
+                                    <div class="col-1"></div>
+                                    <div class="col-4">
                                         <a [routerLink]="['/', objectType, subItem.value, 'view']" class="link">
                                             {{ subItem.key }} :
                                         </a>
                                     </div>
-                                    <div class="w-50">
+                                    <div class="col-6">
                                         {{ subItem.value }}
                                     </div>
+                                    <div class="col-1"></div>
                                 </div>
                             </div>
                             <div *ngSwitchCase="'amount'">
                                 <div class="row">
-                                    <div class="w-50">
-                                        {{ subItem.key}} :
+                                    <div class="col-1"></div>
+                                    <div class="col-4">
+                                        <b>
+                                            {{ subItem.key}} :
+                                        </b>
                                     </div>
-                                    <div class="w-50">
+                                    <div class="col-6">
                                         {{ subItem.value | currency }}
                                     </div>
+                                    <div class="col-1"></div>
                                 </div>
                             </div>
                             <div *ngSwitchCase="'people'">
                                 <div *ngIf="subItem.value.length > 0; else noTenants">
-                                    <div class="row"> People: </div>
+                                    <div class="col-12 text-center h6 mt-4"> People on {{ objectType}}: </div>
                                     <div *ngFor="let person of subItem.value">
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-4">
+                                                <b>Name:&nbsp;</b> {{ person['firstName']}} {{ person['lastName']}}
+                                            </div>
+                                            <div class="col-7">
+                                                <b>Phone:&nbsp; </b> {{ person['phoneNumber']}} &emsp;
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-11">
+                                                <b>Email:</b>&nbsp; {{person['emailAddress']}}
+                                            </div>
+                                        </div>
 
-                                        <div class="row">
-                                            &emsp;<b>Name:&nbsp;</b> {{ person['firstName']}} {{ person['lastName']}}
-                                        </div>
-                                        <div class="row">
-                                            &emsp;<b>Phone:&nbsp; </b> {{ person['phoneNumber']}} &emsp;
-                                            <b>Email:</b>&nbsp; {{person['emailAddress']}}
-                                        </div>
                                     </div>
                                 </div>
                                 <ng-template #noTenants>
-                                    <div>
+                                    <div class="col-12 text-center h6 mt-4">
                                         <b>No Tenants on {{objectType}}</b>
                                     </div>
                                 </ng-template>
                             </div>
                             <div *ngSwitchCase="'pets'">
                                 <div *ngIf="subItem.value.length > 0; else noPets">
-                                    <div class="row"> Pets: </div>
+                                    <div class="col-12 text-center h6 mt-4"> Pets on {{ objectType }}: </div>
                                     <div *ngFor="let pet of subItem.value">
                                         <div class="row">
-                                            &emsp;<b>Name:</b>&nbsp; {{ pet['name']}}
-                                            &emsp;<b>Type: </b>&nbsp; {{ pet['type']}}
+                                            <div class="col-1"></div>
+                                            <div class="col-4">
+                                                <b>Name:</b>&nbsp; {{ pet['name']}}
+                                            </div>
+                                            <div class="col-7">
+                                                <b>Type:</b>&nbsp; {{ pet['type']}}
+                                            </div>
                                         </div>
                                     </div>
 
                                 </div>
                                 <ng-template #noPets>
-                                    <div>
-                                       <b>No Pets on {{objectType}}</b> 
+                                    <div class="col-12 text-center h6 mt-4">
+                                        <b>No Pets on {{objectType}}</b>
                                     </div>
                                 </ng-template>
                             </div>
                             <div *ngSwitchCase="'vehicles'">
                                 <div *ngIf="subItem.value.length > 0; else noVehicles">
-                                    <div class="row"> Vehicles: </div>
+                                    <div class="col-12 text-center h6 mt-4"> Vehicles on {{objectType}}: </div>
                                     <div *ngFor="let vehicle of subItem.value">
                                         <div class="row">
-                                            &emsp;<b>Make:</b> &nbsp; {{ vehicle['make']}}
-                                            &emsp;<b>Model: </b> &nbsp; {{ vehicle['model']}}
-                                            &emsp;<b>License Plate: </b> &nbsp;{{ vehicle['licensePlateNumber']}}
+                                            <div class="col-1"></div>
+                                            <div class="col-4">
+                                                <b>Make:</b> &nbsp; {{ vehicle['make']}}
+                                            </div>
+                                            <div class="col-7">
+                                                <b>Model: </b> &nbsp; {{ vehicle['model']}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-1"></div>
+                                            <div class="col-11">
+                                                <b>License Plate: </b> &nbsp;{{ vehicle['licensePlateNumber']}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <ng-template #noVehicles>
-                                    <div>
+                                    <div class="col-12 text-center h6 mt-4">
                                         <b>No Vehicles on {{objectType}}</b>
                                     </div>
                                 </ng-template>
@@ -116,17 +146,21 @@
 
                             <div *ngSwitchDefault>
                                 <div class="row">
-                                    <div class="w-50">
-                                        {{ subItem.key}} :
+                                    <div class="col-1"></div>
+                                    <div class="col-4">
+                                        <b>
+                                            {{ subItem.key}} :
+                                        </b>
                                     </div>
-                                    <div class="w-50">
+                                    <div class="col-6">
                                         {{ subItem.value }}
                                     </div>
+                                    <div class="col-1"></div>
                                 </div>
                             </div>
-
-
+                            
                         </div>
+                        <div class="row"> &nbsp;</div>
                     </div>
                 </div>
             </div>
