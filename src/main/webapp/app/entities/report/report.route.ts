@@ -11,32 +11,12 @@ import { ReportLandingComponent } from './report.landing.component';
 
 @Injectable({ providedIn: 'root' })
 export class ReportResolve implements Resolve<any> {
-  constructor(private service: ReportService, private router: Router) {}
+  constructor(private service: ReportService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> | Observable<never> {
     switch (route.url.toString()) {
       case 'available-apartments':
         return this.service.getAvailableApartments().pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
-      case 'vehicles-by-apartment':
-        return this.service.getVehiclesByApartment(this.service.passedParamValue).pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
-      case 'vehicles-by-building':
-        return this.service.getVehiclesByBuilding(this.service.passedParamValue).pipe(
           flatMap((report: HttpResponse<any[]>) => {
             if (report.body) {
               return of(report.body);
@@ -65,46 +45,7 @@ export class ReportResolve implements Resolve<any> {
             }
           })
         );
-      case 'infractions-by-year':
-        return this.service.getInfractionsByYear(this.service.passedParamValue).pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
-      case 'infractions-by-apartment':
-        return this.service.getInfractionsByApartment(this.service.passedParamValue).pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
-      case 'leases-by-expiration':
-        return this.service.getNextExpiringLeases(this.service.passedParamValue).pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
-      case 'rent-delinquencies':
-        return this.service.getRentDelinquencies(this.service.passedParamValue).pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
+
       case 'pet-owners':
         return this.service.getPetOwners().pipe(
           flatMap((report: HttpResponse<any[]>) => {
@@ -125,37 +66,6 @@ export class ReportResolve implements Resolve<any> {
             }
           })
         );
-      case 'maintenance-by-contractor':
-        return this.service.getContractorMaintenanceHistory(this.service.passedParamValue).pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
-
-      case 'maintenance-by-apartment':
-        return this.service.getApartmentMaintenanceHistory(this.service.passedParamValue).pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
-      case 'contractor-by-jobtype':
-        return this.service.getContractorByJobType(this.service.passedParamValue).pipe(
-          flatMap((report: HttpResponse<any[]>) => {
-            if (report.body) {
-              return of(report.body);
-            } else {
-              return EMPTY;
-            }
-          })
-        );
       case 'tax-history':
         return this.service.getPropertyTaxHistory().pipe(
           flatMap((report: HttpResponse<any[]>) => {
@@ -166,8 +76,108 @@ export class ReportResolve implements Resolve<any> {
             }
           })
         );
+      case 'vehicles-by-apartment':
+        return this.service.getVehiclesByApartment(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'vehicles-by-building':
+        return this.service.getVehiclesByBuilding(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'infractions-by-year':
+        return this.service.getInfractionsByYear(route.queryParams['passedParam'].substring(0, 4)).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'infractions-by-apartment':
+        return this.service.getInfractionsByApartment(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'leases-by-expiration':
+        return this.service.getNextExpiringLeases(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'rent-delinquencies':
+        return this.service.getRentDelinquencies(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'maintenance-by-contractor':
+        return this.service.getContractorMaintenanceHistory(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'maintenance-by-apartment':
+        return this.service.getApartmentMaintenanceHistory(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'contractor-by-jobtype':
+        return this.service.getContractorByJobType(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
+      case 'tenants-by-apartment':
+        return this.service.getTenantsByApartment(route.queryParams['passedParam']).pipe(
+          flatMap((report: HttpResponse<any[]>) => {
+            if (report.body) {
+              return of(report.body);
+            } else {
+              return EMPTY;
+            }
+          })
+        );
       case 'rents-paid':
-        return this.service.getRentsPaid(this.service.passedParamValue).pipe(
+        return this.service.getRentsPaid(route.queryParams['passedParam']).pipe(
           flatMap((report: HttpResponse<any[]>) => {
             if (report.body) {
               return of(report.body);

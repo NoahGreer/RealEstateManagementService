@@ -11,11 +11,11 @@ import { ReportService } from './report.service';
 })
 export class ReportComponent implements OnInit, OnDestroy {
   report?: any[];
-  data?: Object;
+  reportTitle?: Object;
   objectType?: string;
   eventSubscriber?: Subscription;
   reportType: string;
-  reportParam: any;
+  passedParam: any;
 
   constructor(
     protected reportService: ReportService,
@@ -25,18 +25,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     protected router: Router
   ) {
     this.reportType = '';
-    this.reportParam = '';
+    this.passedParam = '';
   }
 
   ngOnInit(): void {
-    this.data = this.activatedRoute.snapshot.data['pageTitle'];
-    this.reportType = this.reportService.reportType;
-    this.reportParam = this.reportService.passedParamValue;
-
-    if (this.reportParam !== undefined) {
-      this.activatedRoute.data.subscribe(({ report }) => (this.report = report));
-      this.activatedRoute.data.subscribe(({ objectType }) => (this.objectType = objectType));
-    }
+    this.activatedRoute.queryParams.subscribe(({ passedParam }) => (this.passedParam = passedParam));
+    this.activatedRoute.data.subscribe(({ report }) => (this.report = report));
+    this.activatedRoute.data.subscribe(({ objectType }) => (this.objectType = objectType));
+    this.activatedRoute.data.subscribe(({ pageTitle }) => (this.reportTitle = pageTitle));
   }
 
   ngOnDestroy(): void {

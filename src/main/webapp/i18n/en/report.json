@@ -21,7 +21,7 @@
         "tax-history": "Tax History",
         "rent-delinquencies": "Rent Delinquencies",
         "test-report": "Test Report",
-        "notFound": "No report data found"
+        "notFound": "No {{ titleParam }} found matching your query"
       },
       "detail": {
         "title": "Report"

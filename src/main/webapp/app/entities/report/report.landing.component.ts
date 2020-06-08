@@ -50,7 +50,6 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
 
     this.displayField = '';
     this.reportValue = '';
-    this.objectType = '';
     this.entityPopulation = null;
     this.reportTypes = {
       'Rents Paid': { route: '/report/rents-paid', paramType: 'date' },
@@ -76,7 +75,6 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
 
   onOptionsSelected(value: string): void {
     this.reportValue = value;
-
     switch (this.reportTypes[this.reportValue].paramType) {
       case 'apartment':
         this.displayField = 'unitNumber';
@@ -102,10 +100,28 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
     this.entityPopulation = null;
   }
 
-  submit(): void {
-    this.reportService.reportType = this.reportValue;
-    this.reportService.passedParamValue = this.editForm.get(['inputBox'])!.value;
-    this.router.navigate([this.reportTypes[this.reportValue].route]);
+  formValidate(): void {
+    if (this.reportValue) {
+      if (this.reportTypes[this.reportValue].paramType === '') {
+        this.submitReportQuery();
+      }
+      const currentParamInput = this.editForm.get(['inputBox'])!.value;
+      if (currentParamInput) {
+        if (this.reportTypes[this.reportValue].paramType === 'number') {
+          if (currentParamInput >= 1) {
+            this.submitReportQuery();
+          }
+        } else {
+          this.submitReportQuery();
+        }
+      }
+    }
+  }
+
+  submitReportQuery(): void {
+    this.router.navigate([this.reportTypes[this.reportValue].route], {
+      queryParams: { reportType: this.reportValue, passedParam: this.editForm.get(['inputBox'])!.value }
+    });
   }
 
   ngOnDestroy(): void {
