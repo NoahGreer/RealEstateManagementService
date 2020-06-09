@@ -112,7 +112,7 @@
                 <div class="form-group">
                     <label jhiTranslate="realEstateManagementServiceApp.contractor.jobType" for="field_jobTypes">Job Type</label>
                     <select class="form-control" id="field_jobTypes" multiple name="jobTypes" formControlName="jobTypes">
-                        <option [ngValue]="getSelected(editForm.get('jobTypes')!.value, jobTypeOption)" *ngFor="let jobTypeOption of jobtypes; trackBy: trackById">{{ jobTypeOption.id }}</option>
+                        <option [ngValue]="getSelected(editForm.get('jobTypes')!.value, jobTypeOption)" *ngFor="let jobTypeOption of jobtypes; trackBy: trackById">{{ jobTypeOption.name }}</option>
                     </select>
                 </div>
             </div>

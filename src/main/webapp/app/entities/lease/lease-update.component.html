@@ -73,28 +73,28 @@
                     <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.lease.newLease" for="field_newLease">New Lease</label>
                     <select class="form-control" id="field_newLease" name="newLease" formControlName="newLeaseId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="leaseOption.id" *ngFor="let leaseOption of leases; trackBy: trackById">{{ leaseOption.id }}</option>
+                        <option [ngValue]="leaseOption.id" *ngFor="let leaseOption of leases; trackBy: trackById">Signed: {{ leaseOption.dateSigned | date }}, Type:  {{ leaseOption.leaseType }} </option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label jhiTranslate="realEstateManagementServiceApp.lease.person" for="field_people">Person</label>
                     <select class="form-control" id="field_people" multiple name="people" formControlName="people">
-                        <option [ngValue]="getSelected(editForm.get('people')!.value, personOption)" *ngFor="let personOption of people; trackBy: trackById">{{ personOption.id }}</option>
+                        <option [ngValue]="getSelected(editForm.get('people')!.value, personOption)" *ngFor="let personOption of people; trackBy: trackById">{{ personOption.firstName }} {{ personOption.lastName }} </option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label jhiTranslate="realEstateManagementServiceApp.lease.vehicle" for="field_vehicles">Vehicle</label>
                     <select class="form-control" id="field_vehicles" multiple name="vehicles" formControlName="vehicles">
-                        <option [ngValue]="getSelected(editForm.get('vehicles')!.value, vehicleOption)" *ngFor="let vehicleOption of vehicles; trackBy: trackById">{{ vehicleOption.id }}</option>
+                        <option [ngValue]="getSelected(editForm.get('vehicles')!.value, vehicleOption)" *ngFor="let vehicleOption of vehicles; trackBy: trackById">{{ vehicleOption.modelYear }} {{ vehicleOption.make }} {{ vehicleOption.model }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label jhiTranslate="realEstateManagementServiceApp.lease.pet" for="field_pets">Pet</label>
                     <select class="form-control" id="field_pets" multiple name="pets" formControlName="pets">
-                        <option [ngValue]="getSelected(editForm.get('pets')!.value, petOption)" *ngFor="let petOption of pets; trackBy: trackById">{{ petOption.id }}</option>
+                        <option [ngValue]="getSelected(editForm.get('pets')!.value, petOption)" *ngFor="let petOption of pets; trackBy: trackById">{{ petOption.name }}, {{ petOption.color }} {{ petOption.type }}</option>
                     </select>
                 </div>
 
@@ -102,7 +102,7 @@
                     <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.lease.apartment" for="field_apartment">Apartment</label>
                     <select class="form-control" id="field_apartment" name="apartment" formControlName="apartmentId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="apartmentOption.id" *ngFor="let apartmentOption of apartments; trackBy: trackById">{{ apartmentOption.id }}</option>
+                        <option [ngValue]="apartmentOption.id" *ngFor="let apartmentOption of apartments; trackBy: trackById">Building: {{ apartmentOption.buildingId }}, Unit: {{ apartmentOption.unitNumber }}</option>
                     </select>
                 </div>
             </div>

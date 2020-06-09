@@ -69,7 +69,7 @@
                     <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.apartment" for="field_apartment">Apartment</label>
                     <select class="form-control" id="field_apartment" name="apartment" formControlName="apartmentId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="apartmentOption.id" *ngFor="let apartmentOption of apartments; trackBy: trackById">{{ apartmentOption.id }}</option>
+                        <option [ngValue]="apartmentOption.id" *ngFor="let apartmentOption of apartments; trackBy: trackById">Building: {{ apartmentOption.buildingId }}, Unit: {{ apartmentOption.unitNumber }}</option>
                     </select>
                 </div>
 
@@ -77,7 +77,7 @@
                     <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.maintenance.contractor" for="field_contractor">Contractor</label>
                     <select class="form-control" id="field_contractor" name="contractor" formControlName="contractorId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="contractorOption.id" *ngFor="let contractorOption of contractors; trackBy: trackById">{{ contractorOption.id }}</option>
+                        <option [ngValue]="contractorOption.id" *ngFor="let contractorOption of contractors; trackBy: trackById">{{ contractorOption.companyName }} {{ contractorOption.phoneNumber }}</option>
                     </select>
                 </div>
             </div>
