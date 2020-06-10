@@ -37,7 +37,7 @@
                     <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.infraction.lease" for="field_lease">Lease</label>
                     <select class="form-control" id="field_lease" name="lease" formControlName="leaseId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="leaseOption.id" *ngFor="let leaseOption of leases; trackBy: trackById">{{ leaseOption.id }}</option>
+                        <option [ngValue]="leaseOption.id" *ngFor="let leaseOption of leases; trackBy: trackById">Signed: {{ leaseOption.dateSigned | date }}, Type:  {{ leaseOption.leaseType }} </option>
                     </select>
                 </div>
             </div>

@@ -53,7 +53,12 @@
                     <label class="form-control-label" jhiTranslate="realEstateManagementServiceApp.propertyTax.building" for="field_building">Building</label>
                     <select class="form-control" id="field_building" name="building" formControlName="buildingId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="buildingOption.id" *ngFor="let buildingOption of buildings; trackBy: trackById">{{ buildingOption.id }}</option>
+                        <option [ngValue]="buildingOption.id" *ngFor="let buildingOption of buildings; trackBy: trackById">
+                            {{ buildingOption.streetAddress }} 
+                            {{ buildingOption.propertyNumber }} 
+                            {{ buildingOption.city }}, 
+                            {{ buildingOption.stateCode }} 
+                            {{ buildingOption.zipCode }}</option>
                     </select>
                 </div>
             </div>

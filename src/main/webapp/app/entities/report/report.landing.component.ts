@@ -48,19 +48,20 @@ export class ReportLandingComponent implements OnInit, OnDestroy {
     this.reportTypes = {
       'Rents Paid': { route: '/report/rents-paid', paramType: 'date' },
       'Available Apartments': { route: '/report/available-apartments', paramType: '' },
-      'Authorized Vehicles by Building': { route: '/report/vehicles-by-building', paramType: 'building' },
-      'Authorized Vehicles by Apartment': { route: '/report/vehicles-by-apartment', paramType: 'apartment' },
+      'Vehicles by Building': { route: '/report/vehicles-by-building', paramType: 'building' },
+      'Vehicles by Apartment': { route: '/report/vehicles-by-apartment', paramType: 'apartment' },
       'Current Tenant Contacts': { route: '/report/contacts', paramType: '' },
-      'Tenant Email List': { route: '/report/emails', paramType: '' },
+      'Current Tenant Emails': { route: '/report/emails', paramType: '' },
+      'Current Tenant Pets': { route: '/report/pet-owners', paramType: '' },
       'Rent Delinquencies': { route: '/report/rent-delinquencies', paramType: 'date' },
       'Infractions By Year': { route: '/report/infractions-by-year', paramType: 'date' },
       'Infractions By Apartment': { route: '/report/infractions-by-apartment', paramType: 'apartment' },
       'Tenants By Apartment': { route: '/report/tenants-by-apartment', paramType: 'apartment' },
-      'Next Expiring Leases': { route: '/report/leases-by-expiration', paramType: 'number' },
-      'Pets/Pet Owners': { route: '/report/pet-owners', paramType: '' },
+      'Leases By Expiration': { route: '/report/leases-by-expiration', paramType: 'number' },
       'Tax History': { route: '/report/tax-history', paramType: '' },
-      'Open Maintenance': { route: '/report/open-maintenance', paramType: '' },
+      'Maintenance Requests': { route: '/report/open-maintenance', paramType: '' },
       'Maintenance By Contractor': { route: '/report/maintenance-by-contractor', paramType: 'contractor' },
+      'Maintenance By Apartment': { route: '/report/maintenance-by-apartment', paramType: 'apartment' },
       'Contractor By Job-Type': { route: '/report/contractor-by-jobtype', paramType: 'jobtype' }
     };
   }
